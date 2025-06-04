@@ -273,59 +273,40 @@ Ancestral["1e"] = Instance.new("UIAspectRatioConstraint", Ancestral["1d"]);
 Ancestral["1f"] = Instance.new("UICorner", Ancestral["1d"]);
 
 
+Ancestral["20"] = Instance.new("TextLabel")
+Ancestral["20"].Name = "Title"
+Ancestral["20"].TextWrapped = true
+Ancestral["20"].BorderSizePixel = 0
+Ancestral["20"].TextXAlignment = Enum.TextXAlignment.Left
+Ancestral["20"].TextScaled = true
+Ancestral["20"].BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Ancestral["20"].TextSize = 14
+Ancestral["20"].FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+Ancestral["20"].TextColor3 = Color3.fromRGB(255, 255, 255)
+Ancestral["20"].BackgroundTransparency = 1
+Ancestral["20"].AnchorPoint = Vector2.new(0, 0.5)
+Ancestral["20"].Size = UDim2.new(0, 80, 0, 17)
+Ancestral["20"].Position = UDim2.new(0, 55, 0, 29)
+Ancestral["20"].BorderColor3 = Color3.fromRGB(0, 0, 0)
+Ancestral["20"].Text = customTitle -- GANTI DARI CONFIG
 
-local Library = {}
-function Library:CreateWindow(config)
-    local window = {}
-    
-    -- Title dari config
-    local customTitle = config.Title or "Default Title"
-
-    -- Contoh elemen GUI
-    local Ancestral = {}
-
-    -- Create BackgroundFrame.Side.DraggablePart.Title
-    Ancestral["20"] = Instance.new("TextLabel")
-    Ancestral["20"].Name = "Title"
-    Ancestral["20"].TextWrapped = true
-    Ancestral["20"].BorderSizePixel = 0
-    Ancestral["20"].TextXAlignment = Enum.TextXAlignment.Left
-    Ancestral["20"].TextScaled = true
-    Ancestral["20"].BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    Ancestral["20"].TextSize = 14
-    Ancestral["20"].FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
-    Ancestral["20"].TextColor3 = Color3.fromRGB(255, 255, 255)
-    Ancestral["20"].BackgroundTransparency = 1
-    Ancestral["20"].AnchorPoint = Vector2.new(0, 0.5)
-    Ancestral["20"].Size = UDim2.new(0, 80, 0, 17)
-    Ancestral["20"].Position = UDim2.new(0, 55, 0, 29)
-    Ancestral["20"].BorderColor3 = Color3.fromRGB(0, 0, 0)
-    Ancestral["20"].Text = customTitle -- GANTI DARI CONFIG
-
-    -- Create Floating.Folder.Title
-    Ancestral["d5"] = Instance.new("TextLabel")
-    Ancestral["d5"].Name = "Title"
-    Ancestral["d5"].TextWrapped = true
-    Ancestral["d5"].BorderSizePixel = 0
-    Ancestral["d5"].TextXAlignment = Enum.TextXAlignment.Left
-    Ancestral["d5"].TextScaled = true
-    Ancestral["d5"].BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    Ancestral["d5"].TextSize = 14
-    Ancestral["d5"].FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
-    Ancestral["d5"].TextColor3 = Color3.fromRGB(255, 255, 255)
-    Ancestral["d5"].BackgroundTransparency = 1
-    Ancestral["d5"].AnchorPoint = Vector2.new(0, 0.5)
-    Ancestral["d5"].Size = UDim2.new(0, 70, 0, 15)
-    Ancestral["d5"].Position = UDim2.new(0, 53, 0, 21)
-    Ancestral["d5"].BorderColor3 = Color3.fromRGB(0, 0, 0)
-    Ancestral["d5"].Text = customTitle -- GANTI DARI CONFIG
-
-    -- Kembalikan objek window jika perlu
-    return window
-end
-
-
-
+-- Create Floating.Folder.Title
+Ancestral["d5"] = Instance.new("TextLabel")
+Ancestral["d5"].Name = "Title"
+Ancestral["d5"].TextWrapped = true
+Ancestral["d5"].BorderSizePixel = 0
+Ancestral["d5"].TextXAlignment = Enum.TextXAlignment.Left
+Ancestral["d5"].TextScaled = true
+Ancestral["d5"].BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Ancestral["d5"].TextSize = 14
+Ancestral["d5"].FontFace = Font.new("rbxasset://fonts/families/GothamSSm.json", Enum.FontWeight.Bold, Enum.FontStyle.Normal)
+Ancestral["d5"].TextColor3 = Color3.fromRGB(255, 255, 255)
+Ancestral["d5"].BackgroundTransparency = 1
+Ancestral["d5"].AnchorPoint = Vector2.new(0, 0.5)
+Ancestral["d5"].Size = UDim2.new(0, 70, 0, 15)
+Ancestral["d5"].Position = UDim2.new(0, 53, 0, 21)
+Ancestral["d5"].BorderColor3 = Color3.fromRGB(0, 0, 0)
+Ancestral["d5"].Text = customTitle -- GANTI DARI CONFIG
 
 
 -- AncesHub.BackgroundFrame.Side.DraggablePart.Title.UIGradient
