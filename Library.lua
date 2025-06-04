@@ -275,7 +275,6 @@ Ancestral["1f"] = Instance.new("UICorner", Ancestral["1d"]);
 
 
 local Library = {}
-
 function Library:CreateWindow(config)
     local window = {}
     
@@ -325,7 +324,7 @@ function Library:CreateWindow(config)
     return window
 end
 
-return Library
+--return Library
 
 
 
@@ -2020,7 +2019,7 @@ function Library:CreateWindow(config)
     return window
 end
 
-return Library
+--return Library
 
 
 
@@ -4607,6 +4606,7 @@ Ancestral_MODULES[Ancestral["28"]] = {
 };
 
 return require(Ancestral["27"])
+
 --                                         ,----,
 --  ,--,     ,--,        ,----,          .'   .`|
 --  |'. \   / .`|      .'   .' \      .'   .'   ;          ,--,
