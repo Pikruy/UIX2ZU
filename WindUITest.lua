@@ -303,7 +303,7 @@ do
                 Outline = '#FFFFFF',
                 Text = '#FFFFFF',
                 Placeholder = '#999999',
-                Background = '#0e0e10',
+                Background = '#1C1B29',
                 Button = '#6B8CA3',
                 Icon = '#a1a1aa'
             },
