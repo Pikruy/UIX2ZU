@@ -615,9 +615,9 @@ do
                     ThemeTag = {
                         ImageColor3 = n ~= 'White' and 'Outline' or nil
                     },
-                    Size = UDim2.new(1, 0, 1, 0),
+                    Size = UDim2.new(1.2, 0, 1.2, 0),
                     ImageColor3 = n == 'White' and Color3.new(0, 0, 0) or nil,
-                    ImageTransparency = n == 'Primary' and 0.95 or 0.85
+                    ImageTransparency = n == 'Primary' and 0.65 or 0.5
                 }),
                 f.NewRoundFrame(q, 'Squircle', {
                     Size = UDim2.new(1, 0, 1, 0),
@@ -721,8 +721,8 @@ do
                         ThemeTag = {
                             ImageColor3 = 'Outline'
                         },
-                        Size = UDim2.new(1, 0, 1, 0),
-                        ImageTransparency = 0.9
+                        Size = UDim2.new(1.2, 0, 1.2, 0),
+                        ImageTransparency = 0.65
                     }),
                     f.NewRoundFrame(o, 'Squircle', {
                         Size = UDim2.new(1, 0, 1, 0),
@@ -798,7 +798,7 @@ do
                         ThemeTag = {
                             ImageColor3 = 'Outline'
                         },
-                        Size = UDim2.new(1, 0, 1, 0),
+                        Size = UDim2.new(1.2, 0, 1.2, 0),
                         ImageTransparency = 0.9
                     }),
                     f.NewRoundFrame(n, 'Squircle', {
@@ -1450,8 +1450,8 @@ do
                     Scale = 0.9
                 }),
                 b.NewRoundFrame(g.UICorner, 'SquircleOutline', {
-                    Size = UDim2.new(1, 0, 1, 0),
-                    ImageTransparency = 0.9,
+                    Size = UDim2.new(1.2, 0, 1.2, 0),
+                    ImageTransparency = 0.65,
                     ThemeTag = {
                         ImageColor3 = 'Outline'
                     }
@@ -4350,11 +4350,11 @@ do
                         Name = 'Results'
                     }, {
                         ad('Frame', {
-                            Size = UDim2.new(1, 0, 0, 1),
+                            Size = UDim2.new(2, 0, 0, 2),
                             ThemeTag = {
                                 BackgroundColor3 = 'Outline'
                             },
-                            BackgroundTransparency = 0.9,
+                            BackgroundTransparency = 0.65,
                             Visible = false
                         }),
                         f,
@@ -4383,11 +4383,11 @@ do
                 }),
                 g,
                 ac.NewRoundFrame(c.Radius, 'SquircleOutline', {
-                    Size = UDim2.new(1, 0, 1, 0),
+                    Size = UDim2.new(2, 0, 2, 0),
                     ThemeTag = {
                         ImageColor3 = 'Outline'
                     },
-                    ImageTransparency = 0.9
+                    ImageTransparency = 0.65
                 })
             }), function(h, i, j, k, n, o)
                 local p = ad('TextButton', {
