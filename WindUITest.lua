@@ -4038,6 +4038,25 @@ do
                 Colorpicker = a.load'q',
                 Section = a.load'r'
             }
+            function e.Divider(n)
+                local o = ad('Frame', {
+                    Size = UDim2.new(1, 0, 0, 1),
+                    Position = UDim2.new(0.5, 0, 0.5, 0),
+                    AnchorPoint = Vector2.new(0.5, 0.5),
+                    BackgroundTransparency = 0.9,
+                    ThemeTag = {
+                        BackgroundColor3 = 'Text'
+                    }
+                })
+                local p = ad('Frame', {
+                    Parent = e.UIElements.ContainerFrame,
+                    Size = UDim2.new(1, - 7, 0, 5),
+                    BackgroundTransparency = 1
+                }, {
+                    o
+                })
+                return p
+            end
             function e.Paragraph(n, o)
                 o.Parent = e.UIElements.ContainerFrame
                 o.Window = f
