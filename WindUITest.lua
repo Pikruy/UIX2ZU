@@ -302,7 +302,7 @@ do
                 Accent = '#18181b',
                 Outline = '#7B4AE2',
                 Text = '#FFFFFF',
-                Placeholder = '#999999',
+                Placeholder = '#80EFFF',
                 Background = '#1C1B29',
                 Button = '#6B8CA3',
                 Icon = '#a1a1aa'
