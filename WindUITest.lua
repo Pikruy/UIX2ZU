@@ -304,7 +304,7 @@ do
                 Text = '#FFFFFF',
                 Placeholder = '#80EFFF',
                 Background = '#1C1B29',
-                Button = '#7B4AE2',
+                Button = '#6B8CA3',
                 Icon = '#a1a1aa'
             },
             Light = {
@@ -861,7 +861,7 @@ do
             local r = f.NewRoundFrame(p, 'Squircle', {
                 ImageTransparency = 0.85,
                 ThemeTag = {
-                    ImageColor3 = 'Button'
+                    ImageColor3 = 'Text'
                 },
                 Parent = k,
                 Size = UDim2.new(0, 42, 0, 26)
