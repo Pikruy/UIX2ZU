@@ -826,10 +826,9 @@ do
         end
         function e.Toggle(i, j, k, n)
             local o, p, q = {}, 13
-
             if j and j ~= '' then
                 q = g('ImageLabel', {
-                    Size = UDim2.new(1, -7, 1, -7),
+                    Size = UDim2.new(1, - 7, 1, - 7),
                     BackgroundTransparency = 1,
                     AnchorPoint = Vector2.new(0.5, 0.5),
                     Position = UDim2.new(0.5, 0, 0.5, 0),
@@ -840,24 +839,6 @@ do
                     ImageColor3 = Color3.new(0, 0, 0)
                 })
             end
-
-            -- Buat Layer dengan gradient
-            local layer = f.NewRoundFrame(p, 'Squircle', {
-                Size = UDim2.new(1, 0, 1, 0),
-                Name = 'Layer',
-                ImageTransparency = 1 -- default non-aktif
-            })
-
-            -- Tambahkan gradient ke Layer
-            local gradient = Instance.new("UIGradient")
-            gradient.Rotation = 45
-            gradient.Color = ColorSequence.new{
-                ColorSequenceKeypoint.new(0, Color3.fromHex("#9D00FF")),
-                ColorSequenceKeypoint.new(1, Color3.fromHex("#00E5FF"))
-            }
-            gradient.Parent = layer
-
-            -- Frame utama toggle
             local r = f.NewRoundFrame(p, 'Squircle', {
                 ImageTransparency = 0.95,
                 ThemeTag = {
@@ -866,7 +847,14 @@ do
                 Parent = k,
                 Size = UDim2.new(0, 42, 0, 26)
             }, {
-                layer,
+                f.NewRoundFrame(p, 'Squircle', {
+                    Size = UDim2.new(1, 0, 1, 0),
+                    Name = 'Layer',
+                    ThemeTag = {
+                        ImageColor3 = 'Button'
+                    },
+                    ImageTransparency = 1
+                }),
                 f.NewRoundFrame(p, 'SquircleOutline', {
                     Size = UDim2.new(1, 0, 1, 0),
                     Name = 'Stroke',
@@ -892,11 +880,10 @@ do
                     q
                 })
             })
-
-            function o.Set(_, t)
+            function o.Set(s, t)
                 if t then
                     h(r.Frame, 0.1, {
-                        Position = UDim2.new(1, -22, 0.5, 0)
+                        Position = UDim2.new(1, - 22, 0.5, 0)
                     }, Enum.EasingStyle.Quint, Enum.EasingDirection.Out):Play()
                     h(r.Layer, 0.1, {
                         ImageTransparency = 0
@@ -926,14 +913,12 @@ do
                         }):Play()
                     end
                 end
-
                 task.spawn(function()
                     if n then
                         n(t)
                     end
                 end)
             end
-
             return r, o
         end
         function e.Checkbox(i, j, k, n)
