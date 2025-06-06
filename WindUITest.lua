@@ -5079,7 +5079,7 @@ do
                     Position = UDim2.new(0.5, 0, 0.5, 0),
                     Name = 'Background',
                     ThemeTag = {
-                        ImageColor3 = 'Button'
+                        ImageColor3 = 'Background'
                     },
                     ZIndex = - 99
                 }, {
