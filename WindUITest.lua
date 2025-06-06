@@ -859,7 +859,7 @@ do
 
             -- Frame utama toggle
             local r = f.NewRoundFrame(p, 'Squircle', {
-                ImageTransparency = 0.95,
+                ImageTransparency = 0.85,
                 ThemeTag = {
                     ImageColor3 = 'Text'
                 },
