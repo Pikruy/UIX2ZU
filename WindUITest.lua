@@ -1820,7 +1820,7 @@ do
                     Color = 'Text'
                 },
                 Transparency = 1,
-                Thickness = 0.6
+                Thickness = 2
             }))
             if g.Icon then
                 if b.Icon(g.Icon) and b.Icon(g.Icon)[2] then
@@ -4864,7 +4864,7 @@ do
                         CornerRadius = UDim.new(1, 0)
                     }),
                     ad('UIStroke', {
-                        Thickness = 1,
+                        Thickness = 2,
                         ApplyStrokeMode = 'Border',
                         Color = Color3.new(1, 1, 1),
                         Transparency = 0
