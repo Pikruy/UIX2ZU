@@ -299,7 +299,7 @@ do
         return {
             Dark = {
                 Name = 'Dark',
-                Accent = '#4f6d82',
+                Accent = '#6098bf',
                 Outline = '#7B4AE2',
                 Text = '#FFFFFF',
                 Placeholder = '#80EFFF',
