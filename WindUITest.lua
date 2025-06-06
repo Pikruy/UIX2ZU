@@ -861,7 +861,7 @@ do
             local r = f.NewRoundFrame(p, 'Squircle', {
                 ImageTransparency = 0.85,
                 ThemeTag = {
-                    ImageColor3 = 'Text'
+                    ImageColor3 = 'Button'
                 },
                 Parent = k,
                 Size = UDim2.new(0, 42, 0, 26)
