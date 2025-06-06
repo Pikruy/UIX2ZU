@@ -1732,7 +1732,7 @@ do
                     k(true)
                 else
                     local F, G = TextBoxHolder.UIStroke.Color, TextBoxHolder.BackgroundColor3
-                    e(TextBoxHolder.UIStroke, 1, {
+                    e(TextBoxHolder.UIStroke, 0.1, {
                         Color = Color3.fromHex'#ff1e1e',
                         Transparency = 0.65
                     }):Play()
@@ -1741,7 +1741,7 @@ do
                         Transparency = 0.8
                     }):Play()
                     task.wait(0.5)
-                    e(TextBoxHolder.UIStroke, 1, {
+                    e(TextBoxHolder.UIStroke, 0.15, {
                         Color = F,
                         Transparency = 0.9
                     }):Play()
@@ -1820,7 +1820,7 @@ do
                     Color = 'Text'
                 },
                 Transparency = 1,
-                Thickness = 2
+                Thickness = 0.6
             }))
             if g.Icon then
                 if b.Icon(g.Icon) and b.Icon(g.Icon)[2] then
@@ -4864,7 +4864,7 @@ do
                         CornerRadius = UDim.new(1, 0)
                     }),
                     ad('UIStroke', {
-                        Thickness = 2,
+                        Thickness = 1,
                         ApplyStrokeMode = 'Border',
                         Color = Color3.new(1, 1, 1),
                         Transparency = 0
