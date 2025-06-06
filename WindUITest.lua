@@ -304,7 +304,7 @@ do
                 Text = '#FFFFFF',
                 Placeholder = '#999999',
                 Background = '#0e0e10',
-                Button = '#A2A7B5',
+                Button = '#6B8CA3',
                 Icon = '#a1a1aa'
             },
             Light = {
