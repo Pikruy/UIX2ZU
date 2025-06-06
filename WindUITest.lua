@@ -1802,6 +1802,7 @@ do
                 Content = f.Content or nil,
                 Icon = f.Icon or nil,
                 Background = f.Background,
+                BackgroundImageTransparency = f.BackgroundImageTransparency,
                 Duration = f.Duration or 5,
                 Buttons = f.Buttons or {},
                 CanClose = true,
@@ -1937,7 +1938,8 @@ do
                     Image = g.Background,
                     BackgroundTransparency = 1,
                     Size = UDim2.new(1, 0, 1, 0),
-                    ScaleType = 'Crop'
+                    ScaleType = 'Crop',
+                    ImageTransparency = g.BackgroundImageTransparency
                 }),
                 i,
                 h,
@@ -4658,6 +4660,7 @@ do
                 Icon = ag.Icon,
                 Folder = ag.Folder,
                 Background = ag.Background,
+                BackgroundImageTransparency = ag.BackgroundImageTransparency or 0,
                 User = ag.User or {},
                 Size = ag.Size and UDim2.new(0, math.clamp(ag.Size.X.Offset, 480, 700), 0, math.clamp(ag.Size.Y.Offset, 350, 520)) or UDim2.new(0, 580, 0, 460),
                 ToggleKey = ag.ToggleKey or Enum.KeyCode.G,
@@ -5280,6 +5283,10 @@ do
             function b.SetBackgroundImage(x, y)
                 b.UIElements.Main.Background.ImageLabel.Image = y
             end
+            function b.SetBackgroundImageTransparency(A, B)
+                b.UIElements.Main.Background.ImageLabel.ImageTransparency = B
+                b.BackgroundImageTransparency = B
+            end
             local x, y, z, A, B = ac.Icon'minimize', (ac.Icon'maximize')
             B = b:CreateTopbarButton('maximize', function()
                 local C = b.IsFullscreen
@@ -5339,6 +5346,9 @@ do
                     }, Enum.EasingStyle.Quint, Enum.EasingDirection.Out):Play()
                     ae(b.UIElements.Main.Background.UIScale, 0.2, {
                         Scale = 1
+                    }, Enum.EasingStyle.Exponential, Enum.EasingDirection.Out):Play()
+                    ae(b.UIElements.Main.Background.ImageLabel, 0.2, {
+                        ImageTransparency = b.BackgroundImageTransparency
                     }, Enum.EasingStyle.Back, Enum.EasingDirection.Out):Play()
                     ae(i, 0.25, {
                         ImageTransparency = 0.7
