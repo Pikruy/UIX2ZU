@@ -299,7 +299,7 @@ do
         return {
             Dark = {
                 Name = 'Dark',
-                Accent = '#18181b',
+                Accent = '#6B8CA3',
                 Outline = '#7B4AE2',
                 Text = '#FFFFFF',
                 Placeholder = '#80EFFF',
@@ -348,15 +348,15 @@ do
                 Icon = '#a1a1aa'
             },
             Indigo = {
-                Name = 'Indigo',
-                Accent = '#312e81',
-                Outline = '#FFFFFF',
-                Text = '#ffeded',
-                Placeholder = '#977d7d',
-                Background = '#1e1b4b',
-                Button = '#52525b',
-                Icon = '#a1a1aa'
-            }
+                Name = "Indigo",
+                Accent = "#312e81",
+                Outline = "#FFFFFF",
+                Text = "#ffeded",
+                Placeholder = "#977d7d",
+                Background = "#1e1b4b",
+                Button = "#52525b",
+                Icon = "#a1a1aa",
+            },
         }
     end
     function a.c()
