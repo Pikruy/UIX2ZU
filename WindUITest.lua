@@ -300,7 +300,7 @@ do
             Dark = {
                 Name = 'Dark',
                 Accent = '#18181b',
-                Outline = '#e8e8e8',
+                Outline = '#7B4AE2',
                 Text = '#FFFFFF',
                 Placeholder = '#80EFFF',
                 Background = '#1C1B29',
@@ -4048,6 +4048,14 @@ do
                         BackgroundColor3 = 'Text'
                     }
                 })
+                -- Tambahkan gradient ke Layer
+                local gradientdivider = Instance.new("UIGradient")
+                gradientdivider.Rotation = 45
+                gradientdivider.Color = ColorSequence.new{
+                    ColorSequenceKeypoint.new(0, Color3.fromHex("#9D00FF")),
+                    ColorSequenceKeypoint.new(1, Color3.fromHex("#00E5FF"))
+                }
+                gradientdivider.Parent = o
                 local p = ad('Frame', {
                     Parent = e.UIElements.ContainerFrame,
                     Size = UDim2.new(1, - 7, 0, 5),
