@@ -300,7 +300,7 @@ do
             Dark = {
                 Name = 'Dark',
                 Accent = '#18181b',
-                Outline = '#7B4AE2',
+                Outline = '#e8e8e8',
                 Text = '#FFFFFF',
                 Placeholder = '#80EFFF',
                 Background = '#1C1B29',
