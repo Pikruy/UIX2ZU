@@ -1732,7 +1732,7 @@ do
                     k(true)
                 else
                     local F, G = TextBoxHolder.UIStroke.Color, TextBoxHolder.BackgroundColor3
-                    e(TextBoxHolder.UIStroke, 0.1, {
+                    e(TextBoxHolder.UIStroke, 1, {
                         Color = Color3.fromHex'#ff1e1e',
                         Transparency = 0.65
                     }):Play()
@@ -1741,7 +1741,7 @@ do
                         Transparency = 0.8
                     }):Play()
                     task.wait(0.5)
-                    e(TextBoxHolder.UIStroke, 0.15, {
+                    e(TextBoxHolder.UIStroke, 1, {
                         Color = F,
                         Transparency = 0.9
                     }):Play()
