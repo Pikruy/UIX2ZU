@@ -1,4 +1,4 @@
 {
-  "ips": ["", ""],
-  "hwids": ["RAIDER_HWID_1337", ""]
+  "ips": [],
+  "hwids": ["RAIDER_HWID_1337"]
 }
