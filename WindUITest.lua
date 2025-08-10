@@ -3379,12 +3379,13 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
                 Parent = q.UIElements.Menu.Frame,
                 PlaceholderText = "Search...",
                 Text = "",
+                Icon = "serach",
                 Size = UDim2.new(1, -(l.MenuPadding * 2), 0, 34),
                 Position = UDim2.new(0, l.MenuPadding, 0, l.MenuPadding),
                 ClearTextOnFocus = false,
                 BackgroundTransparency = 1,
                 TextSize = 14,
-                Font = Enum.Font.Gotham,
+                Font = Enum.Font.Code,
             })
             i("UICorner", { CornerRadius = UDim.new(0, 6), Parent = q.UIElements.SearchBar })
 
