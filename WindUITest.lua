@@ -1133,7 +1133,7 @@ i.Icon, i.Title .. ":" .. i.Icon, 0, i.WindUI.Window, "KeySystem", i.IconThemed)
                 Icon = g.Icon or nil,
                 IconThemed = g.IconThemed,
                 Background = g.Background,
-                BackgroundImageTransparency = g.BackgroundImageTransparency,
+                BackgroundImageTransparency = g.BackgroundImageTransparency or 0,
                 Duration = g.Duration or 5,
                 Buttons = g.Buttons or {},
                 CanClose = true,
@@ -1145,9 +1145,11 @@ i.Icon, i.Title .. ":" .. i.Icon, 0, i.WindUI.Window, "KeySystem", i.IconThemed)
             end
             f.NotificationIndex = f.NotificationIndex + 1
             f.Notifications[f.NotificationIndex] = h
+
             local i = d("UICorner", {
                 CornerRadius = UDim.new(0, f.UICorner),
             })
+
             local j = d("UIStroke", {
                 ThemeTag = {
                     Color = "Text"
@@ -1155,13 +1157,15 @@ i.Icon, i.Title .. ":" .. i.Icon, 0, i.WindUI.Window, "KeySystem", i.IconThemed)
                 Transparency = 1,
                 Thickness = .6,
             })
+
             local k
             if h.Icon then
                 k = b.Image(
-h.Icon, h.Title .. ":" .. h.Icon, 0, g.Window, "Notification", h.IconThemed)
+                    h.Icon, h.Title .. ":" .. h.Icon, 0, g.Window, "Notification", h.IconThemed)
                 k.Size = UDim2.new(0, 26, 0, 26)
                 k.Position = UDim2.new(0, f.UIPadding, 0, f.UIPadding)
             end
+
             local l
             if h.CanClose then
                 l = d("ImageButton", {
@@ -1170,7 +1174,7 @@ h.Icon, h.Title .. ":" .. h.Icon, 0, g.Window, "Notification", h.IconThemed)
                     ImageRectOffset = b.Icon"x"[2].ImageRectPosition,
                     BackgroundTransparency = 1,
                     Size = UDim2.new(0, 16, 0, 16),
-                    Position = UDim2.new(1, - f.UIPadding, 0, f.UIPadding),
+                    Position = UDim2.new(1, -f.UIPadding, 0, f.UIPadding),
                     AnchorPoint = Vector2.new(1, 0),
                     ThemeTag = {
                         ImageColor3 = "Text"
@@ -1185,6 +1189,7 @@ h.Icon, h.Title .. ":" .. h.Icon, 0, g.Window, "Notification", h.IconThemed)
                     })
                 })
             end
+
             local o = d("Frame", {
                 Size = UDim2.new(1, 0, 0, 3),
                 BackgroundTransparency = .9,
@@ -1192,8 +1197,9 @@ h.Icon, h.Title .. ":" .. h.Icon, 0, g.Window, "Notification", h.IconThemed)
                     BackgroundColor3 = "Text",
                 },
             })
+
             local p = d("Frame", {
-                Size = UDim2.new(1, h.Icon and - 28 - f.UIPadding or 0, 1, 0),
+                Size = UDim2.new(1, h.Icon and -28 - f.UIPadding or 0, 1, 0),
                 Position = UDim2.new(1, 0, 0, 0),
                 AnchorPoint = Vector2.new(1, 0),
                 BackgroundTransparency = 1,
@@ -1207,7 +1213,7 @@ h.Icon, h.Title .. ":" .. h.Icon, 0, g.Window, "Notification", h.IconThemed)
                 }),
                 d("TextLabel", {
                     AutomaticSize = "Y",
-                    Size = UDim2.new(1, - 30 - f.UIPadding, 0, 0),
+                    Size = UDim2.new(1, -30 - f.UIPadding, 0, 0),
                     TextWrapped = true,
                     TextXAlignment = "Left",
                     RichText = true,
@@ -1223,6 +1229,7 @@ h.Icon, h.Title .. ":" .. h.Icon, 0, g.Window, "Notification", h.IconThemed)
                     Padding = UDim.new(0, f.UIPadding / 3)
                 })
             })
+
             if h.Content then
                 d("TextLabel", {
                     AutomaticSize = "Y",
@@ -1241,6 +1248,32 @@ h.Icon, h.Title .. ":" .. h.Icon, 0, g.Window, "Notification", h.IconThemed)
                     Parent = p
                 })
             end
+
+            -- Background Frame with gradient or image
+            local bgFrame = d("Frame", {
+                Name = "Background",
+                BackgroundTransparency = 0,
+                Size = UDim2.new(1, 0, 1, 0),
+            })
+
+            if h.Background then
+                local img = Instance.new("ImageLabel")
+                img.Image = h.Background
+                img.BackgroundTransparency = 1
+                img.Size = UDim2.new(1, 0, 1, 0)
+                img.ScaleType = "Crop"
+                img.ImageTransparency = h.BackgroundImageTransparency or 0
+                img.Parent = bgFrame
+            else
+                local gradient = Instance.new("UIGradient")
+                gradient.Rotation = 0
+                gradient.Color = ColorSequence.new({
+                    ColorSequenceKeypoint.new(0, Color3.fromHex("#002FFF")),
+                    ColorSequenceKeypoint.new(1, Color3.fromHex("#9D00FF")),
+                })
+                gradient.Parent = bgFrame
+            end
+
             local q = d("CanvasGroup", {
                 Size = UDim2.new(1, 0, 0, 0),
                 Position = UDim2.new(2, 0, 1, 0),
@@ -1251,14 +1284,7 @@ h.Icon, h.Title .. ":" .. h.Icon, 0, g.Window, "Notification", h.IconThemed)
                     BackgroundColor3 = "Accent"
                 },
             }, {
-                d("ImageLabel", {
-                    Name = "Background",
-                    Image = h.Background,
-                    BackgroundTransparency = 1,
-                    Size = UDim2.new(1, 0, 1, 0),
-                    ScaleType = "Crop",
-                    ImageTransparency = h.BackgroundImageTransparency
-                }),
+                bgFrame,
                 j,
                 i,
                 p,
@@ -1266,6 +1292,7 @@ h.Icon, h.Title .. ":" .. h.Icon, 0, g.Window, "Notification", h.IconThemed)
                 l,
                 o,
             })
+
             local r = d("Frame", {
                 BackgroundTransparency = 1,
                 Size = UDim2.new(1, 0, 0, 0),
@@ -1273,11 +1300,12 @@ h.Icon, h.Title .. ":" .. h.Icon, 0, g.Window, "Notification", h.IconThemed)
             }, {
                 q
             })
+
             function h.Close(s)
                 if not h.Closed then
                     h.Closed = true
                     e(r, 0.45, {
-                        Size = UDim2.new(1, 0, 0, - 8)
+                        Size = UDim2.new(1, 0, 0, -8)
                     }, Enum.EasingStyle.Quint, Enum.EasingDirection.Out):Play()
                     e(q, 0.55, {
                         Position = UDim2.new(2, 0, 1, 0)
@@ -1286,6 +1314,7 @@ h.Icon, h.Title .. ":" .. h.Icon, 0, g.Window, "Notification", h.IconThemed)
                     r:Destroy()
                 end
             end
+
             task.spawn(function()
                 task.wait()
                 e(r, 0.45, {
@@ -1302,13 +1331,16 @@ h.Icon, h.Title .. ":" .. h.Icon, 0, g.Window, "Notification", h.IconThemed)
                     h:Close()
                 end
             end)
+
             if l then
                 b.AddSignal(l.TextButton.MouseButton1Click, function()
                     h:Close()
                 end)
             end
+
             return h
         end
+
         return f
     end
     function a.i()
