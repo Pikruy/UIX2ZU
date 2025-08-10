@@ -4711,7 +4711,7 @@ h.Icon, h.Icon .. ":" .. h.Title, 0, g.Window.Folder, h.__type, true)
                         Color = ColorSequence.new{
                             ColorSequenceKeypoint.new(0, Color3.fromHex("#9D00FF")),
                             ColorSequenceKeypoint.new(0.5, Color3.fromHex("#6B00CC")),
-                            ColorSequenceKeypoint.new(1, Color3.fromHex("#002FFF"))
+                            ColorSequenceKeypoint.new(1.0, Color3.fromRGB(255, 255, 255)),
                         },
                         Transparency = NumberSequence.new{
                             NumberSequenceKeypoint.new(0.0, 0.1),
