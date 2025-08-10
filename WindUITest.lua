@@ -442,7 +442,7 @@ t.X.Scale, t.X.Offset + w.X, t.Y.Scale, t.Y.Offset + w.Y)
                 Dialog = "#18181b",
                 Outline = '#7B4AE2',
                 Text = '#FFFFFF',
-                Placeholder = '#80EFFF',
+                Placeholder = '#002FFF',
                 Background = '#1C1B29',
                 Button = '#9A73F8',
                 Icon = '#ffffff'
@@ -2370,7 +2370,7 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
                     TextSize = r == "Desc" and 15 or 17,
                     TextXAlignment = "Left",
                     ThemeTag = {
-                        TextColor3 = not h.Color and (r == "Desc" and "Icon" or "Text") or nil,
+                        TextColor3 = not h.Color and (r == "Desc" and "Ilcon" or "Text") or nil,
                     },
                     TextColor3 = h.Color and (h.Color == "White" and Color3.new(0, 0, 0) or h.Color ~= "White" and Color3.new(1, 1, 1)) or nil,
                     TextTransparency = h.Color and (r == "Desc" and .3 or 0),
