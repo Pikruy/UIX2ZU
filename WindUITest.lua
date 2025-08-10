@@ -2790,7 +2790,7 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
         end
         return h
     end
-    function a.u()
+    function a.u() --Ganti Slider
         local b = a.load'a'
         local e = b.New
         local f = b.Tween
@@ -2878,7 +2878,7 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
                         Position = UDim2.new(1, 0, 0.5, 0),
                         AnchorPoint = Vector2.new(0.5, 0.5),
                         ThemeTag = {
-                            ImageColor3 = "Text",
+                            ImageColor3 = "Button",
                         },
                     })
                 })
