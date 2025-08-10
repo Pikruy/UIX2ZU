@@ -443,7 +443,7 @@ t.X.Scale, t.X.Offset + w.X, t.Y.Scale, t.Y.Offset + w.Y)
                 Outline = '#7B4AE2',
                 Text = '#FFFFFF',
                 Placeholder = '#80EFFF',
-                Background = '#1C1B29',
+                Background = '#312e81',
                 Button = '#9A73F8',
                 Icon = '#ffffff'
             },
@@ -4907,7 +4907,7 @@ k.Icon, k.Icon .. ":" .. k.Title, 0, i.Window.Folder, k.__type, true, k.IconThem
                 })
                  -- Tambahkan gradient ke Layer
                 local gradientdivider = Instance.new("UIGradient") --ganti
-                gradientdivider.Rotation = 45
+                gradientdivider.Rotation = 0
                 gradientdivider.Color = ColorSequence.new{
                     ColorSequenceKeypoint.new(0, Color3.fromHex("#9D00FF")),
                     ColorSequenceKeypoint.new(1, Color3.fromHex("#002fff"))
