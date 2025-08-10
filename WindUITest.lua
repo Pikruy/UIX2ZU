@@ -5923,9 +5923,9 @@ o.User.Anonymous and 1 or game.Players.LocalPlayer.UserId, Enum.ThumbnailType.He
                         b("UIGradient", {
                             Rotation = 78,
                             Color = ColorSequence.new{
-                                ColorSequenceKeypoint.new(0.0, Color3.fromRGB(255, 255, 255)),
-                                ColorSequenceKeypoint.new(0.5, Color3.fromRGB(255, 255, 255)),
-                                ColorSequenceKeypoint.new(1.0, Color3.fromRGB(255, 255, 255)),
+                                ColorSequenceKeypoint.new(0, Color3.fromHex("#002FFF")),
+                                ColorSequenceKeypoint.new(1, Color3.fromHex("#9D00FF")),
+                                ColorSequenceKeypoint.new(1.0, Color3.fromRGB(255, 255, 255))
                             },
                             Transparency = NumberSequence.new{
                                 NumberSequenceKeypoint.new(0.0, 0.1),
@@ -6255,9 +6255,9 @@ G, G, 0, o.Folder, "TopbarIcon", true, J)
                         b("UIGradient", {
                             Rotation = 45,
                             Color = ColorSequence.new{
-                                ColorSequenceKeypoint.new(0.0, Color3.fromRGB(255, 255, 255)),
-                                ColorSequenceKeypoint.new(0.5, Color3.fromRGB(255, 255, 255)),
-                                ColorSequenceKeypoint.new(1.0, Color3.fromRGB(255, 255, 255)),
+                                ColorSequenceKeypoint.new(0, Color3.fromHex("#002FFF")),
+                                ColorSequenceKeypoint.new(1, Color3.fromHex("#9D00FF")),
+                                ColorSequenceKeypoint.new(1.0, Color3.fromRGB(255, 255, 255))
                             },
                             Transparency = NumberSequence.new{
                                 NumberSequenceKeypoint.new(0.0, 0.1),
