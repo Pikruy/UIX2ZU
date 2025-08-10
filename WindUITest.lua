@@ -2843,7 +2843,7 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
                 Size = UDim2.new(1, - 68, 0, 4),
                 Name = "Frame",
                 ThemeTag = {
-                    ImageColor3 = "Text",
+                    ImageColor3 = "Button",
                 },
             }, {
                 -- Frame progress utama
@@ -2852,7 +2852,7 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
                     Size = UDim2.new(s, 0, 1, 0),
                     ImageTransparency = 1, -- transparan agar gradient terlihat
                     ThemeTag = {
-                        ImageColor3 = "Button",
+                        ImageColor3 = "Text",
                     },
                 }, {
                     -- Layer tambahan sebagai background gradient (pakai Frame biasa)
