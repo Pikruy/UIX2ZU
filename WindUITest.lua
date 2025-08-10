@@ -1,3 +1,4 @@
+-- ts file was generated at discord.gg/25ms
 local a
 a = {
     cache = {},
@@ -2545,7 +2546,7 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
                     ImageColor3 = Color3.new(0, 0, 0),
                 })
             end
-            local p = d.NewRoundFrame(n, "Squircle", { --fungsi toggle
+            local p = d.NewRoundFrame(l, "Squircle", {
                 ImageTransparency = .95,
                 ThemeTag = {
                     ImageColor3 = "Text"
@@ -2553,14 +2554,14 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
                 Parent = i,
                 Size = UDim2.new(0, 42, 0, 26),
             }, {
-                d.NewRoundFrame(n, "Squircle", { --ganti
+                d.NewRoundFrame(l, "Squircle", { --ganti gradient
                     Size = UDim2.new(1, 0, 1, 0),
                     Name = "Layer",
                     ThemeTag = {
-                        ImageColor3 = "Text", --ganti
+                        ImageColor3 = "Button",
                     },
                     ImageTransparency = 1,
-                }, {
+                },  {
                     e("UIGradient", {
                         Rotation = 45,
                         Color = ColorSequence.new{
@@ -2568,8 +2569,8 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
                             ColorSequenceKeypoint.new(1, Color3.fromHex("#00E5FF")),
                         }
                     })
-                }),                
-                d.NewRoundFrame(n, "SquircleOutline", {
+                }),
+                d.NewRoundFrame(l, "SquircleOutline", {
                     Size = UDim2.new(1, 0, 1, 0),
                     Name = "Stroke",
                     ImageColor3 = Color3.new(1, 1, 1),
@@ -2583,7 +2584,7 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
                         }
                     })
                 }),
-                d.NewRoundFrame(n, "Squircle", {
+                d.NewRoundFrame(l, "Squircle", {
                     Size = UDim2.new(0, 18, 0, 18),
                     Position = UDim2.new(0, 3, 0.5, 0),
                     AnchorPoint = Vector2.new(0, 0.5),
