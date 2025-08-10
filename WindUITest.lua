@@ -4928,28 +4928,37 @@ k.Icon, k.Icon .. ":" .. k.Title, 0, i.Window.Folder, k.__type, true, k.IconThem
                 Section = a.load'C',
             }
             function k.Divider(z)
-    local frame = ac("Frame", {
-        Size = UDim2.new(1, 0, 0, 3),
+    local container = ac("Frame", {
+        Size = UDim2.new(1, 0, 0, 5),
         BackgroundTransparency = 1,
         Parent = k.UIElements.ContainerFrame,
     })
 
-    local line = ac("Frame", {
-        Size = UDim2.new(1, 0, 0, 1),
-        BackgroundColor3 = Color3.fromHex("#6B00CC"),
-        Parent = frame
-    })
+    local colors = {
+        Color3.fromHex("#9D00FF"),
+        Color3.fromHex("#6B00CC"),
+        Color3.fromHex("#002FFF"),
+    }
 
-    local stroke = Instance.new("UIStroke")
-    stroke.Color = Color3.fromHex("#9D00FF")
-    stroke.Thickness = 2
-    stroke.LineJoinMode = Enum.LineJoinMode.Round
-    stroke.Parent = line
+    for i, color in ipairs(colors) do
+        local line = ac("Frame", {
+            Size = UDim2.new(1, 0, 0, 1),
+            Position = UDim2.new(0, 0, 0, (i-1)*1.5),
+            BackgroundColor3 = color,
+            BackgroundTransparency = 0,
+            Parent = container
+        })
 
-    -- Buat efek putus-putus (dengan 'Dash' tidak native di Roblox, tapi bisa diakalin manual)
-    -- Bisa juga buat beberapa garis kecil yang terpisah sebagai dash manual
+        local gradient = Instance.new("UIGradient")
+        gradient.Rotation = 0
+        gradient.Color = ColorSequence.new({
+            ColorSequenceKeypoint.new(0, color),
+            ColorSequenceKeypoint.new(1, color:Lerp(Color3.new(0,0,0),0.5)) -- sedikit gelapkan ujung
+        })
+        gradient.Parent = line
+    end
 
-    return frame
+    return container
 end
 
             function k.Paragraph(z, A)
