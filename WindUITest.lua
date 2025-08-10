@@ -6229,92 +6229,71 @@ o.User.Anonymous and 1 or game.Players.LocalPlayer.UserId, Enum.ThumbnailType.He
                 o.UIElements.Main.Main.Topbar.Center.Size = UDim2.new(1, - o.UIElements.Main.Main.Topbar.Left.AbsoluteSize.X - o.UIElements.Main.Main.Topbar.Right.AbsoluteSize.X - o.UIPadding - o.UIPadding, 1, 0)
             end)
             function o.CreateTopbarButton(E, F, G, H, I, J)
-    local K = ac.Image(G, G, 0, o.Folder, "TopbarIcon", true, J)
-    K.Size = UDim2.new(0, 16, 0, 16)
-    K.AnchorPoint = Vector2.new(0.5, 0.5)
-    K.Position = UDim2.new(0.5, 0, 0.5, 0)
-    
-    local L = ac.NewRoundFrame(9, "Squircle", {
-        Size = UDim2.new(0, 36, 0, 36),
-        LayoutOrder = I or 999,
-        Parent = o.UIElements.Main.Main.Topbar.Right,
-        ZIndex = 9999,
-        ThemeTag = {
-            ImageColor3 = "Text"
-        },
-        ImageTransparency = 1
-    }, {
-        ac.NewRoundFrame(9, "SquircleOutline", {
-            Size = UDim2.new(1, 0, 1, 0),
-            ThemeTag = {
-                ImageColor3 = "Text",
-            },
-            ImageTransparency = 1,
-            Name = "Outline"
-        }, {
-            b("UIGradient", {
-                Rotation = 45,
-                Color = ColorSequence.new{
-                    ColorSequenceKeypoint.new(0, Color3.fromHex("#002FFF")),
-                    ColorSequenceKeypoint.new(1, Color3.fromHex("#9D00FF")),
-                    ColorSequenceKeypoint.new(1.0, Color3.fromRGB(255, 255, 255))
-                },
-                Transparency = NumberSequence.new{
-                    NumberSequenceKeypoint.new(0.0, 0.1),
-                    NumberSequenceKeypoint.new(0.5, 1),
-                    NumberSequenceKeypoint.new(1.0, 0.1),
+                local K = ac.Image(G, G, 0, o.Folder, "TopbarIcon", true, J)
+                K.Size = UDim2.new(0, 16, 0, 16)
+                K.AnchorPoint = Vector2.new(0.5, 0.5)
+                K.Position = UDim2.new(0.5, 0, 0.5, 0)
+                local L = ac.NewRoundFrame(9, "Squircle", {
+                    Size = UDim2.new(0, 36, 0, 36),
+                    LayoutOrder = I or 999,
+                    Parent = o.UIElements.Main.Main.Topbar.Right,
+                    ZIndex = 9999,
+                    ThemeTag = {
+                        ImageColor3 = "Text"
+                    },
+                    ImageTransparency = 1
+                }, {
+                    ac.NewRoundFrame(9, "SquircleOutline", {
+                        Size = UDim2.new(1, 0, 1, 0),
+                        ThemeTag = {
+                            ImageColor3 = "Text",
+                        },
+                        ImageTransparency = 1,
+                        Name = "Outline"
+                    }, {
+                        b("UIGradient", {
+                            Rotation = 45,
+                            Color = ColorSequence.new{
+                                ColorSequenceKeypoint.new(0, Color3.fromHex("#002FFF")),
+                                ColorSequenceKeypoint.new(1, Color3.fromHex("#9D00FF")),
+                                ColorSequenceKeypoint.new(1.0, Color3.fromRGB(255, 255, 255))
+                            },
+                            Transparency = NumberSequence.new{
+                                NumberSequenceKeypoint.new(0.0, 0.1),
+                                NumberSequenceKeypoint.new(0.5, 1),
+                                NumberSequenceKeypoint.new(1.0, 0.1),
+                            }
+                        }),
+                    }),
+                    K
+                }, true)
+                o.TopBarButtons[100 - I] = {
+                    Name = F,
+                    Object = L
                 }
-            }),
-        }),
-        K
-    }, true)
-
-    -- Simpan objek L dan ikon K agar bisa diakses untuk toggle
-    o.TopBarButtons[100 - I] = {
-        Name = F,
-        Object = L,
-        Icon = K -- simpan referensi ikon
-    }
-
-    ac.AddSignal(L.MouseButton1Click, function()
-        H()
-    end)
-
-    ac.AddSignal(L.MouseEnter, function()
-        e(L, .15, {
-            ImageTransparency = .93
-        }):Play()
-        e(L.Outline, .15, {
-            ImageTransparency = .75
-        }):Play()
-    end)
-
-    ac.AddSignal(L.MouseLeave, function()
-        e(L, .1, {
-            ImageTransparency = 1
-        }):Play()
-        e(L.Outline, .1, {
-            ImageTransparency = 1
-        }):Play()
-    end)
-
-    return L
-end
-
--- Fungsi toggle icon
-function o:ToggleTopbarButtonIcon(name, newIcon)
-    for _, btn in pairs(o.TopBarButtons) do
-        if btn.Name == name then
-            -- Ganti image pada btn.Icon
-            -- asumsikan ac.Image menerima parameter (imageName, ...)
-            -- atau kamu bisa langsung set properti image di btn.Icon
-            btn.Icon:Set("Image", newIcon) -- ini contoh, sesuaikan dengan fungsi ac.Image
-            break
-        end
-    end
-end
-
-            local E = ac.Drag(o.UIElements.Main, {
+                ac.AddSignal(L.MouseButton1Click, function()
+                    H()
+                end)
+                ac.AddSignal(L.MouseEnter, function()
+                    e(L, .15, {
+                        ImageTransparency = .93
+                    }):Play()
+                    e(L.Outline, .15, {
+                        ImageTransparency = .75
+                    }):Play()
+                end)
+                ac.AddSignal(L.MouseLeave, function()
+                    e(L, .1, {
+                        ImageTransparency = 1
+                    }):Play()
+                    e(L.Outline, .1, {
+                        ImageTransparency = 1
+                    }):Play()
+                end)
+                return L
+            end
+            local E = ac.Drag(
+o.UIElements.Main, {
                 o.UIElements.Main.Main.Topbar,
                 C.Frame
             }, function(E, F)
