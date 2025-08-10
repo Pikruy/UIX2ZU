@@ -2852,7 +2852,7 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
                     Size = UDim2.new(s, 0, 1, 0),
                     ImageTransparency = 1, -- transparan agar gradient terlihat
                     ThemeTag = {
-                        ImageColor3 = "Text",
+                        ImageColor3 = "Button",
                     },
                 }, {
                     -- Layer tambahan sebagai background gradient (pakai Frame biasa)
@@ -2878,7 +2878,7 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
                         Position = UDim2.new(1, 0, 0.5, 0),
                         AnchorPoint = Vector2.new(0.5, 0.5),
                         ThemeTag = {
-                            ImageColor3 = "Button",
+                            ImageColor3 = "Text",
                         },
                     })
                 })
