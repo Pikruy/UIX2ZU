@@ -3421,7 +3421,7 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
                                 },
                                 Transparency = NumberSequence.new{
                                     NumberSequenceKeypoint.new(0.0, 0.1),
-                                    NumberSequenceKeypoint.new(0.5, 1),
+                                    NumberSequenceKeypoint.new(1, 2),
                                     NumberSequenceKeypoint.new(1.0, 0.1),
                                 }
                             }),
