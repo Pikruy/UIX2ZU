@@ -382,7 +382,7 @@ t.X.Scale, t.X.Offset + w.X, t.Y.Scale, t.Y.Offset + w.Y)
                     BackgroundTransparency = 1,
                     ScaleType = "Crop",
                     ThemeTag = (h.Icon(k) or s) and {
-                        ImageColor3 = r and "Accent"
+                        ImageColor3 = r and "Icon"
                     } or nil,
                 }, {
                     i("UICorner", {
