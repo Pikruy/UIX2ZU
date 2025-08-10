@@ -4929,30 +4929,25 @@ k.Icon, k.Icon .. ":" .. k.Title, 0, i.Window.Folder, k.__type, true, k.IconThem
             }
             function k.Divider(z)
     local frame = ac("Frame", {
-        Size = UDim2.new(1, 0, 0, 5),
+        Size = UDim2.new(1, 0, 0, 3),
         BackgroundTransparency = 1,
         Parent = k.UIElements.ContainerFrame,
     })
 
     local line = ac("Frame", {
-        Size = UDim2.new(1, 0, 0, 2),
-        Position = UDim2.new(0, 0, 0.5, 0),
-        AnchorPoint = Vector2.new(0, 0.5),
+        Size = UDim2.new(1, 0, 0, 1),
         BackgroundColor3 = Color3.fromHex("#6B00CC"),
-        Parent = frame,
+        Parent = frame
     })
 
-    local gradient = Instance.new("UIGradient")
-    gradient.Color = ColorSequence.new({
-        ColorSequenceKeypoint.new(0, Color3.fromHex("#9D00FF")),
-        ColorSequenceKeypoint.new(0.5, Color3.fromHex("#6B00CC")),
-        ColorSequenceKeypoint.new(1, Color3.fromHex("#002FFF"))
-    })
-    gradient.Rotation = 0
-    gradient.Parent = line
+    local stroke = Instance.new("UIStroke")
+    stroke.Color = Color3.fromHex("#9D00FF")
+    stroke.Thickness = 2
+    stroke.LineJoinMode = Enum.LineJoinMode.Round
+    stroke.Parent = line
 
-    local blurEffect = Instance.new("BlurEffect") -- Note: BlurEffect applies to the whole game viewport, so usually not recommended for UI
-    -- Kalau mau efek blur di UI, biasanya pake image blur PNG
+    -- Buat efek putus-putus (dengan 'Dash' tidak native di Roblox, tapi bisa diakalin manual)
+    -- Bisa juga buat beberapa garis kecil yang terpisah sebagai dash manual
 
     return frame
 end
