@@ -5296,7 +5296,7 @@ k.Icon, k.Icon .. ":" .. k.Title, 0, i.Window.Folder, k.__type, true, k.IconThem
     -- Fungsi untuk bikin section collapsible di dalam tab
     function a.InnerSection()
         local sectionModule = {}
-        local ab = a.load'a'd -- modul GUI utility
+        local ab = a.load'a' -- modul GUI utility
         local ac = ab.New
         local b = ab.Tween
         local e = a.load'D' -- modul UI signal / handler
