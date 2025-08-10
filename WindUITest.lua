@@ -4619,8 +4619,7 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
             }
             local i
             if h.Icon then
-                i = aa.Image(
-h.Icon, h.Icon .. ":" .. h.Title, 0, g.Window.Folder, h.__type, true)
+                i = aa.Image(h.Icon, h.Icon .. ":" .. h.Title, 0, g.Window.Folder, h.__type, true)
                 i.Size = UDim2.new(0, 24, 0, 24)
             end
             h.UIElements.Main = ab("TextLabel", {
@@ -5157,7 +5156,7 @@ k.Icon, k.Icon .. ":" .. k.Title, 0, i.Window.Folder, k.__type, true, k.IconThem
     end
     function a.E()
         local aa = {}
-        local ab = a.load'a'
+        local ab = a.load'a'd
         local ac = ab.New
         local b = ab.Tween
         local e = a.load'D'
@@ -5173,8 +5172,7 @@ k.Icon, k.Icon .. ":" .. k.Title, 0, i.Window.Folder, k.__type, true, k.IconThem
             }
             local l
             if k.Icon then
-                l = ab.Image(
-k.Icon, k.Icon, 0, i, "Section", true, k.IconThemed)
+                l = ab.Image(k.Icon, k.Icon, 0, i, "Section", true, k.IconThemed)
                 l.Size = UDim2.new(0, k.IconSize, 0, k.IconSize)
                 l.ImageLabel.ImageTransparency = .25
             end
@@ -5295,6 +5293,151 @@ k.Icon, k.Icon, 0, i, "Section", true, k.IconThemed)
         end
         return aa
     end
+    -- Fungsi untuk bikin section collapsible di dalam tab
+    function a.InnerSection()
+        local sectionModule = {}
+        local ab = a.load'a'd -- modul GUI utility
+        local ac = ab.New
+        local b = ab.Tween
+        local e = a.load'D' -- modul UI signal / handler
+
+        function sectionModule.New(config, parent, scale)
+            local data = {
+                Title = config.Title or "Inner Section",
+                Icon = config.Icon,
+                IconThemed = config.IconThemed,
+                Opened = config.Opened or true, -- default terbuka
+                HeaderSize = 32, -- tinggi header section di dalam tab
+                IconSize = 16,
+                Expandable = true
+            }
+
+            -- Buat ikon kalau ada
+            local iconFrame
+            if data.Icon then
+                iconFrame = ab.Image(data.Icon, data.Icon, 0, scale, "Section", true, data.IconThemed)
+                iconFrame.Size = UDim2.new(0, data.IconSize, 0, data.IconSize)
+                iconFrame.ImageLabel.ImageTransparency = .25
+            end
+
+            -- Panah toggle
+            local arrow = ac("Frame", {
+                Size = UDim2.new(0, data.IconSize, 0, data.IconSize),
+                BackgroundTransparency = 1,
+                Visible = true
+            }, {
+                ac("ImageLabel", {
+                    Size = UDim2.new(1, 0, 1, 0),
+                    BackgroundTransparency = 1,
+                    Image = ab.Icon"chevron-down"[1],
+                    ImageRectSize = ab.Icon"chevron-down"[2].ImageRectSize,
+                    ImageRectOffset = ab.Icon"chevron-down"[2].ImageRectPosition,
+                    ThemeTag = { ImageColor3 = "Icon" },
+                    ImageTransparency = .7
+                })
+            })
+
+            -- Frame utama section
+            local sectionFrame = ac("Frame", {
+                Size = UDim2.new(1, 0, 0, data.HeaderSize),
+                BackgroundTransparency = 1,
+                Parent = parent,
+                ClipsDescendants = true
+            }, {
+                ac("TextButton", {
+                    Size = UDim2.new(1, 0, 0, data.HeaderSize),
+                    BackgroundTransparency = 1,
+                    Text = ""
+                }, {
+                    iconFrame,
+                    ac("TextLabel", {
+                        Text = data.Title,
+                        TextXAlignment = "Left",
+                        Size = UDim2.new(1, iconFrame and (- data.IconSize - 10) * 2 or (- data.IconSize - 10), 1, 0),
+                        ThemeTag = { TextColor3 = "Text" },
+                        FontFace = Font.new(ab.Font, Enum.FontWeight.SemiBold),
+                        TextSize = 14,
+                        BackgroundTransparency = 1,
+                        TextTransparency = .7,
+                        TextWrapped = true
+                    }),
+                    ac("UIListLayout", {
+                        FillDirection = "Horizontal",
+                        VerticalAlignment = "Center",
+                        Padding = UDim.new(0, 10)
+                    }),
+                    arrow,
+                    ac("UIPadding", {
+                        PaddingLeft = UDim.new(0, 11),
+                        PaddingRight = UDim.new(0, 11)
+                    })
+                }),
+                ac("Frame", {
+                    BackgroundTransparency = 1,
+                    Size = UDim2.new(1, 0, 0, 0),
+                    AutomaticSize = "Y",
+                    Name = "Content",
+                    Visible = true,
+                    Position = UDim2.new(0, 0, 0, data.HeaderSize)
+                }, {
+                    ac("UIListLayout", {
+                        FillDirection = "Vertical",
+                        Padding = UDim.new(0, 0),
+                        VerticalAlignment = "Bottom"
+                    })
+                })
+            })
+
+            -- Fungsi untuk menambahkan elemen ke section
+            function data.AddElement(_, element)
+                element.Parent = sectionFrame.Content
+                return e.New(element)
+            end
+
+            -- Open/Close
+            function data.Open()
+                data.Opened = true
+                sectionFrame.Content.Visible = true
+                b(sectionFrame, 0.33, {
+                    Size = UDim2.new(1, 0, 0, data.HeaderSize + (sectionFrame.Content.AbsoluteSize.Y / scale))
+                }, Enum.EasingStyle.Quint, Enum.EasingDirection.Out):Play()
+                b(arrow.ImageLabel, 0.1, { Rotation = 180 }, Enum.EasingStyle.Quint, Enum.EasingDirection.Out):Play()
+            end
+
+            function data.Close()
+                data.Opened = false
+                b(sectionFrame, 0.26, {
+                    Size = UDim2.new(1, 0, 0, data.HeaderSize)
+                }, Enum.EasingStyle.Quint, Enum.EasingDirection.Out):Play()
+                b(arrow.ImageLabel, 0.1, { Rotation = 0 }, Enum.EasingStyle.Quint, Enum.EasingDirection.Out):Play()
+                task.delay(0.26, function()
+                    sectionFrame.Content.Visible = false
+                end)
+            end
+
+            -- Toggle klik
+            ab.AddSignal(sectionFrame.TextButton.MouseButton1Click, function()
+                if data.Opened then
+                    data:Close()
+                else
+                    data:Open()
+                end
+            end)
+
+            -- Auto-open kalau default
+            if data.Opened then
+                task.spawn(function()
+                    task.wait()
+                    data:Open()
+                end)
+            end
+
+            return data
+        end
+
+        return sectionModule
+    end
+
     function a.F()
         return {
             Tab = "table-of-contents",
@@ -5388,7 +5531,7 @@ k.Icon, k.Icon, 0, i, "Section", true, k.IconThemed)
             local o = ab.NewRoundFrame(i.Radius, "Squircle", {
                 Size = UDim2.new(1, 0, 1, 0),
                 ThemeTag = {
-                    ImageColor3 = "Background",
+                    ImageColor3 = "Accent",
                 },
                 ImageTransparency = 0,
             }, {
@@ -6373,8 +6516,7 @@ o.UIElements.Main, {
             local F = a.load'n'.New(o)
             task.spawn(function()
                 if o.Icon then
-                    local G = ac.Image(
-o.Icon, o.Title, 0, o.Folder, "Window", true, o.IconThemed)
+                    local G = ac.Image(o.Icon, o.Title, 0, o.Folder, "Window", true, o.IconThemed)
                     G.Parent = o.UIElements.Main.Main.Topbar.Left
                     G.Size = UDim2.new(0, 22, 0, 22)
                     F:SetIcon(o.Icon)
@@ -6664,8 +6806,7 @@ o.Icon, o.Title, 0, o.Folder, "Window", true, o.IconThemed)
                 })
                 local R
                 if N.Icon then
-                    R = ac.Image(
-N.Icon, O.Title .. ":" .. N.Icon, 0, o, "Dialog", true, N.IconThemed)
+                    R = ac.Image(N.Icon, O.Title .. ":" .. N.Icon, 0, o, "Dialog", true, N.IconThemed)
                     R.Size = UDim2.new(0, 22, 0, 22)
                     R.Parent = Q
                 end
