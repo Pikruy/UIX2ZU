@@ -381,10 +381,20 @@ t.X.Scale, t.X.Offset + w.X, t.Y.Scale, t.Y.Offset + w.Y)
                     Size = UDim2.new(1, 0, 1, 0),
                     BackgroundTransparency = 1,
                     ScaleType = "Crop",
-                    ThemeTag = (h.Icon(k) or s) and {
-                        ImageColor3 = r and "Icon"
-                    } or nil,
+                    BackgroundColor3 = Color3.new(1, 1, 1), -- warna putih
+                    -- hilangkan ThemeTag supaya tidak override warna
                 }, {
+                    i("UIGradient", {
+                        Rotation = 45,
+                        Color = ColorSequence.new{
+                            ColorSequenceKeypoint.new(0, Color3.fromHex("#002FFF")),
+                            ColorSequenceKeypoint.new(1, Color3.fromHex("#FFFFFF")), -- putih
+                        },
+                        Transparency = NumberSequence.new{
+                            NumberSequenceKeypoint.new(0, 0),
+                            NumberSequenceKeypoint.new(1, 0),
+                        }
+                    }),
                     i("UICorner", {
                         CornerRadius = UDim.new(0, o)
                     })
