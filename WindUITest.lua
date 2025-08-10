@@ -830,9 +830,8 @@ t.X.Scale, t.X.Offset + w.X, t.Y.Scale, t.Y.Offset + w.Y)
                     d("UIGradient", {
                         Rotation = 45,
                         Transparency = NumberSequence.new{
-                            NumberSequenceKeypoint.new(0, 0.55),
-                            NumberSequenceKeypoint.new(0.5, 0.8),
-                            NumberSequenceKeypoint.new(1, 0.6)
+                            ColorSequenceKeypoint.new(0, Color3.fromHex("#9D00FF")),
+                            ColorSequenceKeypoint.new(1, Color3.fromHex("#002fff"))
                         }
                     })
                 })
@@ -2566,7 +2565,7 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
                         Rotation = 45,
                         Color = ColorSequence.new{
                             ColorSequenceKeypoint.new(0, Color3.fromHex("#9D00FF")),
-                            ColorSequenceKeypoint.new(1, Color3.fromHex("#00E5FF")),
+                            ColorSequenceKeypoint.new(1, Color3.fromHex("#002fff"))
                         }
                     })
                 }),
