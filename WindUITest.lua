@@ -437,15 +437,15 @@ t.X.Scale, t.X.Offset + w.X, t.Y.Scale, t.Y.Offset + w.Y)
     function a.c()
         return {
             Dark = {
-                Name = "Dark",
-                Accent = "#18181b",
+                Name = 'Dark',
+                Accent = '#312e81',
                 Dialog = "#18181b",
-                Outline = "#FFFFFF",
-                Text = "#FFFFFF",
-                Placeholder = "#999999",
-                Background = "#101010",
-                Button = "#52525b",
-                Icon = "#a1a1aa",
+                Outline = '#7B4AE2',
+                Text = '#FFFFFF',
+                Placeholder = '#80EFFF',
+                Background = '#1C1B29',
+                Button = '#9A73F8',
+                Icon = '#ffffff'
             },
             Light = {
                 Name = "Light",
