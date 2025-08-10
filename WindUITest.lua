@@ -4895,16 +4895,24 @@ k.Icon, k.Icon .. ":" .. k.Title, 0, i.Window.Folder, k.__type, true, k.IconThem
                 Colorpicker = a.load'B',
                 Section = a.load'C',
             }
-            function k.Divider(z)
+           function k.Divider(z) -- Ganti
                 local A = ac("Frame", {
                     Size = UDim2.new(1, 0, 0, 1),
                     Position = UDim2.new(0.5, 0, 0.5, 0),
                     AnchorPoint = Vector2.new(0.5, 0.5),
-                    BackgroundTransparency = .9,
+                    BackgroundTransparency = .1,
                     ThemeTag = {
-                        BackgroundColor3 = "Text"
+                        BackgroundColor3 = "Button"
                     }
                 })
+                 -- Tambahkan gradient ke Layer
+                local gradientdivider = Instance.new("UIGradient") --ganti
+                gradientdivider.Rotation = 45
+                gradientdivider.Color = ColorSequence.new{
+                    ColorSequenceKeypoint.new(0, Color3.fromHex("#9D00FF")),
+                    ColorSequenceKeypoint.new(1, Color3.fromHex("#002fff"))
+                }
+                gradientdivider.Parent = A
                 local B = ac("Frame", {
                     Parent = k.UIElements.ContainerFrame,
                     Size = UDim2.new(1, - 7, 0, 5),
