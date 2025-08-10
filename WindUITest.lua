@@ -2859,7 +2859,7 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
                     e("Frame", {
                         Name = "GradientLayer",
                         Size = UDim2.new(1, 0, 1, 0),
-                        BackgroundColor3 = Color3.new(1,1,1),
+                        BackgroundColor3 = Color3.new(154, 115, 248),
                         BackgroundTransparency = 0,
                         BorderSizePixel = 0,
                     }, {
