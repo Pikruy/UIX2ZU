@@ -5158,7 +5158,7 @@ k.Icon, k.Icon, 0, i, "Section", true, k.IconThemed)
                     ImageRectSize = ab.Icon"chevron-down"[2].ImageRectSize,
                     ImageRectOffset = ab.Icon"chevron-down"[2].ImageRectPosition,
                     ThemeTag = {
-                        ImageColor3 = "Accent",
+                        ImageColor3 = "Icon",
                     },
                     ImageTransparency = .7,
                 })
@@ -5379,7 +5379,7 @@ k.Icon, k.Icon, 0, i, "Section", true, k.IconThemed)
                                 ImageRectOffset = ab.Icon"search"[2].ImageRectPosition,
                                 BackgroundTransparency = 1,
                                 ThemeTag = {
-                                    ImageColor3 = "Icon",
+                                    ImageColor3 = "Accent",
                                 },
                                 ImageTransparency = .05,
                                 Size = UDim2.new(0, i.IconSize, 0, i.IconSize)
