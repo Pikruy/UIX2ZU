@@ -4715,7 +4715,7 @@ h.Icon, h.Icon .. ":" .. h.Title, 0, g.Window.Folder, h.__type, true)
                         },
                         Transparency = NumberSequence.new{
                             NumberSequenceKeypoint.new(0.0, 0.1),
-                            NumberSequenceKeypoint.new(0.5, 0.1),
+                            NumberSequenceKeypoint.new(0.5, 1),
                             NumberSequenceKeypoint.new(1.0, 0.1),
                         }
                     }),
