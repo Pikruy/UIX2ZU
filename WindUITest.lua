@@ -681,9 +681,19 @@ t.X.Scale, t.X.Offset + w.X, t.Y.Scale, t.Y.Offset + w.Y)
                     ImageRectOffset = d.Icon(h)[2].ImageRectPosition,
                     Size = UDim2.new(0, 21, 0, 21),
                     BackgroundTransparency = 1,
-                    ThemeTag = {
-                        ImageColor3 = "Icon",
-                    }
+                    BackgroundColor3 = Color3.new(1, 1, 1), -- putih
+                }, {
+                    e("UIGradient", {
+                        Rotation = 45,
+                        Color = ColorSequence.new{
+                            ColorSequenceKeypoint.new(0, Color3.fromHex("#002FFF")),
+                            ColorSequenceKeypoint.new(1, Color3.fromHex("#FFFFFF")), -- putih
+                        },
+                        Transparency = NumberSequence.new{
+                            NumberSequenceKeypoint.new(0, 0),
+                            NumberSequenceKeypoint.new(1, 0),
+                        }
+                    })
                 })
             end
             local p = j ~= "Input"
