@@ -834,14 +834,14 @@ t.X.Scale, t.X.Offset + w.X, t.Y.Scale, t.Y.Offset + w.Y)
                 Position = UDim2.new(0.5, 0, 0.5, 0),
                 AnchorPoint = Vector2.new(0.5, 0.5),
                 AutomaticSize = "XY",
-                ImageColor3 = Color3.fromHex("#001F99"), -- base dark blue
+                ImageColor3 = Color3.fromHex("#002FFF"), -- base dark blue
                 ZIndex = 9999,
             }, {
                 d("UIGradient", {
                     Rotation = 45,
                     Color = ColorSequence.new{
-                        ColorSequenceKeypoint.new(0, Color3.fromHex("#001F99")),
-                        ColorSequenceKeypoint.new(0.5, Color3.fromHex("#6A0080")),
+                        ColorSequenceKeypoint.new(0, Color3.fromHex("#002FFF")),
+                        ColorSequenceKeypoint.new(0.5, Color3.fromHex("#9D00FF")),
                         ColorSequenceKeypoint.new(1, Color3.fromHex("#333333")),
                     },
                     Transparency = NumberSequence.new{
