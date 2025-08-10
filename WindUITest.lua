@@ -834,7 +834,7 @@ t.X.Scale, t.X.Offset + w.X, t.Y.Scale, t.Y.Offset + w.Y)
                 Position = UDim2.new(0.5, 0, 0.5, 0),
                 AnchorPoint = Vector2.new(0.5, 0.5),
                 AutomaticSize = "XY",
-                ImageColor3 = Color3.fromHex("#002FFF"), -- base dark blue
+                ImageColor3 = Color3.fromHex("#6B00CC"), -- base dark blue
                 ZIndex = 9999,
             }, {
                 d("UIGradient", {
