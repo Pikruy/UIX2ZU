@@ -725,7 +725,7 @@ t.X.Scale, t.X.Offset + w.X, t.Y.Scale, t.Y.Offset + w.Y)
                 }, {
                     d.NewRoundFrame(l, "Squircle", {
                         ThemeTag = {
-                            ImageColor3 = "Accent",
+                            ImageColor3 = "Background",
                         },
                         Size = UDim2.new(1, 0, 1, 0),
                         ImageTransparency = .85,
