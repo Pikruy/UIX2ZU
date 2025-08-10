@@ -3382,6 +3382,7 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
                 Size = UDim2.new(1, -(l.MenuPadding * 2), 0, 34),
                 Position = UDim2.new(0, l.MenuPadding, 0, l.MenuPadding),
                 ClearTextOnFocus = false,
+                TextColor3 = Color3.fromRGB(255, 255, 255),
                 BackgroundTransparency = 1,
                 TextSize = 14,
                 Font = Enum.Font.Code,
