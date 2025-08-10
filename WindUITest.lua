@@ -2370,7 +2370,7 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
                     TextSize = r == "Desc" and 15 or 17,
                     TextXAlignment = "Left",
                     ThemeTag = {
-                        TextColor3 = not h.Color and (r == "Desc" and "Accent" or "Text") or nil,
+                        TextColor3 = not h.Color and (r == "Desc" and "Icon" or "Text") or nil, --Desc Paragraph
                     },
                     TextColor3 = h.Color and (h.Color == "White" and Color3.new(0, 0, 0) or h.Color ~= "White" and Color3.new(1, 1, 1)) or nil,
                     TextTransparency = h.Color and (r == "Desc" and .3 or 0),
@@ -5158,7 +5158,7 @@ k.Icon, k.Icon, 0, i, "Section", true, k.IconThemed)
                     ImageRectSize = ab.Icon"chevron-down"[2].ImageRectSize,
                     ImageRectOffset = ab.Icon"chevron-down"[2].ImageRectPosition,
                     ThemeTag = {
-                        ImageColor3 = "Icon",
+                        ImageColor3 = "Accent",
                     },
                     ImageTransparency = .7,
                 })
