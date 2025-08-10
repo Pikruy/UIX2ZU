@@ -830,8 +830,9 @@ t.X.Scale, t.X.Offset + w.X, t.Y.Scale, t.Y.Offset + w.Y)
                     d("UIGradient", {
                         Rotation = 45,
                         Transparency = NumberSequence.new{
-                            ColorSequenceKeypoint.new(0, Color3.fromHex("#9D00FF")),
-                            ColorSequenceKeypoint.new(1, Color3.fromHex("#002fff"))
+                            NumberSequenceKeypoint.new(0, 0.55),
+                            NumberSequenceKeypoint.new(0.5, 0.8),
+                            NumberSequenceKeypoint.new(1, 0.6)
                         }
                     })
                 })
@@ -3881,7 +3882,7 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
                 }):Play()
             end)
             e.NewRoundFrame(q.Radius, "Squircle", {
-                ImageColor3 = Color3.fromHex"#212121",
+                ImageColor3 = Color3.fromHex"#1C1B29", --ganti
                 ImageTransparency = .035,
                 Size = UDim2.new(1, 0, 0, 20 + (q.Padding * 2)),
                 AutomaticSize = "Y",
