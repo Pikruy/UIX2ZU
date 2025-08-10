@@ -382,7 +382,7 @@ t.X.Scale, t.X.Offset + w.X, t.Y.Scale, t.Y.Offset + w.Y)
                     BackgroundTransparency = 1,
                     ScaleType = "Crop",
                     ThemeTag = (h.Icon(k) or s) and {
-                        ImageColor3 = r and "Icon"
+                        ImageColor3 = r and "Accent"
                     } or nil,
                 }, {
                     i("UICorner", {
@@ -5379,7 +5379,7 @@ k.Icon, k.Icon, 0, i, "Section", true, k.IconThemed)
                                 ImageRectOffset = ab.Icon"search"[2].ImageRectPosition,
                                 BackgroundTransparency = 1,
                                 ThemeTag = {
-                                    ImageColor3 = "Accent",
+                                    ImageColor3 = "Icon",
                                 },
                                 ImageTransparency = .05,
                                 Size = UDim2.new(0, i.IconSize, 0, i.IconSize)
