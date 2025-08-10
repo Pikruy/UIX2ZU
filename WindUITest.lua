@@ -3293,9 +3293,7 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
                 FillDirection = "Vertical"
             })
             q.UIElements.Menu = h.NewRoundFrame(l.MenuCorner, "Squircle", {
-                ThemeTag = {
-                    ImageColor3 = "Background",
-                },
+                ImageColor3 = Color3.fromHex("#312e81"),
                 ImageTransparency = 0.05,
                 Size = UDim2.new(1, 0, 1, 0),
                 AnchorPoint = Vector2.new(1, 0),
