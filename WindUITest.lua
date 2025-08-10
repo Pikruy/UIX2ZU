@@ -443,7 +443,7 @@ t.X.Scale, t.X.Offset + w.X, t.Y.Scale, t.Y.Offset + w.Y)
                 Outline = '#7B4AE2',
                 Text = '#FFFFFF',
                 Placeholder = '#80EFFF',
-                Background = '#312e81',
+                Background = '#1C1B29',
                 Button = '#9A73F8',
                 Icon = '#ffffff'
             },
@@ -4895,9 +4895,9 @@ k.Icon, k.Icon .. ":" .. k.Title, 0, i.Window.Folder, k.__type, true, k.IconThem
                 Colorpicker = a.load'B',
                 Section = a.load'C',
             }
-           function k.Divider(z) -- Ganti
+            function k.Divider(z) -- Ganti
                 local A = ac("Frame", {
-                    Size = UDim2.new(1, 0, 0, 1),
+                    Size = UDim2.new(1, 0, 0, 3),
                     Position = UDim2.new(0.5, 0, 0.5, 0),
                     AnchorPoint = Vector2.new(0.5, 0.5),
                     BackgroundTransparency = .1,
@@ -4907,11 +4907,13 @@ k.Icon, k.Icon .. ":" .. k.Title, 0, i.Window.Folder, k.__type, true, k.IconThem
                 })
                  -- Tambahkan gradient ke Layer
                 local gradientdivider = Instance.new("UIGradient") --ganti
-                gradientdivider.Rotation = 0
-                gradientdivider.Color = ColorSequence.new{
-                    ColorSequenceKeypoint.new(0, Color3.fromHex("#9D00FF")),
-                    ColorSequenceKeypoint.new(1, Color3.fromHex("#002fff"))
-                }
+                gradientdivider.Rotation = 0 -- horizontal blend
+                gradientdivider.Color = ColorSequence.new({
+                    ColorSequenceKeypoint.new(0, Color3.fromHex("#9D00FF")), -- kiri
+                    ColorSequenceKeypoint.new(0.5, Color3.fromHex("#6B00CC")), -- tengah campuran
+                    ColorSequenceKeypoint.new(1, Color3.fromHex("#002FFF")) -- kanan
+                })
+
                 gradientdivider.Parent = A
                 local B = ac("Frame", {
                     Parent = k.UIElements.ContainerFrame,
