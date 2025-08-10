@@ -3283,13 +3283,12 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
             q.Locked = p.Locked or false
             q.Values = p.Values or {}
             q.MenuWidth = p.MenuWidth or 150
-            q.Value = p.Value or nil
-            q.Multi = p.Multi or false
+            q.Selected = {} -- table untuk multi-select
             q.AllowNone = p.AllowNone or false
             q.Callback = p.Callback or function() end
             q.Tabs = {}
 
-            -- Build frame utama
+            -- Frame utama
             q.UIElements = {}
             q.UIElements.Main = i("Frame", {
                 Name = "Dropdown",
@@ -3297,9 +3296,6 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
                 Size = UDim2.new(1, 0, 0, 40),
                 BackgroundTransparency = 1,
             })
-
-            -- Judul + tombol
-            -- (kode bawaan dropdown di sini...)
 
             -- Menu dropdown
             q.UIElements.Menu = i("Frame", {
@@ -3324,7 +3320,7 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
             q.UIElements.Scroll = scroll
             local listLayout = i("UIListLayout", {Parent = scroll, SortOrder = Enum.SortOrder.LayoutOrder})
 
-            -- Tambah Search Bar
+            -- Search Bar
             q.UIElements.SearchBar = i("TextBox", {
                 Parent = q.UIElements.Menu,
                 PlaceholderText = "Search...",
@@ -3354,7 +3350,7 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
                 end
             end)
 
-            -- Fungsi Refresh
+            -- Fungsi Refresh (multi select)
             function q.Refresh(s, t)
                 t = t or q.Values
                 -- Bersihkan item lama
@@ -3376,30 +3372,51 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
                         TextSize = 14
                     })
                     i("UICorner", {CornerRadius = UDim.new(0, 6), Parent = item})
+
+                    -- Status centang
+                    local check = i("TextLabel", {
+                        Parent = item,
+                        Size = UDim2.new(0, 20, 1, 0),
+                        Position = UDim2.new(1, -25, 0, 0),
+                        BackgroundTransparency = 1,
+                        Text = table.find(q.Selected, x) and "✔" or "",
+                        TextColor3 = Color3.new(0, 1, 0),
+                        Font = Enum.Font.GothamBold,
+                        TextSize = 16
+                    })
+
                     item.MouseButton1Click:Connect(function()
-                        q.Value = x
-                        q.Callback(x)
-                        q:Close()
+                        local idx = table.find(q.Selected, x)
+                        if idx then
+                            table.remove(q.Selected, idx)
+                            check.Text = ""
+                        else
+                            table.insert(q.Selected, x)
+                            check.Text = "✔"
+                        end
+                        q.Callback(q.Selected)
                     end)
+
                     table.insert(q.Tabs, item)
                 end
                 scroll.CanvasSize = UDim2.new(0, 0, 0, listLayout.AbsoluteContentSize.Y)
             end
 
-            -- Fungsi Open
+            -- Open menu
             function q.Open(s)
                 q.UIElements.Menu.Visible = true
                 q:Refresh(q.Values)
                 q.UIElements.SearchBar.Text = ""
             end
 
-            -- Fungsi Close
+            -- Close menu
             function q.Close(s)
                 q.UIElements.Menu.Visible = false
             end
 
             return q
         end
+
         return l
     end
     function a.y()
