@@ -2867,7 +2867,7 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
                             Rotation = 0,
                             Color = ColorSequence.new{
                                 ColorSequenceKeypoint.new(0, Color3.fromHex("#9D00FF")),
-                                ColorSequenceKeypoint.new(1, Color3.fromHex("#4400ff"))
+                                ColorSequenceKeypoint.new(1, Color3.fromHex("#002fff"))
                             }
                         })
                     }),
