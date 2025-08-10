@@ -5156,7 +5156,7 @@ k.Icon, k.Icon .. ":" .. k.Title, 0, i.Window.Folder, k.__type, true, k.IconThem
     end
     function a.E()
         local aa = {}
-        local ab = a.load'a'd
+        local ab = a.load'a'
         local ac = ab.New
         local b = ab.Tween
         local e = a.load'D'
