@@ -6228,12 +6228,12 @@ o.User.Anonymous and 1 or game.Players.LocalPlayer.UserId, Enum.ThumbnailType.He
                 o.UIElements.Main.Main.Topbar.Center.Position = UDim2.new(0, o.UIElements.Main.Main.Topbar.Left.AbsoluteSize.X + o.UIPadding, 0.5, 0)
                 o.UIElements.Main.Main.Topbar.Center.Size = UDim2.new(1, - o.UIElements.Main.Main.Topbar.Left.AbsoluteSize.X - o.UIElements.Main.Main.Topbar.Right.AbsoluteSize.X - o.UIPadding - o.UIPadding, 1, 0)
             end)
-            function o.CreateTopbarButton(E, F, G, H, I, J)
-                local K = ac.Image(
-G, G, 0, o.Folder, "TopbarIcon", true, J)
+            function o.CreateTopbarButton(E, F, G, H, I, J, ChangedIcon, SecondIcon)
+                local K = ac.Image(G, G, 0, o.Folder, "TopbarIcon", true, J)
                 K.Size = UDim2.new(0, 16, 0, 16)
                 K.AnchorPoint = Vector2.new(0.5, 0.5)
                 K.Position = UDim2.new(0.5, 0, 0.5, 0)
+
                 local L = ac.NewRoundFrame(9, "Squircle", {
                     Size = UDim2.new(0, 36, 0, 36),
                     LayoutOrder = I or 999,
@@ -6268,13 +6268,27 @@ G, G, 0, o.Folder, "TopbarIcon", true, J)
                     }),
                     K
                 }, true)
+
                 o.TopBarButtons[100 - I] = {
                     Name = F,
                     Object = L
                 }
+
+                -- Untuk toggle icon internal state
+                local iconToggle = false
+
                 ac.AddSignal(L.MouseButton1Click, function()
-                    H()
+                    if ChangedIcon and SecondIcon then
+                        iconToggle = not iconToggle
+                        if iconToggle then
+                            K.Image = SecondIcon
+                        else
+                            K.Image = G
+                        end
+                    end
+                    H(iconToggle)  -- kirim state toggle ke callback jika perlu
                 end)
+
                 ac.AddSignal(L.MouseEnter, function()
                     e(L, .15, {
                         ImageTransparency = .93
@@ -6283,6 +6297,7 @@ G, G, 0, o.Folder, "TopbarIcon", true, J)
                         ImageTransparency = .75
                     }):Play()
                 end)
+
                 ac.AddSignal(L.MouseLeave, function()
                     e(L, .1, {
                         ImageTransparency = 1
@@ -6291,10 +6306,10 @@ G, G, 0, o.Folder, "TopbarIcon", true, J)
                         ImageTransparency = 1
                     }):Play()
                 end)
+
                 return L
             end
-            local E = ac.Drag(
-o.UIElements.Main, {
+            local E = ac.Drag(o.UIElements.Main, {
                 o.UIElements.Main.Main.Topbar,
                 C.Frame
             }, function(E, F)
