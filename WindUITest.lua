@@ -825,23 +825,8 @@ t.X.Scale, t.X.Offset + w.X, t.Y.Scale, t.Y.Offset + w.Y)
                     PaddingLeft = UDim.new(0, h.UIPadding),
                     PaddingRight = UDim.new(0, h.UIPadding),
                     PaddingBottom = UDim.new(0, h.UIPadding),
-                }),
-                -- Tambah UIGradient custom di sini
-                d("UIGradient", {
-                    Rotation = 45,
-                    Color = ColorSequence.new{
-                        ColorSequenceKeypoint.new(0, Color3.fromHex("#001F99")),  -- warna gelap 1 (versi gelap dari #002FFF)
-                        ColorSequenceKeypoint.new(0.5, Color3.fromHex("#6A0080")), -- warna gelap 2 (versi gelap dari #9D00FF)
-                        ColorSequenceKeypoint.new(1, Color3.fromHex("#CCCCCC")),   -- putih agak gelap, bukan full putih
-                    },
-                    Transparency = NumberSequence.new{
-                        NumberSequenceKeypoint.new(0, 0.1),
-                        NumberSequenceKeypoint.new(0.5, 0.3),
-                        NumberSequenceKeypoint.new(1, 0.1),
-                    }
                 })
             })
-
             h.UIElements.MainContainer = b.NewRoundFrame(h.UICorner, "Squircle", {
                 Visible = false,
                 ImageTransparency = g and 0.15 or 0,
@@ -850,7 +835,7 @@ t.X.Scale, t.X.Offset + w.X, t.Y.Scale, t.Y.Offset + w.Y)
                 AnchorPoint = Vector2.new(0.5, 0.5),
                 AutomaticSize = "XY",
                 ThemeTag = {
-                    ImageColor3 = "Dialog"
+                    ImageColor3 = "Accent"
                 },
                 ZIndex = 9999,
             }, {
