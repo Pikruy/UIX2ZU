@@ -3095,15 +3095,16 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
 
 .New
         local i = a.load'e'.New
-        function g.New(j, k)
-            local l = {
+         function g.New(j, k)
+            local n = {
                 __type = "Input",
                 Title = k.Title or "Input",
                 Desc = k.Desc or nil,
                 Type = k.Type or "Input",
+                AllowedType = k.AllowedType or "All", -- "Number", "Text", "All" --ganti
                 Locked = k.Locked or false,
                 InputIcon = k.InputIcon or false,
-                Placeholder = k.Placeholder or "Enter Text...",
+                PlaceholderText = k.Placeholder or "Enter Text...",
                 Value = k.Value or "",
                 Callback = k.Callback or function()
                 end,
@@ -3111,47 +3112,85 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
                 UIElements = {},
             }
             local o = true
-            l.InputFrame = a.load'p'{
-                Title = l.Title,
-                Desc = l.Desc,
+            n.InputFrame = a.load'm'{
+                Title = n.Title,
+                Desc = n.Desc,
                 Parent = k.Parent,
                 TextOffset = 0,
                 Hover = false,
             }
-            local p = i(l.Placeholder, l.InputIcon, l.InputFrame.UIElements.Container, l.Type, function(p)
-                l:Set(p)
+            local p = i(n.PlaceholderText, n.InputIcon, n.InputFrame.UIElements.Container, n.Type, function(p)
+                n:Set(p)
             end)
-            p.Size = UDim2.new(1, 0, 0, l.Type == "Input" and 42 or 148)
+            p.Size = UDim2.new(1, 0, 0, n.Type == "Input" and 42 or 148)
             e("UIScale", {
                 Parent = p,
                 Scale = 1,
             })
-            function l.Lock(q)
+            function n.Lock(q)
                 o = false
-                return l.InputFrame:Lock()
+                return n.InputFrame:Lock()
             end
-            function l.Unlock(q)
+            function n.Unlock(q)
                 o = true
-                return l.InputFrame:Unlock()
+                return n.InputFrame:Unlock()
             end
-            function l.Set(q, r)
+            function n.Set(q, r)
                 if o then
-                    b.SafeCallback(l.Callback, r)
+                    b.SafeCallback(n.Callback, r)
                     p.Frame.Frame.TextBox.Text = r
-                    l.Value = r
+                    n.Value = r
                 end
             end
-            function l.SetPlaceholder(q, r)
-                p.Frame.Frame.TextBox.PlaceholderText = r
-                l.Placeholder = r
+            n:Set(n.Value)
+            local textBox = p.Frame.Frame.TextBox
+            textBox:GetPropertyChangedSignal("Text"):Connect(function()
+                local text = textBox.Text
+                local allowed = n.AllowedType
+                local filtered
+
+                if allowed == "Number" then
+                    filtered = text:gsub("[^%d]", "") -- onli number
+                elseif allowed == "Text" then
+                    filtered = text:gsub("[^%a%s]", "") -- only alpabet
+                elseif allowed == "All" then
+                    filtered = text:gsub("[^%w%s]", "") -- all
+                elseif allowed == "Time" then
+                    filtered = text:gsub("[^%d:]", "")
+                    local seen = false
+                    filtered = filtered:gsub(":", function()
+                        if seen then
+                            return ""   
+                        else
+                            seen = true
+                            return ":"    
+                        end
+                    end)
+                elseif allowed == "Decimal" then
+                    filtered = text:gsub("[^%d%.]", "") -- hanya angka dan titik
+                    local seen = false
+                    filtered = filtered:gsub("%.", function()
+                        if seen then
+                            return "" -- hapus titik kedua dan seterusnya
+                        else
+                            seen = true
+                            return "." -- biarkan titik pertama
+                        end
+                    end)
+
+                else
+                    filtered = text
+                end
+
+                if text ~= filtered then
+                    textBox.Text = filtered
+                end
+            end)
+            if n.Locked then
+                n:Lock()
             end
-            l:Set(l.Value)
-            if l.Locked then
-                l:Lock()
-            end
-            return l.__type, l
+            return n.__type, n
         end
-        return g
     end
     function a.x()
         local b = game:GetService"UserInputService"
@@ -3218,7 +3257,7 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
             })
             q.UIElements.Menu = h.NewRoundFrame(l.MenuCorner, "Squircle", {
                 ThemeTag = {
-                    ImageColor3 = "Background",
+                    ImageColor3 = "Accent",
                 },
                 ImageTransparency = 0.05,
                 Size = UDim2.new(1, 0, 1, 0),
