@@ -828,17 +828,29 @@ t.X.Scale, t.X.Offset + w.X, t.Y.Scale, t.Y.Offset + w.Y)
                 })
             })
             h.UIElements.MainContainer = b.NewRoundFrame(h.UICorner, "Squircle", {
-                Visible = false,
-                ImageTransparency = g and 0.15 or 0,
-                Parent = g and f.Parent or h.UIElements.FullScreen,
-                Position = UDim2.new(0.5, 0, 0.5, 0),
-                AnchorPoint = Vector2.new(0.5, 0.5),
-                AutomaticSize = "XY",
-                ThemeTag = {
-                    ImageColor3 = "Accent"
-                },
-                ZIndex = 9999,
-            }, {
+    Visible = false,
+    ImageTransparency = g and 0.15 or 0,
+    Parent = g and f.Parent or h.UIElements.FullScreen,
+    Position = UDim2.new(0.5, 0, 0.5, 0),
+    AnchorPoint = Vector2.new(0.5, 0.5),
+    AutomaticSize = "XY",
+    ImageColor3 = Color3.fromHex("#001F99"), -- warna gelap dasar (bisa diganti sesuai gradient)
+    ZIndex = 9999,
+}, {
+    d("UIGradient", {
+        Rotation = 45,
+        Color = ColorSequence.new{
+            ColorSequenceKeypoint.new(0, Color3.fromHex("#001F99")),  -- dark blue gelap
+            ColorSequenceKeypoint.new(0.5, Color3.fromHex("#6A0080")), -- ungu gelap
+            ColorSequenceKeypoint.new(1, Color3.fromHex("#333333")),   -- abu-abu gelap, bukan putih supaya gelap
+        },
+        Transparency = NumberSequence.new{
+            NumberSequenceKeypoint.new(0, 0.2),
+            NumberSequenceKeypoint.new(0.5, 0.4),
+            NumberSequenceKeypoint.new(1, 0.2),
+        }
+    }),
+}, {
                 h.UIElements.Main,
                 b.NewRoundFrame(h.UICorner, "SquircleOutline2", {
                     Size = UDim2.new(1, 0, 1, 0),
