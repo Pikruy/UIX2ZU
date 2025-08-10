@@ -3415,9 +3415,9 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
                             i("UIGradient", {
                                 Rotation = 80,
                                 Color = ColorSequence.new{
-                                    ColorSequenceKeypoint.new(0.0, Color3.fromRGB(255, 255, 255)),
-                                    ColorSequenceKeypoint.new(0.5, Color3.fromRGB(255, 255, 255)),
-                                    ColorSequenceKeypoint.new(1.0, Color3.fromRGB(255, 255, 255)),
+                                    ColorSequenceKeypoint.new(0, Color3.fromHex("#9D00FF")),
+                                    ColorSequenceKeypoint.new(0.5, Color3.fromHex("#6B00CC")),
+                                    ColorSequenceKeypoint.new(1, Color3.fromHex("#002FFF"))
                                 },
                                 Transparency = NumberSequence.new{
                                     NumberSequenceKeypoint.new(0.0, 0.1),
