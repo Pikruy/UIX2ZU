@@ -1252,7 +1252,7 @@ i.Icon, i.Title .. ":" .. i.Icon, 0, i.WindUI.Window, "KeySystem", i.IconThemed)
             -- Background Frame with gradient or image
             local bgFrame = d("Frame", {
                 Name = "Background",
-                BackgroundTransparency = 0,
+                BackgroundTransparency = 0.7,
                 Size = UDim2.new(1, 0, 1, 0),
             })
 
