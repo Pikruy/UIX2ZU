@@ -4927,35 +4927,36 @@ k.Icon, k.Icon .. ":" .. k.Title, 0, i.Window.Folder, k.__type, true, k.IconThem
                 Colorpicker = a.load'B',
                 Section = a.load'C',
             }
-            function k.Divider(z) -- Ganti
-                local A = ac("Frame", {
-                    Size = UDim2.new(1, 0, 0, 1),
-                    Position = UDim2.new(0.5, 0, 0.5, 0),
-                    AnchorPoint = Vector2.new(0.5, 0.5),
-                    BackgroundTransparency = .1,
-                    ThemeTag = {
-                        BackgroundColor3 = "Button"
-                    }
-                })
-                 -- Tambahkan gradient ke Layer
-                local gradientdivider = Instance.new("UIGradient") --ganti
-                gradientdivider.Rotation = 0 -- horizontal blend
-                gradientdivider.Color = ColorSequence.new({
-                    ColorSequenceKeypoint.new(0, Color3.fromHex("#9D00FF")), -- kiri
-                    ColorSequenceKeypoint.new(0.5, Color3.fromHex("#6B00CC")), -- tengah campuran
-                    ColorSequenceKeypoint.new(1, Color3.fromHex("#002FFF")) -- kanan
-                })
+            function k.Divider(z)
+    local frame = ac("Frame", {
+        Size = UDim2.new(1, 0, 0, 5),
+        BackgroundTransparency = 1,
+        Parent = k.UIElements.ContainerFrame,
+    })
 
-                gradientdivider.Parent = A
-                local B = ac("Frame", {
-                    Parent = k.UIElements.ContainerFrame,
-                    Size = UDim2.new(1, - 7, 0, 5),
-                    BackgroundTransparency = 1,
-                }, {
-                    A
-                })
-                return B
-            end
+    local line = ac("Frame", {
+        Size = UDim2.new(1, 0, 0, 2),
+        Position = UDim2.new(0, 0, 0.5, 0),
+        AnchorPoint = Vector2.new(0, 0.5),
+        BackgroundColor3 = Color3.fromHex("#6B00CC"),
+        Parent = frame,
+    })
+
+    local gradient = Instance.new("UIGradient")
+    gradient.Color = ColorSequence.new({
+        ColorSequenceKeypoint.new(0, Color3.fromHex("#9D00FF")),
+        ColorSequenceKeypoint.new(0.5, Color3.fromHex("#6B00CC")),
+        ColorSequenceKeypoint.new(1, Color3.fromHex("#002FFF"))
+    })
+    gradient.Rotation = 0
+    gradient.Parent = line
+
+    local blurEffect = Instance.new("BlurEffect") -- Note: BlurEffect applies to the whole game viewport, so usually not recommended for UI
+    -- Kalau mau efek blur di UI, biasanya pake image blur PNG
+
+    return frame
+end
+
             function k.Paragraph(z, A)
                 A.Parent = k.UIElements.ContainerFrame
                 A.Window = l
