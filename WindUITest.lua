@@ -3277,146 +3277,417 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
             TabPadding = 10,
         }
         function l.New(o, p)
-            local q = {}
-            q.Title = p.Title or "Dropdown"
-            q.Desc = p.Desc or nil
-            q.Locked = p.Locked or false
-            q.Values = p.Values or {}
-            q.MenuWidth = p.MenuWidth or 150
-            q.Selected = {} -- table untuk multi-select
-            q.AllowNone = p.AllowNone or false
-            q.Callback = p.Callback or function() end
-            q.Tabs = {}
-
-            -- Frame utama
-            q.UIElements = {}
-            q.UIElements.Main = i("Frame", {
-                Name = "Dropdown",
-                Parent = o.Container,
-                Size = UDim2.new(1, 0, 0, 40),
-                BackgroundTransparency = 1,
+            local q = {
+                __type = "Dropdown",
+                Title = p.Title or "Dropdown",
+                Desc = p.Desc or nil,
+                Locked = p.Locked or false,
+                Values = p.Values or {},
+                MenuWidth = p.MenuWidth or 170,
+                Value = p.Value,
+                AllowNone = p.AllowNone,
+                Multi = p.Multi,
+                Callback = p.Callback or function()
+                end,
+                UIElements = {},
+                Opened = false,
+                Tabs = {}
+            }
+            if q.Multi and not q.Value then
+                q.Value = {}
+            end
+            local r = true
+            q.DropdownFrame = a.load'p'{
+                Title = q.Title,
+                Desc = q.Desc,
+                Parent = p.Parent,
+                TextOffset = 0,
+                Hover = false,
+            }
+            q.UIElements.Dropdown = k("", nil, q.DropdownFrame.UIElements.Container)
+            q.UIElements.Dropdown.Frame.Frame.TextLabel.TextTruncate = "AtEnd"
+            q.UIElements.Dropdown.Frame.Frame.TextLabel.Size = UDim2.new(1, q.UIElements.Dropdown.Frame.Frame.TextLabel.Size.X.Offset - 18 - 12 - 12, 0, 0)
+            q.UIElements.Dropdown.Size = UDim2.new(1, 0, 0, 40)
+            i("ImageLabel", {
+                Image = h.Icon"chevrons-up-down"[1],
+                ImageRectOffset = h.Icon"chevrons-up-down"[2].ImageRectPosition,
+                ImageRectSize = h.Icon"chevrons-up-down"[2].ImageRectSize,
+                Size = UDim2.new(0, 18, 0, 18),
+                Position = UDim2.new(1, - 12, 0.5, 0),
+                ThemeTag = {
+                    ImageColor3 = "Icon"
+                },
+                AnchorPoint = Vector2.new(1, 0.5),
+                Parent = q.UIElements.Dropdown.Frame
             })
-
-            -- Menu dropdown
-            q.UIElements.Menu = i("Frame", {
-                Name = "Menu",
-                Parent = p.WindUI.DropdownGui,
-                Size = UDim2.new(0, q.MenuWidth, 0, 0),
-                BackgroundColor3 = Color3.fromRGB(30, 30, 30),
+            q.UIElements.UIListLayout = i("UIListLayout", {
+                Padding = UDim.new(0, l.MenuPadding),
+                FillDirection = "Vertical"
+            })
+            q.UIElements.Menu = h.NewRoundFrame(l.MenuCorner, "Squircle", {
+                ImageColor3 = Color3.fromHex("#312e81"),
+                ImageTransparency = 0.05,
+                Size = UDim2.new(1, 0, 1, 0),
+                AnchorPoint = Vector2.new(1, 0),
+                Position = UDim2.new(1, 0, 0, 0),
+            }, {
+                i("UIPadding", {
+                    PaddingTop = UDim.new(0, l.MenuPadding),
+                    PaddingLeft = UDim.new(0, l.MenuPadding),
+                    PaddingRight = UDim.new(0, l.MenuPadding),
+                    PaddingBottom = UDim.new(0, l.MenuPadding),
+                }),
+                i("Frame", {
+                    BackgroundTransparency = 1,
+                    Size = UDim2.new(1, 0, 1, 0),
+                    ClipsDescendants = true
+                }, {
+                    i("UICorner", {
+                        CornerRadius = UDim.new(0, l.MenuCorner - l.MenuPadding),
+                    }),
+                    i("ScrollingFrame", {
+                        Size = UDim2.new(1, 0, 1, 0),
+                        ScrollBarThickness = 0,
+                        ScrollingDirection = "Y",
+                        AutomaticCanvasSize = "Y",
+                        CanvasSize = UDim2.new(0, 0, 0, 0),
+                        BackgroundTransparency = 1,
+                        ScrollBarImageTransparency = 1,
+                    }, {
+                        q.UIElements.UIListLayout,
+                    })
+                })
+            })
+            q.UIElements.MenuCanvas = i("Frame", {
+                Size = UDim2.new(0, q.MenuWidth, 0, 300),
+                BackgroundTransparency = 1,
+                Position = UDim2.new(- 10, 0, - 10, 0),
                 Visible = false,
-                ClipsDescendants = true
+                Active = false,
+                Parent = p.WindUI.DropdownGui,
+                AnchorPoint = Vector2.new(1, 0),
+            }, 
+            {
+                q.UIElements.Menu,
+                i("UISizeConstraint", {
+                    MinSize = Vector2.new(170, 0)
+                })
             })
-            i("UICorner", {CornerRadius = UDim.new(0, 8), Parent = q.UIElements.Menu})
-
-            local scroll = i("ScrollingFrame", {
-                Parent = q.UIElements.Menu,
-                BackgroundTransparency = 1,
-                BorderSizePixel = 0,
-                ScrollBarThickness = 4,
-                Size = UDim2.new(1, 0, 1, -40),
-                Position = UDim2.new(0, 0, 0, 40),
-                CanvasSize = UDim2.new(0, 0, 0, 0)
-            })
-            q.UIElements.Scroll = scroll
-            local listLayout = i("UIListLayout", {Parent = scroll, SortOrder = Enum.SortOrder.LayoutOrder})
-
-            -- Search Bar
+            -- === Search bar dibuat terpisah setelah Menu sudah ada ===
             q.UIElements.SearchBar = i("TextBox", {
-                Parent = q.UIElements.Menu,
+                Name = "SearchBar",
+                Parent = q.UIElements.Menu.Frame,
                 PlaceholderText = "Search...",
-                Size = UDim2.new(1, -l.MenuPadding * 2, 0, 30),
+                Text = "",
+                Size = UDim2.new(1, -(l.MenuPadding * 2), 0, 34),
                 Position = UDim2.new(0, l.MenuPadding, 0, l.MenuPadding),
-                BackgroundColor3 = Color3.fromRGB(40, 40, 40),
-                TextColor3 = Color3.new(1, 1, 1),
                 ClearTextOnFocus = false,
+                BackgroundTransparency = 1,
                 TextSize = 14,
                 Font = Enum.Font.Gotham,
             })
-            i("UICorner", {CornerRadius = UDim.new(0, 6), Parent = q.UIElements.SearchBar})
+            i("UICorner", { CornerRadius = UDim.new(0, 6), Parent = q.UIElements.SearchBar })
 
-            -- Filter saat mengetik
-            q.UIElements.SearchBar:GetPropertyChangedSignal("Text"):Connect(function()
-                local searchText = string.lower(q.UIElements.SearchBar.Text)
-                if searchText == "" then
+            -- Geser ScrollingFrame supaya tidak ketiban searchbar
+            local sc = q.UIElements.Menu.Frame:FindFirstChild("ScrollingFrame")
+            if sc then
+                sc.Position = UDim2.new(0, 0, 0, 34 + l.MenuPadding)
+                sc.Size = UDim2.new(1, 0, 1, -(34 + l.MenuPadding))
+            end
+
+            -- Event search real-time
+            h.AddSignal(q.UIElements.SearchBar:GetPropertyChangedSignal("Text"), function()
+                local stext = string.lower(tostring(q.UIElements.SearchBar.Text or ""))
+                if stext == "" then
                     q:Refresh(q.Values)
                 else
                     local filtered = {}
                     for _, val in ipairs(q.Values) do
-                        if string.find(string.lower(val), searchText) then
+                        if string.find(string.lower(tostring(val)), stext, 1, true) then
                             table.insert(filtered, val)
                         end
                     end
                     q:Refresh(filtered)
                 end
             end)
-
-            -- Fungsi Refresh (multi select)
+            function q.Lock(s)
+                r = false
+                return q.DropdownFrame:Lock()
+            end
+            function q.Unlock(s)
+                r = true
+                return q.DropdownFrame:Unlock()
+            end
+            if q.Locked then
+                q:Lock()
+            end
+            local function RecalculateCanvasSize()
+                q.UIElements.Menu.Frame.ScrollingFrame.CanvasSize = UDim2.fromOffset(0, q.UIElements.UIListLayout.AbsoluteContentSize.Y)
+            end
+            local function RecalculateListSize()
+                local searchHeight = (q.UIElements.SearchBar and q.UIElements.SearchBar.AbsoluteSize.Y) or 0
+                local contentY = q.UIElements.UIListLayout.AbsoluteContentSize.Y
+                if #q.Values > 10 then
+                    q.UIElements.MenuCanvas.Size = UDim2.fromOffset(q.UIElements.MenuCanvas.AbsoluteSize.X, 392)
+                else
+                    q.UIElements.MenuCanvas.Size = UDim2.fromOffset(q.UIElements.MenuCanvas.AbsoluteSize.X, contentY + (l.MenuPadding * 2) + searchHeight)
+                end
+            end
+            function UpdatePosition()
+                local s = q.UIElements.Dropdown
+                local t = q.UIElements.MenuCanvas
+                local u = g.ViewportSize.Y - (s.AbsolutePosition.Y + s.AbsoluteSize.Y) - l.MenuPadding - 54
+                local v = t.AbsoluteSize.Y + l.MenuPadding
+                local w = - 54
+                if u < v then
+                    w = v - u - 54
+                end
+                t.Position = UDim2.new(0, s.AbsolutePosition.X + s.AbsoluteSize.X, 0, s.AbsolutePosition.Y + s.AbsoluteSize.Y - w + l.MenuPadding)
+            end
+            function q.Display(s)
+                local t = q.Values
+                local u = ""
+                if q.Multi then
+                    for v, w in next, t do
+                        if table.find(q.Value, w) then
+                            u = u .. w .. ", "
+                        end
+                    end
+                    u = u:sub(1, # u - 2)
+                else
+                    u = q.Value or ""
+                end
+                q.UIElements.Dropdown.Frame.Frame.TextLabel.Text = (u == "" and "--" or u)
+            end
             function q.Refresh(s, t)
                 t = t or q.Values
-                -- Bersihkan item lama
-                for _, v in ipairs(scroll:GetChildren()) do
-                    if not v:IsA("UIListLayout") then
+                for u, v in next, q.UIElements.Menu.Frame.ScrollingFrame:GetChildren() do
+                    if not v:IsA"UIListLayout" then
                         v:Destroy()
                     end
                 end
                 q.Tabs = {}
-                -- Buat ulang item
-                for _, x in ipairs(t) do
-                    local item = i("TextButton", {
-                        Parent = scroll,
-                        Size = UDim2.new(1, -l.MenuPadding * 2, 0, 30),
-                        BackgroundColor3 = Color3.fromRGB(50, 50, 50),
-                        Text = x,
-                        TextColor3 = Color3.new(1, 1, 1),
-                        Font = Enum.Font.Gotham,
-                        TextSize = 14
-                    })
-                    i("UICorner", {CornerRadius = UDim.new(0, 6), Parent = item})
+                for w, x in next, t do
+                    local y = {
+                        Name = x,
+                        Selected = false,
+                        UIElements = {},
+                    }
+                    y.UIElements.TabItem = h.NewRoundFrame(l.MenuCorner - l.MenuPadding, "Squircle", {
+                        Size = UDim2.new(1, 0, 0, 34),
+                        ImageTransparency = 1,
+                        Parent = q.UIElements.Menu.Frame.ScrollingFrame,
+                        ImageColor3 = Color3.new(1, 1, 1),
+                    }, {
+                        h.NewRoundFrame(l.MenuCorner - l.MenuPadding, "SquircleOutline", {
+                            Size = UDim2.new(1, 0, 1, 0),
+                            ImageColor3 = Color3.new(1, 1, 1),
+                            ImageTransparency = 1,
+                            Name = "Highlight",
+                        }, {
+                            i("UIGradient", {
+                                Rotation = 80,
+                                Color = ColorSequence.new{
+                                    ColorSequenceKeypoint.new(0, Color3.fromHex("#002FFF")),
+                                    ColorSequenceKeypoint.new(1, Color3.fromHex("#9D00FF")),
+                                    ColorSequenceKeypoint.new(1.0, Color3.fromRGB(255, 255, 255))
+                                },
+                               Transparency = NumberSequence.new{
+                                    NumberSequenceKeypoint.new(0.0, 0.1),  -- awal transparansi tipis
+                                    NumberSequenceKeypoint.new(0.5, 1),    -- tengah gradient transparan penuh (invisible)
+                                    NumberSequenceKeypoint.new(1.0, 0.1),  -- akhir transparansi tipis
+                                }
 
-                    -- Status centang
-                    local check = i("TextLabel", {
-                        Parent = item,
-                        Size = UDim2.new(0, 20, 1, 0),
-                        Position = UDim2.new(1, -25, 0, 0),
-                        BackgroundTransparency = 1,
-                        Text = table.find(q.Selected, x) and "✔" or "",
-                        TextColor3 = Color3.new(0, 1, 0),
-                        Font = Enum.Font.GothamBold,
-                        TextSize = 16
-                    })
-
-                    item.MouseButton1Click:Connect(function()
-                        local idx = table.find(q.Selected, x)
-                        if idx then
-                            table.remove(q.Selected, idx)
-                            check.Text = ""
+                            }),
+                        }),
+                        i("Frame", {
+                            Size = UDim2.new(1, 0, 1, 0),
+                            BackgroundTransparency = 1,
+                        }, {
+                            i("UIPadding", {
+                                PaddingLeft = UDim.new(0, l.TabPadding),
+                                PaddingRight = UDim.new(0, l.TabPadding),
+                            }),
+                            i("UICorner", {
+                                CornerRadius = UDim.new(0, l.MenuCorner - l.MenuPadding)
+                            }),
+                            i("TextLabel", {
+                                Text = x,
+                                TextXAlignment = "Left",
+                                FontFace = Font.new(h.Font, Enum.FontWeight.Regular),
+                                ThemeTag = {
+                                    TextColor3 = "Text",
+                                    BackgroundColor3 = "Text"
+                                },
+                                TextSize = 15,
+                                BackgroundTransparency = 1,
+                                TextTransparency = .4,
+                                AutomaticSize = "Y",
+                                Size = UDim2.new(1, 0, 0, 0),
+                                AnchorPoint = Vector2.new(0, 0.5),
+                                Position = UDim2.new(0, 0, 0.5, 0),
+                            })
+                        })
+                    }, true)
+                    if q.Multi then
+                        y.Selected = table.find(q.Value or {}, y.Name)
+                    else
+                        y.Selected = q.Value == y.Name
+                    end
+                    if y.Selected then
+                        y.UIElements.TabItem.ImageTransparency = .95
+                        y.UIElements.TabItem.Highlight.ImageTransparency = .75
+                        y.UIElements.TabItem.Frame.TextLabel.TextTransparency = 0.05
+                    end
+                    q.Tabs[w] = y
+                    q:Display()
+                    local function Callback()
+                        q:Display()
+                        task.spawn(function()
+                            h.SafeCallback(q.Callback, q.Value)
+                        end)
+                    end
+                    h.AddSignal(y.UIElements.TabItem.MouseButton1Click, function()
+                        if q.Multi then
+                            if not y.Selected then
+                                y.Selected = true
+                                j(y.UIElements.TabItem, 0.1, {
+                                    ImageTransparency = .95
+                                }):Play()
+                                j(y.UIElements.TabItem.Highlight, 0.1, {
+                                    ImageTransparency = .75
+                                }):Play()
+                                j(y.UIElements.TabItem.Frame.TextLabel, 0.1, {
+                                    TextTransparency = 0
+                                }):Play()
+                                table.insert(q.Value, y.Name)
+                            else
+                                if not q.AllowNone and # q.Value == 1 then
+                                    return
+                                end
+                                y.Selected = false
+                                j(y.UIElements.TabItem, 0.1, {
+                                    ImageTransparency = 1
+                                }):Play()
+                                j(y.UIElements.TabItem.Highlight, 0.1, {
+                                    ImageTransparency = 1
+                                }):Play()
+                                j(y.UIElements.TabItem.Frame.TextLabel, 0.1, {
+                                    TextTransparency = .4
+                                }):Play()
+                                for z, A in ipairs(q.Value) do
+                                    if A == y.Name then
+                                        table.remove(q.Value, z)
+                                        break
+                                    end
+                                end
+                            end
                         else
-                            table.insert(q.Selected, x)
-                            check.Text = "✔"
+                            for z, A in next, q.Tabs do
+                                j(A.UIElements.TabItem, 0.1, {
+                                    ImageTransparency = 1
+                                }):Play()
+                                j(A.UIElements.TabItem.Highlight, 0.1, {
+                                    ImageTransparency = 1
+                                }):Play()
+                                j(A.UIElements.TabItem.Frame.TextLabel, 0.1, {
+                                    TextTransparency = .5
+                                }):Play()
+                                A.Selected = false
+                            end
+                            y.Selected = true
+                            j(y.UIElements.TabItem, 0.1, {
+                                ImageTransparency = .95
+                            }):Play()
+                            j(y.UIElements.TabItem.Highlight, 0.1, {
+                                ImageTransparency = .75
+                            }):Play()
+                            j(y.UIElements.TabItem.Frame.TextLabel, 0.1, {
+                                TextTransparency = 0.05
+                            }):Play()
+                            q.Value = y.Name
                         end
-                        q.Callback(q.Selected)
+                        Callback()
+                    end)
+                    RecalculateCanvasSize()
+                    RecalculateListSize()
+                end
+                local y = 0
+                for z, A in next, q.Tabs do
+                    if A.UIElements.TabItem.Frame.TextLabel then
+                        local B = A.UIElements.TabItem.Frame.TextLabel.TextBounds.X
+                        y = math.max(y, B)
+                    end
+                end
+                q.UIElements.MenuCanvas.Size = UDim2.new(0, y + 6 + 6 + 5 + 5 + 18 + 6 + 6, q.UIElements.MenuCanvas.Size.Y.Scale, q.UIElements.MenuCanvas.Size.Y.Offset)
+            end
+            q:Refresh(q.Values)
+            function q.Select(s, t)
+                if t then
+                    q.Value = t
+                else
+                    if q.Multi then
+                        q.Value = {}
+                    else
+                        q.Value = nil
+                    end
+                end
+                q:Refresh(q.Values)
+            end
+            RecalculateListSize()
+            function q.Open(s)
+                if r then
+                    q.UIElements.Menu.Visible = true
+                    q.UIElements.MenuCanvas.Visible = true
+                    q.UIElements.MenuCanvas.Active = true
+                    q.UIElements.Menu.Size = UDim2.new(1, 0, 0, 0)
+                    j(q.UIElements.Menu, 0.1, {
+                        Size = UDim2.new(1, 0, 1, 0)
+                    }, Enum.EasingStyle.Quart, Enum.EasingDirection.Out):Play()
+                    
+                    task.spawn(function()
+                        task.wait(0.12) -- tunggu animasi
+                        q.Opened = true
+                        if q.UIElements.SearchBar then
+                            q.UIElements.SearchBar.Text = ""
+                            pcall(function()
+                                q.UIElements.SearchBar:CaptureFocus()
+                            end)
+                        end
                     end)
 
-                    table.insert(q.Tabs, item)
+                    UpdatePosition()
                 end
-                scroll.CanvasSize = UDim2.new(0, 0, 0, listLayout.AbsoluteContentSize.Y)
             end
-
-            -- Open menu
-            function q.Open(s)
-                q.UIElements.Menu.Visible = true
-                q:Refresh(q.Values)
-                q.UIElements.SearchBar.Text = ""
-            end
-
-            -- Close menu
             function q.Close(s)
-                q.UIElements.Menu.Visible = false
+                q.Opened = false
+                j(q.UIElements.Menu, 0.25, {
+                    Size = UDim2.new(1, 0, 0, 0)
+                }, Enum.EasingStyle.Quart, Enum.EasingDirection.Out):Play()
+                task.spawn(function()
+                    task.wait(.2)
+                    q.UIElements.Menu.Visible = false
+                end)
+                task.spawn(function()
+                    task.wait(.25)
+                    q.UIElements.MenuCanvas.Visible = false
+                    q.UIElements.MenuCanvas.Active = false
+                end)
             end
-
-            return q
+            h.AddSignal(q.UIElements.Dropdown.MouseButton1Click, function()
+                q:Open()
+            end)
+            h.AddSignal(b.InputBegan, function(s)
+                if s.UserInputType == Enum.UserInputType.MouseButton1 or s.UserInputType == Enum.UserInputType.Touch then
+                    local t, v = q.UIElements.MenuCanvas.AbsolutePosition, q.UIElements.MenuCanvas.AbsoluteSize
+                    if p.Window.CanDropdown and q.Opened and (e.X < t.X or e.X > t.X + v.X or e.Y < (t.Y - 20 - 1) or e.Y > t.Y + v.Y) then
+                        q:Close()
+                    end
+                end
+            end)
+            h.AddSignal(q.UIElements.Dropdown:GetPropertyChangedSignal"AbsolutePosition", UpdatePosition)
+            return q.__type, q
         end
-
         return l
     end
     function a.y()
