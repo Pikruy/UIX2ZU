@@ -2577,7 +2577,7 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
                     ImageTransparency = 1,
                 }, {
                     e("UIGradient", {
-                        Rotation = 90,
+                        Rotation = 45,
                         Transparency = NumberSequence.new{
                             NumberSequenceKeypoint.new(0, 0),
                             NumberSequenceKeypoint.new(1, 1),
@@ -2901,7 +2901,7 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
                     TextXAlignment = "Left",
                     Text = FormatValue(q),
                     ThemeTag = {
-                        TextColor3 = "Button"
+                        TextColor3 = "Text"
                     },
                     TextTransparency = .4,
                     AutomaticSize = "Y",
