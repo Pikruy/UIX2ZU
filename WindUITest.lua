@@ -3095,7 +3095,7 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
 
 .New
         local i = a.load'e'.New
-         function g.New(j, k)
+        function g.New(j, k)
             local n = {
                 __type = "Input",
                 Title = k.Title or "Input",
@@ -3191,6 +3191,7 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
             end
             return n.__type, n
         end
+        return g
     end
     function a.x()
         local b = game:GetService"UserInputService"
