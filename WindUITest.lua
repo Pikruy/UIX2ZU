@@ -799,7 +799,7 @@ t.X.Scale, t.X.Offset + w.X, t.Y.Scale, t.Y.Offset + w.Y)
                 h.UIElements.FullScreen = d("Frame", {
                     ZIndex = 999,
                     BackgroundTransparency = 1,
-                    BackgroundColor3 = Color3.fromHex"#000000",
+                    BackgroundColor3 = Color3.fromHex"#ff0000",
                     Size = UDim2.new(1, 0, 1, 0),
                     Active = false,
                     Visible = false,
