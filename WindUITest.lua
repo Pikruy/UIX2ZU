@@ -725,7 +725,7 @@ t.X.Scale, t.X.Offset + w.X, t.Y.Scale, t.Y.Offset + w.Y)
                 }, {
                     d.NewRoundFrame(l, "Squircle", {
                         ThemeTag = {
-                            ImageColor3 = "Background",
+                            ImageColor3 = "Accent",
                         },
                         Size = UDim2.new(1, 0, 1, 0),
                         ImageTransparency = .85,
@@ -5388,7 +5388,7 @@ k.Icon, k.Icon, 0, i, "Section", true, k.IconThemed)
             local o = ab.NewRoundFrame(i.Radius, "Squircle", {
                 Size = UDim2.new(1, 0, 1, 0),
                 ThemeTag = {
-                    ImageColor3 = "Accent",
+                    ImageColor3 = "Background",
                 },
                 ImageTransparency = 0,
             }, {
