@@ -3096,7 +3096,7 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
 .New
         local i = a.load'e'.New
         function g.New(j, k)
-            local n = {
+            local l = {
                 __type = "Input",
                 Title = k.Title or "Input",
                 Desc = k.Desc or nil,
@@ -3104,7 +3104,7 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
                 AllowedType = k.AllowedType or "All", -- "Number", "Text", "All" --ganti
                 Locked = k.Locked or false,
                 InputIcon = k.InputIcon or false,
-                PlaceholderText = k.Placeholder or "Enter Text...",
+                Placeholder = k.Placeholder or "Enter Text...",
                 Value = k.Value or "",
                 Callback = k.Callback or function()
                 end,
@@ -3112,37 +3112,41 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
                 UIElements = {},
             }
             local o = true
-            n.InputFrame = a.load'm'{
-                Title = n.Title,
-                Desc = n.Desc,
+            l.InputFrame = a.load'p'{
+                Title = l.Title,
+                Desc = l.Desc,
                 Parent = k.Parent,
                 TextOffset = 0,
                 Hover = false,
             }
-            local p = i(n.PlaceholderText, n.InputIcon, n.InputFrame.UIElements.Container, n.Type, function(p)
-                n:Set(p)
+            local p = i(l.Placeholder, l.InputIcon, l.InputFrame.UIElements.Container, l.Type, function(p)
+                l:Set(p)
             end)
-            p.Size = UDim2.new(1, 0, 0, n.Type == "Input" and 42 or 148)
+            p.Size = UDim2.new(1, 0, 0, l.Type == "Input" and 42 or 148)
             e("UIScale", {
                 Parent = p,
                 Scale = 1,
             })
-            function n.Lock(q)
+            function l.Lock(q)
                 o = false
-                return n.InputFrame:Lock()
+                return l.InputFrame:Lock()
             end
-            function n.Unlock(q)
+            function l.Unlock(q)
                 o = true
-                return n.InputFrame:Unlock()
+                return l.InputFrame:Unlock()
             end
-            function n.Set(q, r)
+            function l.Set(q, r)
                 if o then
-                    b.SafeCallback(n.Callback, r)
+                    b.SafeCallback(l.Callback, r)
                     p.Frame.Frame.TextBox.Text = r
-                    n.Value = r
+                    l.Value = r
                 end
             end
-            n:Set(n.Value)
+            function l.SetPlaceholder(q, r)
+                p.Frame.Frame.TextBox.PlaceholderText = r
+                l.Placeholder = r
+            end
+            l:Set(l.Value)
             local textBox = p.Frame.Frame.TextBox
             textBox:GetPropertyChangedSignal("Text"):Connect(function()
                 local text = textBox.Text
@@ -3186,10 +3190,10 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
                     textBox.Text = filtered
                 end
             end)
-            if n.Locked then
-                n:Lock()
+            if l.Locked then
+                l:Lock()
             end
-            return n.__type, n
+            return l.__type, l
         end
         return g
     end
@@ -3258,7 +3262,7 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
             })
             q.UIElements.Menu = h.NewRoundFrame(l.MenuCorner, "Squircle", {
                 ThemeTag = {
-                    ImageColor3 = "Accent",
+                    ImageColor3 = "Background",
                 },
                 ImageTransparency = 0.05,
                 Size = UDim2.new(1, 0, 1, 0),
