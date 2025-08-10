@@ -3415,15 +3415,16 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
                             i("UIGradient", {
                                 Rotation = 80,
                                 Color = ColorSequence.new{
-                                    ColorSequenceKeypoint.new(0, Color3.fromHex("#9D00FF")),
-                                    ColorSequenceKeypoint.new(0.5, Color3.fromHex("#6B00CC")),
-                                    ColorSequenceKeypoint.new(1, Color3.fromHex("#002FFF"))
+                                    ColorSequenceKeypoint.new(0, Color3.fromHex("#002FFF")),
+                                    ColorSequenceKeypoint.new(1, Color3.fromHex("#9D00FF")),
+                                    ColorSequenceKeypoint.new(1.0, Color3.fromRGB(255, 255, 255))
                                 },
-                                Transparency = NumberSequence.new{
-                                    NumberSequenceKeypoint.new(0.0, 0.1),
-                                    NumberSequenceKeypoint.new(1, 2),
-                                    NumberSequenceKeypoint.new(1.0, 0.1),
+                               Transparency = NumberSequence.new{
+                                    NumberSequenceKeypoint.new(0.0, 0.1),  -- awal transparansi tipis
+                                    NumberSequenceKeypoint.new(0.5, 1),    -- tengah gradient transparan penuh (invisible)
+                                    NumberSequenceKeypoint.new(1.0, 0.1),  -- akhir transparansi tipis
                                 }
+
                             }),
                         }),
                         i("Frame", {
