@@ -5294,149 +5294,205 @@ k.Icon, k.Icon .. ":" .. k.Title, 0, i.Window.Folder, k.__type, true, k.IconThem
         return aa
     end
     -- Fungsi untuk bikin section collapsible di dalam tab
-    function a.InnerSection()
-        local sectionModule = {}
-        local ab = a.load'a' -- modul GUI utility
-        local ac = ab.New
-        local b = ab.Tween
-        local e = a.load'D' -- modul UI signal / handler
+    -- ========== a.InnerSection (paste ke modul 'a') ==========
+function a.InnerSection()
+    local sectionModule = {}
+    local ab = a.load'a'       -- GUI util (sudah ada di lib-mu)
+    local ac = ab.New
+    local Tween = ab.Tween
+    local Dwrap = a.load'D'    -- wrapper helper (sama seperti di lib-mu)
 
-        function sectionModule.New(config, parent, scale)
-            local data = {
-                Title = config.Title or "Inner Section",
-                Icon = config.Icon,
-                IconThemed = config.IconThemed,
-                Opened = config.Opened or true, -- default terbuka
-                HeaderSize = 32, -- tinggi header section di dalam tab
-                IconSize = 16,
-                Expandable = true
-            }
+    function sectionModule.New(config, parent, scale)
+        scale = scale or 1
+        local cfg = config or {}
+        local data = {
+            Title = cfg.Title or "Inner Section",
+            Icon = cfg.Icon,
+            IconThemed = cfg.IconThemed,
+            Opened = (cfg.Opened == nil) and true or cfg.Opened,
+            HeaderSize = cfg.HeaderSize or 32,
+            IconSize = cfg.IconSize or 16,
+            Expandable = false
+        }
 
-            -- Buat ikon kalau ada
-            local iconFrame
-            if data.Icon then
-                iconFrame = ab.Image(data.Icon, data.Icon, 0, scale, "Section", true, data.IconThemed)
-                iconFrame.Size = UDim2.new(0, data.IconSize, 0, data.IconSize)
+        -- create icon if available
+        local iconFrame
+        if data.Icon then
+            iconFrame = ab.Image(data.Icon, data.Icon, 0, scale, "Section", true, data.IconThemed)
+            iconFrame.Size = UDim2.new(0, data.IconSize, 0, data.IconSize)
+            if iconFrame.ImageLabel then
                 iconFrame.ImageLabel.ImageTransparency = .25
             end
-
-            -- Panah toggle
-            local arrow = ac("Frame", {
-                Size = UDim2.new(0, data.IconSize, 0, data.IconSize),
-                BackgroundTransparency = 1,
-                Visible = true
-            }, {
-                ac("ImageLabel", {
-                    Size = UDim2.new(1, 0, 1, 0),
-                    BackgroundTransparency = 1,
-                    Image = ab.Icon"chevron-down"[1],
-                    ImageRectSize = ab.Icon"chevron-down"[2].ImageRectSize,
-                    ImageRectOffset = ab.Icon"chevron-down"[2].ImageRectPosition,
-                    ThemeTag = { ImageColor3 = "Icon" },
-                    ImageTransparency = .7
-                })
-            })
-
-            -- Frame utama section
-            local sectionFrame = ac("Frame", {
-                Size = UDim2.new(1, 0, 0, data.HeaderSize),
-                BackgroundTransparency = 1,
-                Parent = parent,
-                ClipsDescendants = true
-            }, {
-                ac("TextButton", {
-                    Size = UDim2.new(1, 0, 0, data.HeaderSize),
-                    BackgroundTransparency = 1,
-                    Text = ""
-                }, {
-                    iconFrame,
-                    ac("TextLabel", {
-                        Text = data.Title,
-                        TextXAlignment = "Left",
-                        Size = UDim2.new(1, iconFrame and (- data.IconSize - 10) * 2 or (- data.IconSize - 10), 1, 0),
-                        ThemeTag = { TextColor3 = "Text" },
-                        FontFace = Font.new(ab.Font, Enum.FontWeight.SemiBold),
-                        TextSize = 14,
-                        BackgroundTransparency = 1,
-                        TextTransparency = .7,
-                        TextWrapped = true
-                    }),
-                    ac("UIListLayout", {
-                        FillDirection = "Horizontal",
-                        VerticalAlignment = "Center",
-                        Padding = UDim.new(0, 10)
-                    }),
-                    arrow,
-                    ac("UIPadding", {
-                        PaddingLeft = UDim.new(0, 11),
-                        PaddingRight = UDim.new(0, 11)
-                    })
-                }),
-                ac("Frame", {
-                    BackgroundTransparency = 1,
-                    Size = UDim2.new(1, 0, 0, 0),
-                    AutomaticSize = "Y",
-                    Name = "Content",
-                    Visible = true,
-                    Position = UDim2.new(0, 0, 0, data.HeaderSize)
-                }, {
-                    ac("UIListLayout", {
-                        FillDirection = "Vertical",
-                        Padding = UDim.new(0, 0),
-                        VerticalAlignment = "Bottom"
-                    })
-                })
-            })
-
-            -- Fungsi untuk menambahkan elemen ke section
-            function data.AddElement(_, element)
-                element.Parent = sectionFrame.Content
-                return e.New(element)
-            end
-
-            -- Open/Close
-            function data.Open()
-                data.Opened = true
-                sectionFrame.Content.Visible = true
-                b(sectionFrame, 0.33, {
-                    Size = UDim2.new(1, 0, 0, data.HeaderSize + (sectionFrame.Content.AbsoluteSize.Y / scale))
-                }, Enum.EasingStyle.Quint, Enum.EasingDirection.Out):Play()
-                b(arrow.ImageLabel, 0.1, { Rotation = 180 }, Enum.EasingStyle.Quint, Enum.EasingDirection.Out):Play()
-            end
-
-            function data.Close()
-                data.Opened = false
-                b(sectionFrame, 0.26, {
-                    Size = UDim2.new(1, 0, 0, data.HeaderSize)
-                }, Enum.EasingStyle.Quint, Enum.EasingDirection.Out):Play()
-                b(arrow.ImageLabel, 0.1, { Rotation = 0 }, Enum.EasingStyle.Quint, Enum.EasingDirection.Out):Play()
-                task.delay(0.26, function()
-                    sectionFrame.Content.Visible = false
-                end)
-            end
-
-            -- Toggle klik
-            ab.AddSignal(sectionFrame.TextButton.MouseButton1Click, function()
-                if data.Opened then
-                    data:Close()
-                else
-                    data:Open()
-                end
-            end)
-
-            -- Auto-open kalau default
-            if data.Opened then
-                task.spawn(function()
-                    task.wait()
-                    data:Open()
-                end)
-            end
-
-            return data
         end
 
-        return sectionModule
+        -- arrow
+        local arrow = ac("Frame", {
+            Size = UDim2.new(0, data.IconSize, 0, data.IconSize),
+            BackgroundTransparency = 1,
+            Visible = true
+        }, {
+            ac("ImageLabel", {
+                Size = UDim2.new(1, 0, 1, 0),
+                BackgroundTransparency = 1,
+                Image = ab.Icon"chevron-down"[1],
+                ImageRectSize = ab.Icon"chevron-down"[2].ImageRectSize,
+                ImageRectOffset = ab.Icon"chevron-down"[2].ImageRectPosition,
+                ThemeTag = { ImageColor3 = "Icon" },
+                ImageTransparency = .7
+            })
+        })
+
+        -- frame utama section (header + content)
+        local sectionFrame = ac("Frame", {
+            Size = UDim2.new(1, 0, 0, data.HeaderSize),
+            BackgroundTransparency = 1,
+            Parent = parent,
+            ClipsDescendants = true
+        }, {
+            ac("TextButton", { Size = UDim2.new(1,0,0,data.HeaderSize), BackgroundTransparency = 1, Text = "" }, {
+                iconFrame,
+                ac("TextLabel", {
+                    Text = data.Title,
+                    TextXAlignment = "Left",
+                    Size = UDim2.new(1, iconFrame and (- data.IconSize - 10) * 2 or (- data.IconSize - 10), 1, 0),
+                    ThemeTag = { TextColor3 = "Text" },
+                    FontFace = Font.new(ab.Font, Enum.FontWeight.SemiBold),
+                    TextSize = 14,
+                    BackgroundTransparency = 1,
+                    TextTransparency = .7,
+                    TextWrapped = true
+                }),
+                ac("UIListLayout", { FillDirection = "Horizontal", VerticalAlignment = "Center", Padding = UDim.new(0, 10) }),
+                arrow,
+                ac("UIPadding", { PaddingLeft = UDim.new(0, 11), PaddingRight = UDim.new(0, 11) })
+            }),
+            ac("Frame", {
+                BackgroundTransparency = 1,
+                Size = UDim2.new(1, 0, 0, 0),
+                AutomaticSize = "Y",
+                Name = "Content",
+                Visible = true,
+                Position = UDim2.new(0, 0, 0, data.HeaderSize)
+            }, {
+                ac("UIListLayout", { FillDirection = "Vertical", Padding = UDim.new(0, 0), VerticalAlignment = "Bottom" })
+            })
+        })
+
+        -- refs
+        local headerBtn = sectionFrame:FindFirstChild("TextButton") or sectionFrame.TextButton
+        local content = sectionFrame:FindFirstChild("Content") or sectionFrame.Content
+        local arrowImg = arrow:FindFirstChildOfClass("ImageLabel") or arrow.ImageLabel
+
+        -- helper to wait for content absolute size to be valid
+        local function getContentHeight()
+            local h = content.AbsoluteSize.Y
+            if h == 0 then
+                -- wait until layout calculates
+                content:GetPropertyChangedSignal("AbsoluteSize"):Wait()
+                h = content.AbsoluteSize.Y
+            end
+            return h
+        end
+
+        -- add element (expects an Instance). returns wrapper if available
+        function data.AddElement(self, instance)
+            if not instance then return end
+            instance.Parent = content
+            -- if Dwrap exists, try wrap; otherwise return instance
+            if Dwrap and type(Dwrap.New) == "function" then
+                return Dwrap.New(instance)
+            end
+            return instance
+        end
+
+        -- Tab alias (mirip a.E()'s Tab)
+        function data.Tab(self, instance)
+            if not data.Expandable then
+                data.Expandable = true
+                arrow.Visible = true
+            end
+            instance.Parent = content
+            if Dwrap and type(Dwrap.New) == "function" then
+                return Dwrap.New(instance)
+            end
+            return instance
+        end
+
+        -- open / close
+        function data.Open(self)
+            if not data.Expandable then return end
+            data.Opened = true
+            content.Visible = true
+            local h = getContentHeight()
+            Tween(sectionFrame, 0.33, { Size = UDim2.new(1,0,0, data.HeaderSize + (h / (scale or 1))) }, Enum.EasingStyle.Quint, Enum.EasingDirection.Out):Play()
+            if arrowImg then
+                Tween(arrowImg, 0.1, { Rotation = 180 }, Enum.EasingStyle.Quint, Enum.EasingDirection.Out):Play()
+            end
+        end
+
+        function data.Close(self)
+            if not data.Expandable then return end
+            data.Opened = false
+            Tween(sectionFrame, 0.26, { Size = UDim2.new(1,0,0, data.HeaderSize) }, Enum.EasingStyle.Quint, Enum.EasingDirection.Out):Play()
+            if arrowImg then
+                Tween(arrowImg, 0.1, { Rotation = 0 }, Enum.EasingStyle.Quint, Enum.EasingDirection.Out):Play()
+            end
+            task.delay(0.26, function() content.Visible = false end)
+        end
+
+        -- toggle on header click
+        ab.AddSignal(headerBtn.MouseButton1Click, function()
+            if data.Opened then data:Close() else data:Open() end
+        end)
+
+        -- auto-open if requested
+        if data.Opened then
+            task.spawn(function() task.wait() data:Open() end)
+        end
+
+        -- expose some refs for user
+        data.Frame = sectionFrame
+        data.Content = content
+        data.HeaderButton = headerBtn
+        data.Arrow = arrow
+
+        return data
     end
+
+    return sectionModule
+end
+
+-- ========== helper: attach Section method to a Tab (optional) ==========
+-- call this once with your tab object so you can do: local s = Tab:Section({...})
+function a.AttachInnerSectionToTab(tab)
+    local factory = a.InnerSection()
+    function tab:Section(config)
+        return factory.New(config, self.Content, 1)
+    end
+end
+
+-- ========== helper: reparent wrapper (use if ElementsInput:Input returns wrapper) ==========
+local function moveWrapperTo(wrapper, dest)
+    if not wrapper then return nil end
+    if typeof(wrapper) == "Instance" then
+        wrapper.Parent = dest
+        return wrapper
+    end
+    if wrapper.UIElements and wrapper.UIElements.Main and typeof(wrapper.UIElements.Main) == "Instance" then
+        wrapper.UIElements.Main.Parent = dest
+        return wrapper.UIElements.Main
+    end
+    if wrapper.Frame and typeof(wrapper.Frame) == "Instance" then
+        wrapper.Frame.Parent = dest
+        return wrapper.Frame
+    end
+    if wrapper.Main and typeof(wrapper.Main) == "Instance" then
+        wrapper.Main.Parent = dest
+        return wrapper.Main
+    end
+    return nil
+end
+
 
     function a.F()
         return {
