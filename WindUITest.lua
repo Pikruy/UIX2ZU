@@ -7035,15 +7035,15 @@ do
                 Size = UDim2.new(1, 0, 0, 40),
                 Position = UDim2.new(0, 0, 0, 4),
                 BackgroundColor3 = Color3.fromRGB(255, 255, 255),
-                BackgroundTransparency = 1, -- atur transparansi (0 = solid, 1 = hilang)
+                BackgroundTransparency = 0.2, -- atur transparansi (0 = solid, 1 = hilang)
                 BorderSizePixel = 0,
                 Parent = headerContainer
             }, {
                 d("UICorner", { CornerRadius = UDim.new(0, 8) }),
                 d("UIGradient", { -- efek gradasi ringan biar mirip kaca
                     Color = ColorSequence.new{
-                        ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
-                        ColorSequenceKeypoint.new(1, Color3.fromRGB(200, 200, 200))
+                        ColorSequenceKeypoint.new(0, Color3.fromHex("#002FFF")),
+                        ColorSequenceKeypoint.new(1, Color3.fromHex("#FFFFFF"))
                     },
                     Transparency = NumberSequence.new{
                         NumberSequenceKeypoint.new(0, 0.1),
