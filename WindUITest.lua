@@ -7238,6 +7238,7 @@ do
                         }):Play()
                         arrowGradient.Enabled = true
                         shadow.ImageTransparency = 0.75
+                        shadow.ZIndex = 2
                         arrow.ImageColor3 = Color3.new(255,255,255)
                     else
                         e(contentFrame, 0.2, {
