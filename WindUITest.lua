@@ -7143,15 +7143,10 @@ do
             headerMain.InputBegan:Connect(function(input)
                 if input.UserInputType == Enum.UserInputType.MouseButton1 then
                     expanded = not expanded
+                    print("Expanded:", expanded) -- debug
 
-                    print("Expanded:", expanded)
-
-                    -- Tween pakai TweenService
-                    local tweenInfo = TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-                    TweenService:Create(arrow, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-                        Rotation = expanded and 180 or 0
-                    }):Play()
-
+                    -- animasi arrow
+                    e(arrow, 0.2, { Rotation = expanded and 90 or 0 }):Play()
 
                     if expanded then
                         contentFrame.Visible = true
@@ -7168,6 +7163,7 @@ do
                     end
                 end
             end)
+
 
 
             return k.__type, k
