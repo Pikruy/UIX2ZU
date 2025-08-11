@@ -2353,7 +2353,7 @@ do
         game:GetService"UserInputService"
         return function(g)
             local h = {
-                Title = g.Title or "Untitled",
+                Title = g.Title,
                 Desc = g.Desc or nil,
                 Hover = g.Hover,
                 Thumbnail = g.Thumbnail,
@@ -2375,7 +2375,6 @@ do
             local l = 0
             local o
             local p
-
             if h.Thumbnail then
                 o = b.Image(h.Thumbnail, h.Title, h.UICorner - 3, g.Window.Folder, "Thumbnail", false, h.IconThemed)
                 o.Size = UDim2.new(1, 0, 0, j)
@@ -2390,7 +2389,6 @@ do
                 p.Size = UDim2.new(0, i, 0, i)
                 l = i
             end
-
             local function CreateText(q, r)
                 return d("TextLabel", {
                     BackgroundTransparency = 1,
@@ -2398,7 +2396,7 @@ do
                     TextSize = r == "Desc" and 15 or 17,
                     TextXAlignment = "Left",
                     ThemeTag = {
-                        TextColor3 = not h.Color and (r == "Desc" and "Icon" or "Text") or nil,
+                        TextColor3 = not h.Color and (r == "Desc" and "Icon" or "Text") or nil, --Desc Paragraph
                     },
                     TextColor3 = h.Color and (h.Color == "White" and Color3.new(0, 0, 0) or h.Color ~= "White" and Color3.new(1, 1, 1)) or nil,
                     TextTransparency = h.Color and (r == "Desc" and .3 or 0),
@@ -2408,28 +2406,11 @@ do
                     FontFace = Font.new(b.Font, Enum.FontWeight.Medium)
                 })
             end
-
             local q = CreateText(h.Title, "Title")
             local r = CreateText(h.Desc, "Desc")
             if not h.Desc or h.Desc == "" then
                 r.Visible = false
             end
-
-            -- 👇 TAMBAH: buat icon di depan Title jika ada
-            local iconElement
-            if h.Icon then
-                local iconData = b.Icon(h.Icon)
-                iconElement = d("ImageLabel", {
-                    Name = "Icon",
-                    BackgroundTransparency = 1,
-                    Size = UDim2.new(0, 16, 0, 16),
-                    Image = iconData[1],
-                    ImageRectOffset = iconData[2].ImageRectPosition,
-                    ImageRectSize = iconData[2].ImageRectSize,
-                    ThemeTag = { ImageColor3 = "Icon" }
-                })
-            end
-
             h.UIElements.Container = d("Frame", {
                 Size = UDim2.new(1, 0, 0, 0),
                 AutomaticSize = "Y",
@@ -2461,17 +2442,15 @@ do
                     }, {
                         d("UIListLayout", {
                             Padding = UDim.new(0, 4),
-                            FillDirection = "Horizontal", -- 👈 biar icon dan title sejajar
+                            FillDirection = "Vertical",
                             VerticalAlignment = "Center",
                             HorizontalAlignment = "Left",
                         }),
-                        iconElement, -- 👈 taruh icon sebelum title
                         q,
                         r
                     }),
                 })
             })
-
             h.UIElements.Locked = e(h.UICorner, "Squircle", {
                 Size = UDim2.new(1, h.UIPadding * 2, 1, h.UIPadding * 2),
                 ImageTransparency = .4,
@@ -2501,7 +2480,6 @@ do
                     PaddingBottom = UDim.new(0, h.UIPadding),
                 }),
             }, true)
-
             if h.Hover then
                 b.AddSignal(h.UIElements.Main.MouseEnter, function()
                     if k then
@@ -2518,7 +2496,6 @@ do
                     end
                 end)
             end
-
             function h.SetTitle(s, t)
                 q.Text = t
             end
@@ -2546,7 +2523,6 @@ do
             return h
         end
     end
-
     function a.q()
         local b = a.load'a'
         local d = b.New
