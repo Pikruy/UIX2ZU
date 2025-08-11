@@ -7198,66 +7198,45 @@ do
             -- TOGGLE LOGIC
             ----------------------------------------------------------------
             -- Toggle logic: gunakan TweenService langsung (bebas dari e wrapper)
-           local TweenService = game:GetService("TweenService")
-local expanded = false
+            local TweenService = game:GetService("TweenService")
+            local expanded = false
+            local originalColor3 = arrow.ImageColor3
+            headerMain.InputBegan:Connect(function(input)
+                if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                    expanded = not expanded
+                    -- tween rotasi (0 -> 90 derajat, lebih terlihat)
+                    local rotTarget = expanded and 180 or 0
+                    local tween = TweenService:Create(arrow, TweenInfo.new(0.18, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+                        Rotation = rotTarget
+                    })
+                    tween:Play()
 
-local arrowGradient = Instance.new("UIGradient")
-arrowGradient.Rotation = 0
-arrowGradient.Color = ColorSequence.new({
-    ColorSequenceKeypoint.new(0, Color3.fromHex("#1E3AFF")),
-    ColorSequenceKeypoint.new(0.5, Color3.fromHex("#7A3CFF")),
-    ColorSequenceKeypoint.new(1, Color3.fromHex("#000000"))
-})
-arrowGradient.Transparency = NumberSequence.new(1, 1) -- mulai transparan
-arrowGradient.Parent = arrow
+                    -- fallback direct set (untuk cek jika tween gagal)
+                    task.delay(0.22, function()
+                        -- jika masih 0, coba langsung set untuk memastikan property bisa berubah
+                        arrow.Rotation = rotTarget
+                    end)
 
-local function UpdateArrowColor(isExpanded)
-    if isExpanded then
-        arrowGradient.Transparency = NumberSequence.new({
-            NumberSequenceKeypoint.new(0, 0.55),
-            NumberSequenceKeypoint.new(1, 0.8)
-        })
-    else
-        arrowGradient.Transparency = NumberSequence.new(1, 1)
-    end
-end
-
-headerMain.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        expanded = not expanded
-        local rotTarget = expanded and 180 or 0
-        local tween = TweenService:Create(arrow, TweenInfo.new(0.18, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-            Rotation = rotTarget
-        })
-        tween:Play()
-
-        task.delay(0.22, function()
-            arrow.Rotation = rotTarget
-        end)
-
-        if expanded then
-            contentFrame.Visible = true
-            e(contentFrame, 0.2, {
-                Size = UDim2.new(1, 0, 0, layout.AbsoluteContentSize.Y)
-            }):Play()
-        else
-            e(contentFrame, 0.2, {
-                Size = UDim2.new(1, 0, 0, 0)
-            }):Play()
-            task.delay(0.2, function()
-                if not expanded then
-                    contentFrame.Visible = false
+                    -- expand/collapse content (tetap pakai e untuk konten)
+                    if expanded then
+                        contentFrame.Visible = true
+                        e(contentFrame, 0.2, {
+                            Size = UDim2.new(1, 0, 0, layout.AbsoluteContentSize.Y)
+                        }):Play()
+                        arrow.ImageColor3 = Color3.fromRGB(30, 60, 255)
+                    else
+                        e(contentFrame, 0.2, {
+                            Size = UDim2.new(1, 0, 0, 0)
+                        }):Play()
+                        task.delay(0.2, function()
+                            if not expanded then
+                                contentFrame.Visible = false
+                            end
+                        end)
+                        arrow.ImageColor3 = originalColor3
+                    end
                 end
             end)
-        end
-
-        UpdateArrowColor(expanded)
-    end
-end)
-
-UpdateArrowColor(expanded)
-
-
 
 
 
