@@ -2847,7 +2847,7 @@ do
         end
         return h
     end
-    function a.u() -- Fungsi Slider [Ganti/Edited]
+    function a.u() -- Fungsi Slider 
         local b = a.load'a'
         local e = b.New
         local f = b.Tween
@@ -2996,7 +2996,10 @@ do
                         end
                         if x then
                             l = (x.UserInputType == Enum.UserInputType.Touch)
-                            k.SliderFrame.Parent.ScrollingEnabled = false
+                            if k.SliderFrame.Parent:IsA("ScrollingFrame") then
+                                k.SliderFrame.Parent.ScrollingEnabled = false
+                            end
+
                             h = true
                             o = game:GetService"RunService".RenderStepped:Connect(function()
                                 local z = l and x.Position.X or game:GetService"UserInputService":GetMouseLocation().X
