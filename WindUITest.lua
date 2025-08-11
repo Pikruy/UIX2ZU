@@ -7072,10 +7072,10 @@ do
                 BackgroundTransparency = 1,
                 Image = "rbxassetid://1316045217",   -- ganti kalau pakai asset lain
                 ScaleType = Enum.ScaleType.Slice,
-                SliceCenter =  Rect.new(15, 15, 100, 100),
+                SliceCenter = Rect.new(10, 10, 118, 118),
                 -- buat ukuran sedikit lebih besar dan geser supaya "mengelilingi" header
                 Size = UDim2.new(1, 12, 0, 48),
-                Position = UDim2.new(0, -6, 0, -4),
+                Position = UDim2.new(0, -6, 0, -3),
                 ImageTransparency = 1,            -- atur agar lebih lembut
                 ZIndex = 1,
                 Parent = headerContainer
@@ -7248,7 +7248,7 @@ do
                                 contentFrame.Visible = false
                             end
                         end)
-                        shadow.ImageTransparency = 0.9
+                        shadow.ImageTransparency = 1
                         arrowGradient.Enabled = false
                         arrow.ImageColor3 = originalColor3
                     end
