@@ -4994,6 +4994,7 @@ do
                 Code = a.load'A',
                 Colorpicker = a.load'B',
                 Section = a.load'C',
+                Collapsible = a.load'collapsible'
             }
             function k.Divider(z) -- Ganti
                 local A = ac("Frame", {
@@ -6937,7 +6938,7 @@ do
             return o
         end
     end
-    function a.I() -- Collapsible Section
+    function a.collapsible() -- Collapsible Section
         local b = a.load'a'
         local d = b.New
         local e = b.Tween
