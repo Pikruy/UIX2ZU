@@ -5107,7 +5107,7 @@ do
                     Window = self.Window,
                     Icon = options.Icon
                 })
-
+                element.Wrapper.Parent = self.UIElements.ContainerFrame
                 local elementsLib = {
                     Button = a.load'q',
                     Toggle = a.load't',
@@ -7001,7 +7001,7 @@ do
                     SortOrder = Enum.SortOrder.LayoutOrder
                 })
             })
-
+            k.Wrapper = wrapper
             -- Header
             k.HeaderFrame = a.load'p'{
                 Title = k.Title,
