@@ -2848,7 +2848,7 @@ do
         end
         return b
     end
-    function a.t()
+    function a.t() -- Fungsi Toggle
         local b = a.load'a'
         local d = b.New
         local e = b.Tween
@@ -3110,82 +3110,66 @@ do
         end
         return g
     end
-    -- Fungsi Collapsible (pisah dari Slider)
-    function a.collapsible()
+    function a.pro() -- Fungsi Collapsible
         local b = a.load'a'
-        local e = b.New
-        local f = b.Tween
-        local g = {}
+        local d = b.New
+        local e = b.Tween
+        local h = {}
 
-        function g.New(i, j)
-            local expanded = false
+        function h.New(i, j)
+            local k = {
+                __type = "Collapsible",
+                Title = j.Title or "Collapsible",
+                Icon = j.Icon or nil,
+                UIElements = {}
+            }
 
-            -- Header
-            local header = e("TextButton", {
-                Size = UDim2.new(1, 0, 0, 42),
+            k.HeaderFrame = a.load'p'{
+                Title = k.Title,
+                Window = j.Window,
+                Parent = j.Parent,
+                TextOffset = 44,
+                Hover = false,
+            }
+
+            local arrow = d("ImageLabel", {
+                Name = "Arrow",
+                Image = b.Icon("chevron-down")[1],
+                ImageRectSize = b.Icon("chevron-down")[2].ImageRectSize,
+                ImageRectOffset = b.Icon("chevron-down")[2].ImageRectPosition,
+                Size = UDim2.new(0, 16, 0, 16),
+                AnchorPoint = Vector2.new(1, 0.5),
+                Position = UDim2.new(1, -8, 0.5, 0),
                 BackgroundTransparency = 1,
-                Text = "",
-                Parent = j.Parent
-            }, {
-                e("UIListLayout", {
-                    FillDirection = "Horizontal",
-                    VerticalAlignment = "Center",
-                    Padding = UDim.new(0, 8),
-                }),
-                e("ImageLabel", {
-                    Image = b.Icon(j.Icon or "folder")[1],
-                    ImageRectSize = b.Icon(j.Icon or "folder")[2].ImageRectSize,
-                    ImageRectOffset = b.Icon(j.Icon or "folder")[2].ImageRectPosition,
-                    Size = UDim2.new(0, 20, 0, 20),
-                    BackgroundTransparency = 1,
-                    ThemeTag = { ImageColor3 = "Icon" }
-                }),
-                e("TextLabel", {
-                    Text = i,
-                    BackgroundTransparency = 1,
-                    FontFace = Font.new(b.Font, Enum.FontWeight.SemiBold),
-                    ThemeTag = { TextColor3 = "Text" },
-                    AutomaticSize = "XY",
-                    TextSize = 16
-                }),
-                e("ImageLabel", {
-                    Name = "Arrow",
-                    Image = b.Icon("chevron-down")[1],
-                    ImageRectSize = b.Icon("chevron-down")[2].ImageRectSize,
-                    ImageRectOffset = b.Icon("chevron-down")[2].ImageRectPosition,
-                    Size = UDim2.new(0, 16, 0, 16),
-                    AnchorPoint = Vector2.new(1, 0.5),
-                    Position = UDim2.new(1, -8, 0.5, 0),
-                    BackgroundTransparency = 1,
-                    ThemeTag = { ImageColor3 = "Icon" }
-                })
+                ThemeTag = { ImageColor3 = "Icon" }
             })
+            arrow.Parent = k.HeaderFrame.UIElements.Main
 
-            -- Konten
-            local contentFrame = e("Frame", {
+            local contentFrame = d("Frame", {
                 Size = UDim2.new(1, 0, 0, 0),
                 BackgroundTransparency = 1,
-                AutomaticSize = "Y",
                 Visible = false,
                 ClipsDescendants = true,
                 Parent = j.Parent
             }, {
-                e("UIListLayout", {
+                d("UIListLayout", {
                     FillDirection = "Vertical",
                     Padding = UDim.new(0, 6),
                 })
             })
 
-            -- Toggle buka/tutup dengan animasi
-            b.AddSignal(header.MouseButton1Click, function()
+            local expanded = false
+            b.AddSignal(k.HeaderFrame.UIElements.Main.MouseButton1Click, function()
                 expanded = not expanded
-                header.Arrow.Image = b.Icon(expanded and "chevron-up" or "chevron-down")[1]
+                arrow.Image = b.Icon(expanded and "chevron-up" or "chevron-down")[1]
 
                 if expanded then
                     contentFrame.Visible = true
-                    f(contentFrame, 0.2, { Size = UDim2.new(1, 0, 0, contentFrame.UIListLayout.AbsoluteContentSize.Y) }):Play()
+                    e(contentFrame, 0.2, {
+                        Size = UDim2.new(1, 0, 0, contentFrame.UIListLayout.AbsoluteContentSize.Y)
+                    }):Play()
                 else
-                    f(contentFrame, 0.2, { Size = UDim2.new(1, 0, 0, 0) }):Play()
+                    e(contentFrame, 0.2, { Size = UDim2.new(1, 0, 0, 0) }):Play()
                     task.delay(0.2, function()
                         if not expanded then
                             contentFrame.Visible = false
@@ -3194,11 +3178,13 @@ do
                 end
             end)
 
-            return contentFrame
+            k.Content = contentFrame
+            return k.__type, k
         end
 
-        return g
+        return h
     end
+
     function a.v() -- Fungsi Keybind
         local b = game:GetService"UserInputService"
         local e = a.load'a'
