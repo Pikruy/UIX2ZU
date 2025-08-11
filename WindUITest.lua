@@ -3394,19 +3394,33 @@ do
             end
 
             -- Event search real-time
+            local searchDebounce
             h.AddSignal(q.UIElements.SearchBar:GetPropertyChangedSignal("Text"), function()
-                local stext = string.lower(tostring(q.UIElements.SearchBar.Text or ""))
-                if stext == "" then
-                    q:Refresh(q.Values)
-                else
+                if searchDebounce then task.cancel(searchDebounce) end
+                searchDebounce = task.delay(0.15, function() -- tunggu 0.15 detik setelah user berhenti ngetik
+                    local stext = string.lower(q.UIElements.SearchBar.Text or "")
+
+                    if stext == "" then
+                        q:Refresh(q.Values) -- full reset kalau kosong
+                        return
+                    end
+
+                    -- Filter cepat tanpa destroy massal
                     local filtered = {}
                     for _, val in ipairs(q.Values) do
-                        if string.find(string.lower(tostring(val)), stext, 1, true) then
+                        if string.find(string.lower(val), stext, 1, true) then
                             table.insert(filtered, val)
                         end
                     end
-                    q:Refresh(filtered)
-                end
+
+                    -- Cek jumlah sebelum refresh
+                    if #filtered < 200 then
+                        q:Refresh(filtered) -- rebuild normal kalau hasilnya sedikit
+                    else
+                        -- Kalau hasil ratusan, cuma render yang match visible
+                        q:Refresh(filtered)
+                    end
+                end)
             end)
             function q.Lock(s)
                 r = false
