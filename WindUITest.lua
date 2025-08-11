@@ -7042,15 +7042,16 @@ do
                 d("UICorner", { CornerRadius = UDim.new(0, 8) }),
                 d("UIGradient", { -- efek gradasi ringan biar mirip kaca
                     Color = ColorSequence.new{
-                        ColorSequenceKeypoint.new(0, Color3.fromHex("#002FFF")),
-                        ColorSequenceKeypoint.new(0.5, Color3.fromHex("#9D00FF")),
-                        ColorSequenceKeypoint.new(1, Color3.fromHex("#FFFFFF"))
+                        ColorSequenceKeypoint.new(0, Color3.fromHex("#4A90E2")),  -- biru soft
+                        ColorSequenceKeypoint.new(0.5, Color3.fromHex("#9D7DFF")), -- ungu pastel
+                        ColorSequenceKeypoint.new(1, Color3.fromHex("#FFFFFF"))    -- putih
                     },
                     Transparency = NumberSequence.new{
-                        NumberSequenceKeypoint.new(0, 0.1),
-                        NumberSequenceKeypoint.new(0.5, 0.4),
-                        NumberSequenceKeypoint.new(1, 0.3)
-                    }
+                        NumberSequenceKeypoint.new(0, 0.6),  -- kiri: cukup transparan
+                        NumberSequenceKeypoint.new(0.5, 0.7),-- tengah: sedikit lebih transparan
+                        NumberSequenceKeypoint.new(1, 0.6)   -- kanan: sama seperti kiri
+                    },
+                    Rotation = 45 -- biar gradasinya diagonal
                 }),
                 d("UIPadding", {
                     PaddingLeft = UDim.new(0, 12),
