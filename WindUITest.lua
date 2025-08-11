@@ -2350,10 +2350,11 @@ do
         local d = b.New
         local e = b.NewRoundFrame
         local f = b.Tween
-        game:GetService"UserInputService"
+
         return function(g)
             local h = {
-                Title = g.Title,
+                Title = g.Title or "Untitled",
+                Icon = g.Icon or nil, -- Tambahan: support Icon
                 Desc = g.Desc or nil,
                 Hover = g.Hover,
                 Thumbnail = g.Thumbnail,
@@ -2368,16 +2369,20 @@ do
                 UICorner = 14,
                 UIElements = {}
             }
+
             local i = h.ImageSize
             local j = h.ThumbnailSize
-            local k = true
             local l = 0
             local o
             local p
+
+            -- Thumbnail jika ada
             if h.Thumbnail then
                 o = b.Image(h.Thumbnail, h.Title, h.UICorner - 3, g.Window.Folder, "Thumbnail", false, h.IconThemed)
                 o.Size = UDim2.new(1, 0, 0, j)
             end
+
+            -- Image jika ada
             if h.Image then
                 p = b.Image(h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or false)
                 if h.Color == "White" then
@@ -2388,6 +2393,26 @@ do
                 p.Size = UDim2.new(0, i, 0, i)
                 l = i
             end
+
+            -- Icon dari params.Icon (tambahan untuk Collapsible)
+            if h.Icon then
+                local iconData = b.Icon(h.Icon)
+                local iconImage = d("ImageLabel", {
+                    Name = "Icon",
+                    BackgroundTransparency = 1,
+                    Size = UDim2.new(0, 16, 0, 16),
+                    Image = iconData[1],
+                    ImageRectOffset = iconData[2].ImageRectPosition,
+                    ImageRectSize = iconData[2].ImageRectSize,
+                    ThemeTag = { ImageColor3 = "Icon" }
+                })
+                -- Supaya icon ini tampil di awal container
+                if not p and not o then
+                    p = iconImage
+                    l = 16
+                end
+            end
+
             local function CreateText(q, r)
                 return d("TextLabel", {
                     BackgroundTransparency = 1,
@@ -2395,9 +2420,9 @@ do
                     TextSize = r == "Desc" and 15 or 17,
                     TextXAlignment = "Left",
                     ThemeTag = {
-                        TextColor3 = not h.Color and (r == "Desc" and "Icon" or "Text") or nil, --Desc Paragraph
+                        TextColor3 = not h.Color and (r == "Desc" and "Icon" or "Text") or nil,
                     },
-                    TextColor3 = h.Color and (h.Color == "White" and Color3.new(0, 0, 0) or h.Color ~= "White" and Color3.new(1, 1, 1)) or nil,
+                    TextColor3 = h.Color and (h.Color == "White" and Color3.new(0, 0, 0) or Color3.new(1, 1, 1)) or nil,
                     TextTransparency = h.Color and (r == "Desc" and .3 or 0),
                     TextWrapped = true,
                     Size = UDim2.new(1, 0, 0, 0),
@@ -2405,11 +2430,13 @@ do
                     FontFace = Font.new(b.Font, Enum.FontWeight.Medium)
                 })
             end
+
             local q = CreateText(h.Title, "Title")
             local r = CreateText(h.Desc, "Desc")
             if not h.Desc or h.Desc == "" then
                 r.Visible = false
             end
+
             h.UIElements.Container = d("Frame", {
                 Size = UDim2.new(1, 0, 0, 0),
                 AutomaticSize = "Y",
@@ -2423,7 +2450,7 @@ do
                 }),
                 o,
                 d("Frame", {
-                    Size = UDim2.new(1, - g.TextOffset, 0, 0),
+                    Size = UDim2.new(1, -g.TextOffset, 0, 0),
                     AutomaticSize = "Y",
                     BackgroundTransparency = 1,
                 }, {
@@ -2437,7 +2464,7 @@ do
                     d("Frame", {
                         BackgroundTransparency = 1,
                         AutomaticSize = "Y",
-                        Size = UDim2.new(1, - l, 0, (50 - (h.UIPadding * 2)))
+                        Size = UDim2.new(1, -l, 0, (50 - (h.UIPadding * 2)))
                     }, {
                         d("UIListLayout", {
                             Padding = UDim.new(0, 4),
@@ -2450,16 +2477,8 @@ do
                     }),
                 })
             })
-            h.UIElements.Locked = e(h.UICorner, "Squircle", {
-                Size = UDim2.new(1, h.UIPadding * 2, 1, h.UIPadding * 2),
-                ImageTransparency = .4,
-                AnchorPoint = Vector2.new(0.5, 0.5),
-                Position = UDim2.new(0.5, 0, 0.5, 0),
-                ImageColor3 = Color3.new(0, 0, 0),
-                Visible = false,
-                Active = false,
-                ZIndex = 9999999,
-            })
+
+            -- Frame utama
             h.UIElements.Main = e(h.UICorner, "Squircle", {
                 Size = UDim2.new(1, 0, 0, 50),
                 AutomaticSize = "Y",
@@ -2471,7 +2490,6 @@ do
                 ImageColor3 = h.Color and Color3.fromHex(b.Colors[h.Color]) or nil
             }, {
                 h.UIElements.Container,
-                h.UIElements.Locked,
                 d("UIPadding", {
                     PaddingTop = UDim.new(0, h.UIPadding),
                     PaddingLeft = UDim.new(0, h.UIPadding),
@@ -2479,46 +2497,7 @@ do
                     PaddingBottom = UDim.new(0, h.UIPadding),
                 }),
             }, true)
-            if h.Hover then
-                b.AddSignal(h.UIElements.Main.MouseEnter, function()
-                    if k then
-                        f(h.UIElements.Main, .05, {
-                            ImageTransparency = h.Color and .15 or .9
-                        }):Play()
-                    end
-                end)
-                b.AddSignal(h.UIElements.Main.InputEnded, function()
-                    if k then
-                        f(h.UIElements.Main, .05, {
-                            ImageTransparency = h.Color and .1 or .95
-                        }):Play()
-                    end
-                end)
-            end
-            function h.SetTitle(s, t)
-                q.Text = t
-            end
-            function h.SetDesc(s, t)
-                r.Text = t or ""
-                if not t then
-                    r.Visible = false
-                elseif not r.Visible then
-                    r.Visible = true
-                end
-            end
-            function h.Destroy(s)
-                h.UIElements.Main:Destroy()
-            end
-            function h.Lock(s)
-                k = false
-                h.UIElements.Locked.Active = true
-                h.UIElements.Locked.Visible = true
-            end
-            function h.Unlock(s)
-                k = true
-                h.UIElements.Locked.Active = false
-                h.UIElements.Locked.Visible = false
-            end
+
             return h
         end
     end
@@ -4709,111 +4688,6 @@ do
             return h.__type, h
         end
         return b
-    end
-    function a.I()
-        local b = a.load'a'
-        local d = b.New
-        local e = b.Tween
-        local h = {}
-
-        function h.New(params)
-            local k = {
-                __type = "Collapsible",
-                Title = params.Title or "Collapsible",
-                Icon = params.Icon or nil,
-                UIElements = {}
-            }
-
-            -- Wrapper
-            local wrapper = d("Frame", {
-                Size = UDim2.new(1, 0, 0, 0),
-                BackgroundTransparency = 1,
-                AutomaticSize = "Y",
-                Parent = params.Parent
-            }, {
-                d("UIListLayout", {
-                    FillDirection = "Vertical",
-                    Padding = UDim.new(0, 4),
-                    SortOrder = Enum.SortOrder.LayoutOrder
-                })
-            })
-            k.Wrapper = wrapper
-
-            -- Header
-            k.HeaderFrame = a.load'p'{
-                Title = k.Title,
-                Icon = k.Icon, -- ini WAJIB biar nggak default
-                Window = params.Window,
-                Parent = wrapper,
-                TextOffset = 44,
-                Hover = false,
-            }
-
-            -- Arrow icon
-            local arrow = d("ImageLabel", {
-                Name = "Arrow",
-                BackgroundTransparency = 1,
-                ThemeTag = { ImageColor3 = "Icon" },
-                Size = UDim2.new(0, 16, 0, 16),
-                AnchorPoint = Vector2.new(1, 0.5),
-                Position = UDim2.new(1, -8, 0.5, 0),
-            })
-            arrow.Parent = k.HeaderFrame.UIElements.Main
-
-            -- Helper untuk set icon
-            local function setArrow(iconName)
-                local iconData = b.Icon(iconName)
-                arrow.Image = iconData[1]
-                arrow.ImageRectOffset = iconData[2].ImageRectPosition
-                arrow.ImageRectSize = iconData[2].ImageRectSize
-            end
-
-            -- Set default arrow
-            setArrow("chevron-down")
-
-            -- Content frame
-            local contentFrame = d("Frame", {
-                Size = UDim2.new(1, 0, 0, 0),
-                BackgroundTransparency = 1,
-                Visible = false,
-                ClipsDescendants = true,
-                Parent = wrapper
-            }, {
-                d("UIListLayout", {
-                    FillDirection = "Vertical",
-                    Padding = UDim.new(0, 6),
-                    SortOrder = Enum.SortOrder.LayoutOrder
-                })
-            })
-
-            local layout = contentFrame:FindFirstChildOfClass("UIListLayout")
-            k.Content = contentFrame
-
-            -- Expand/Collapse
-            local expanded = false
-            b.AddSignal(k.HeaderFrame.UIElements.Main.MouseButton1Click, function()
-                expanded = not expanded
-                setArrow(expanded and "chevron-up" or "chevron-down")
-
-                if expanded then
-                    contentFrame.Visible = true
-                    e(contentFrame, 0.2, {
-                        Size = UDim2.new(1, 0, 0, layout.AbsoluteContentSize.Y)
-                    }):Play()
-                else
-                    e(contentFrame, 0.2, { Size = UDim2.new(1, 0, 0, 0) }):Play()
-                    task.delay(0.2, function()
-                        if not expanded then
-                            contentFrame.Visible = false
-                        end
-                    end)
-                end
-            end)
-
-            return k.__type, k
-        end
-
-        return h
     end
     function a.D() -- 
         game:GetService"UserInputService"
@@ -7078,6 +6952,111 @@ do
             end
             return o
         end
+    end
+    function a.I()
+        local b = a.load'a'
+        local d = b.New
+        local e = b.Tween
+        local h = {}
+
+        function h.New(params)
+            local k = {
+                __type = "Collapsible",
+                Title = params.Title or "Collapsible",
+                Icon = params.Icon or nil,
+                UIElements = {}
+            }
+
+            -- Wrapper
+            local wrapper = d("Frame", {
+                Size = UDim2.new(1, 0, 0, 0),
+                BackgroundTransparency = 1,
+                AutomaticSize = "Y",
+                Parent = params.Parent
+            }, {
+                d("UIListLayout", {
+                    FillDirection = "Vertical",
+                    Padding = UDim.new(0, 4),
+                    SortOrder = Enum.SortOrder.LayoutOrder
+                })
+            })
+            k.Wrapper = wrapper
+
+            -- Header
+            k.HeaderFrame = a.load'p'{
+                Title = k.Title,
+                Icon = k.Icon, -- ini WAJIB biar nggak default
+                Window = params.Window,
+                Parent = wrapper,
+                TextOffset = 44,
+                Hover = false,
+            }
+
+            -- Arrow icon
+            local arrow = d("ImageLabel", {
+                Name = "Arrow",
+                BackgroundTransparency = 1,
+                ThemeTag = { ImageColor3 = "Icon" },
+                Size = UDim2.new(0, 16, 0, 16),
+                AnchorPoint = Vector2.new(1, 0.5),
+                Position = UDim2.new(1, -8, 0.5, 0),
+            })
+            arrow.Parent = k.HeaderFrame.UIElements.Main
+
+            -- Helper untuk set icon
+            local function setArrow(iconName)
+                local iconData = b.Icon(iconName)
+                arrow.Image = iconData[1]
+                arrow.ImageRectOffset = iconData[2].ImageRectPosition
+                arrow.ImageRectSize = iconData[2].ImageRectSize
+            end
+
+            -- Set default arrow
+            setArrow("chevron-down")
+
+            -- Content frame
+            local contentFrame = d("Frame", {
+                Size = UDim2.new(1, 0, 0, 0),
+                BackgroundTransparency = 1,
+                Visible = false,
+                ClipsDescendants = true,
+                Parent = wrapper
+            }, {
+                d("UIListLayout", {
+                    FillDirection = "Vertical",
+                    Padding = UDim.new(0, 6),
+                    SortOrder = Enum.SortOrder.LayoutOrder
+                })
+            })
+
+            local layout = contentFrame:FindFirstChildOfClass("UIListLayout")
+            k.Content = contentFrame
+
+            -- Expand/Collapse
+            local expanded = false
+            b.AddSignal(k.HeaderFrame.UIElements.Main.MouseButton1Click, function()
+                expanded = not expanded
+                setArrow(expanded and "chevron-up" or "chevron-down")
+
+                if expanded then
+                    contentFrame.Visible = true
+                    e(contentFrame, 0.2, {
+                        Size = UDim2.new(1, 0, 0, layout.AbsoluteContentSize.Y)
+                    }):Play()
+                else
+                    e(contentFrame, 0.2, { Size = UDim2.new(1, 0, 0, 0) }):Play()
+                    task.delay(0.2, function()
+                        if not expanded then
+                            contentFrame.Visible = false
+                        end
+                    end)
+                end
+            end)
+
+            return k.__type, k
+        end
+
+        return h
     end
 
 end
