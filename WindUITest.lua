@@ -6983,7 +6983,7 @@ do
         function h.New(params)
             local k = {
                 __type = "Collapsible",
-                Title = params.Title or "Anjay Slebew",
+                Title = params.Title or "Collapsible",
                 Icon = params.Icon or nil,
                 UIElements = {}
             }
@@ -7006,12 +7006,13 @@ do
             -- Header
             k.HeaderFrame = a.load'p'{
                 Title = k.Title,
-                Icon = k.Icon, -- ini penting biar muncul icon
+                Icon = k.Icon, -- ini WAJIB biar nggak default
                 Window = params.Window,
                 Parent = wrapper,
                 TextOffset = 44,
                 Hover = false,
             }
+
 
 
             -- Arrow icon
