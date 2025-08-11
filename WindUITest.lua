@@ -7206,7 +7206,7 @@ do
             arrowGradient.Color = ColorSequence.new({
                 ColorSequenceKeypoint.new(0, Color3.fromHex("#1E3AFF")), -- biru deep
                 ColorSequenceKeypoint.new(0.5, Color3.fromHex("#3cd8ff")), -- ungu lembut
-                ColorSequenceKeypoint.new(1, Color3.fromHex("#000000")) -- putih
+                ColorSequenceKeypoint.new(1, Color3.fromHex("#ffffff")) -- putih
             })
             arrowGradient.Transparency = NumberSequence.new({
                 NumberSequenceKeypoint.new(0, 0.55),
@@ -7237,7 +7237,7 @@ do
                             Size = UDim2.new(1, 0, 0, layout.AbsoluteContentSize.Y)
                         }):Play()
                         arrowGradient.Enabled = true
-                        arrow.ImageColor3 = Color3.new(0,225,225)
+                        arrow.ImageColor3 = Color3.new(255,255,255)
                     else
                         e(contentFrame, 0.2, {
                             Size = UDim2.new(1, 0, 0, 0)
