@@ -3647,6 +3647,7 @@ do
                 q:Refresh(q.Values)
             end
             RecalculateListSize()
+            local RunService = game:GetService("RunService")
             function q.Open(s)
                 if r then
                     q.UIElements.Menu.Visible = true
@@ -3667,12 +3668,19 @@ do
                             end)
                         end
 
-                        -- Tunggu satu frame supaya UIListLayout update dulu
-                        task.wait() -- tunggu frame berikutnya
-
                         local sc = q.UIElements.Menu.Frame:FindFirstChild("ScrollingFrame")
                         if sc then
-                            sc.CanvasPosition = Vector2.new(0, 0)
+                            -- Nonaktifkan AutomaticCanvasSize sementara
+                            sc.AutomaticCanvasSize = Enum.AutomaticSize.None
+
+                            -- Jalankan loop kecil untuk set CanvasPosition berkali-kali
+                            for _ = 1, 3 do
+                                sc.CanvasPosition = Vector2.new(0, 0)
+                                RunService.Heartbeat:Wait()
+                            end
+
+                            -- Aktifkan kembali AutomaticCanvasSize
+                            sc.AutomaticCanvasSize = Enum.AutomaticSize.Y
                         end
                     end)
 
