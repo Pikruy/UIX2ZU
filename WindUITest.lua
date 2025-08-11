@@ -4739,6 +4739,8 @@ do
             return i
         end
         function i.New(j)
+            local l = i.Window
+            local o = i.WindUI
             local k = {
                 __type = "Tab",
                 Title = j.Title or "Tab",
@@ -4750,6 +4752,8 @@ do
                 Selected = false,
                 Index = nil,
                 Parent = j.Parent,
+                Window = l, -- ✅ Simpan Window untuk Collapsible
+                WindUI = o, -- ✅ Simpan WindUI untuk Collapsible
                 UIElements = {},
                 Elements = {},
                 ContainerFrame = nil,
@@ -6984,7 +6988,7 @@ do
                 UIElements = {}
             }
 
-            -- Wrapper utama
+            -- Wrapper
             local wrapper = d("Frame", {
                 Size = UDim2.new(1, 0, 0, 0),
                 BackgroundTransparency = 1,
@@ -7036,9 +7040,10 @@ do
                 })
             })
 
+            local layout = contentFrame:FindFirstChildOfClass("UIListLayout")
             k.Content = contentFrame
 
-            -- Expand/Collapse behaviour
+            -- Expand/Collapse
             local expanded = false
             b.AddSignal(k.HeaderFrame.UIElements.Main.MouseButton1Click, function()
                 expanded = not expanded
@@ -7047,7 +7052,7 @@ do
                 if expanded then
                     contentFrame.Visible = true
                     e(contentFrame, 0.2, {
-                        Size = UDim2.new(1, 0, 0, contentFrame.UIListLayout.AbsoluteContentSize.Y)
+                        Size = UDim2.new(1, 0, 0, layout.AbsoluteContentSize.Y)
                     }):Play()
                 else
                     e(contentFrame, 0.2, { Size = UDim2.new(1, 0, 0, 0) }):Play()
