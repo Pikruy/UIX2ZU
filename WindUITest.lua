@@ -6975,144 +6975,169 @@ do
         end
     end
     function a.I()
-        local b = a.load'a'
-        local d = b.New
-        local e = b.Tween
-        local h = {}
+    local b = a.load'a'
+    local d = b.New
+    local e = b.Tween
+    local h = {}
 
-        function h.New(self, params)
-            local k = {
-                __type = "Collapsible",
-                Title = params.Title or "Collapsible",
-                Icon = params.Icon,
-                UIElements = {}
-            }
+    function h.New(self, params)
+        local k = {
+            __type = "Collapsible",
+            Title = params.Title or "Collapsible",
+            Icon = params.Icon,
+            UIElements = {}
+        }
 
-            -- Wrapper
-            local wrapper = d("Frame", {
-                Size = UDim2.new(1, 0, 0, 0),
-                BackgroundTransparency = 1,
-                AutomaticSize = "Y",
-                Parent = params.Parent
-            }, {
-                d("UIListLayout", {
-                    FillDirection = "Vertical",
-                    Padding = UDim.new(0, 4),
-                    SortOrder = Enum.SortOrder.LayoutOrder
-                })
+        -- Wrapper utama
+        local wrapper = d("Frame", {
+            Size = UDim2.new(1, 0, 0, 0),
+            BackgroundTransparency = 1,
+            AutomaticSize = "Y",
+            Parent = params.Parent
+        }, {
+            d("UIListLayout", {
+                FillDirection = "Vertical",
+                Padding = UDim.new(0, 4),
+                SortOrder = Enum.SortOrder.LayoutOrder
             })
-            k.Wrapper = wrapper
+        })
+        k.Wrapper = wrapper
 
-            ----------------------------------------------------------------
-            -- HEADER
-            ----------------------------------------------------------------
-            local headerMain = d("Frame", {
-                Name = "HeaderMain",
-                Size = UDim2.new(1, 0, 0, 40),
-                BackgroundTransparency = 1,
-                Parent = wrapper
-            }, {
-                d("UIListLayout", {
-                    FillDirection = "Horizontal",
-                    VerticalAlignment = Enum.VerticalAlignment.Center,
-                    Padding = UDim.new(0, 6)
-                })
+        ----------------------------------------------------------------
+        -- HEADER
+        ----------------------------------------------------------------
+        local headerMain = d("Frame", {
+            Name = "HeaderMain",
+            Size = UDim2.new(1, 0, 0, 40),
+            BackgroundTransparency = 1,
+            Parent = wrapper
+        }, {
+            d("UIListLayout", {
+                FillDirection = "Horizontal",
+                VerticalAlignment = Enum.VerticalAlignment.Center,
+                Padding = UDim.new(0, 6)
             })
-            k.HeaderFrame = headerMain
+        })
+        k.HeaderFrame = headerMain
 
-            -- Icon (opsional)
-            if k.Icon then
-                local iconData = b.Icon(k.Icon)
-                d("ImageLabel", {
-                    Name = "Icon",
-                    BackgroundTransparency = 1,
-                    Size = UDim2.new(0, 16, 0, 16),
-                    Image = iconData[1],
-                    ImageRectOffset = iconData[2].ImageRectPosition,
-                    ImageRectSize = iconData[2].ImageRectSize,
-                    ThemeTag = { ImageColor3 = "Icon" },
-                    Parent = headerMain
-                })
-            end
-
-            -- Title
-            d("TextLabel", {
-                Name = "Title",
+        -- Icon (opsional)
+        if k.Icon then
+            local iconData = b.Icon(k.Icon)
+            d("ImageLabel", {
+                Name = "Icon",
                 BackgroundTransparency = 1,
-                Size = UDim2.new(1, -40, 1, 0),
-                Text = k.Title,
-                TextXAlignment = Enum.TextXAlignment.Left,
-                FontFace = Font.new(b.Font, Enum.FontWeight.Medium),
-                TextSize = 14,
-                ThemeTag = { TextColor3 = "Text" },
-                Parent = headerMain
-            })
-
-            -- Arrow
-            local arrow = d("ImageLabel", {
-                Name = "Arrow",
-                Image = b.Icon("chevron-down")[1],
-                ImageRectSize = b.Icon("chevron-down")[2].ImageRectSize,
-                ImageRectOffset = b.Icon("chevron-down")[2].ImageRectPosition,
                 Size = UDim2.new(0, 16, 0, 16),
-                AnchorPoint = Vector2.new(1, 0.5),
-                Position = UDim2.new(1, -8, 0.5, 0),
-                BackgroundTransparency = 1,
+                Image = iconData[1],
+                ImageRectOffset = iconData[2].ImageRectPosition,
+                ImageRectSize = iconData[2].ImageRectSize,
                 ThemeTag = { ImageColor3 = "Icon" },
                 Parent = headerMain
             })
-
-            ----------------------------------------------------------------
-            -- CONTENT
-            ----------------------------------------------------------------
-            local contentFrame = d("Frame", {
-                Name = "Content",
-                Size = UDim2.new(1, 0, 0, 0),
-                BackgroundTransparency = 1,
-                Visible = false,
-                ClipsDescendants = true,
-                Parent = wrapper
-            }, {
-                d("UIListLayout", {
-                    FillDirection = "Vertical",
-                    Padding = UDim.new(0, 6),
-                    SortOrder = Enum.SortOrder.LayoutOrder
-                })
-            })
-            k.Content = contentFrame
-
-            local layout = contentFrame:FindFirstChildOfClass("UIListLayout")
-
-            ----------------------------------------------------------------
-            -- TOGGLE LOGIC
-            ----------------------------------------------------------------
-            local expanded = false
-            headerMain.InputBegan:Connect(function(input)
-                if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                    expanded = not expanded
-                    arrow.Image = b.Icon(expanded and "chevron-up" or "chevron-down")[1]
-
-                    if expanded then
-                        contentFrame.Visible = true
-                        e(contentFrame, 0.2, {
-                            Size = UDim2.new(1, 0, 0, layout.AbsoluteContentSize.Y)
-                        }):Play()
-                    else
-                        e(contentFrame, 0.2, { Size = UDim2.new(1, 0, 0, 0) }):Play()
-                        task.delay(0.2, function()
-                            if not expanded then
-                                contentFrame.Visible = false
-                            end
-                        end)
-                    end
-                end
-            end)
-
-            return k.__type, k
         end
 
-        return h
+        -- Title
+        d("TextLabel", {
+            Name = "Title",
+            BackgroundTransparency = 1,
+            Size = UDim2.new(1, -40, 1, 0),
+            Text = k.Title,
+            TextXAlignment = Enum.TextXAlignment.Left,
+            FontFace = Font.new(b.Font, Enum.FontWeight.Medium),
+            TextSize = 14,
+            ThemeTag = { TextColor3 = "Text" },
+            Parent = headerMain
+        })
+
+        -- Arrow
+        local arrow = d("ImageLabel", {
+            Name = "Arrow",
+            Image = b.Icon("chevron-down")[1],
+            ImageRectSize = b.Icon("chevron-down")[2].ImageRectSize,
+            ImageRectOffset = b.Icon("chevron-down")[2].ImageRectPosition,
+            Size = UDim2.new(0, 16, 0, 16),
+            AnchorPoint = Vector2.new(1, 0.5),
+            Position = UDim2.new(1, -8, 0.5, 0),
+            BackgroundTransparency = 1,
+            ThemeTag = { ImageColor3 = "Icon" },
+            Parent = headerMain
+        })
+
+        ----------------------------------------------------------------
+        -- CONTENT WRAPPER dengan background dan padding
+        ----------------------------------------------------------------
+        local contentWrapper = d("Frame", {
+            Name = "ContentWrapper",
+            Size = UDim2.new(1, 0, 0, 0),
+            BackgroundColor3 = Color3.fromRGB(40, 40, 40), -- warna background bisa diubah sesuai selera
+            BackgroundTransparency = 0,
+            BorderSizePixel = 0,
+            AutomaticSize = Enum.AutomaticSize.Y,
+            ClipsDescendants = true,
+            Visible = false,
+            Parent = wrapper,
+            LayoutOrder = 2,
+            -- Padding supaya isi tidak mepet ke pinggir
+            -- Bisa pakai UIPadding
+        }, {
+            d("UIPadding", {
+                PaddingTop = UDim.new(0, 8),
+                PaddingBottom = UDim.new(0, 8),
+                PaddingLeft = UDim.new(0, 12),
+                PaddingRight = UDim.new(0, 12),
+            }),
+            d("UIListLayout", {
+                FillDirection = "Vertical",
+                Padding = UDim.new(0, 6),
+                SortOrder = Enum.SortOrder.LayoutOrder
+            })
+        })
+
+        -- Content sebenarnya diletakkan di dalam contentWrapper
+        local contentFrame = d("Frame", {
+            Name = "Content",
+            Size = UDim2.new(1, 0, 0, 0),
+            BackgroundTransparency = 1,
+            AutomaticSize = Enum.AutomaticSize.Y,
+            Parent = contentWrapper
+        })
+        k.Content = contentFrame
+
+        local layout = contentFrame:FindFirstChildOfClass("UIListLayout") or contentWrapper:FindFirstChildOfClass("UIListLayout")
+
+        ----------------------------------------------------------------
+        -- TOGGLE LOGIC
+        ----------------------------------------------------------------
+        local expanded = false
+        headerMain.InputBegan:Connect(function(input)
+            if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                expanded = not expanded
+                arrow.Image = b.Icon(expanded and "chevron-up" or "chevron-down")[1]
+
+                if expanded then
+                    contentWrapper.Visible = true
+                    e(contentWrapper, 0.25, {
+                        Size = UDim2.new(1, 0, 0, layout.AbsoluteContentSize.Y + 16) -- tambah padding biar gak mepet
+                    }):Play()
+                else
+                    local tween = e(contentWrapper, 0.25, {
+                        Size = UDim2.new(1, 0, 0, 0)
+                    })
+                    tween:Play()
+                    tween.Completed:Connect(function()
+                        if not expanded then
+                            contentWrapper.Visible = false
+                        end
+                    end)
+                end
+            end
+        end)
+
+        return k.__type, k
     end
+
+    return h
+end
+
 
 end
 local aa = {
