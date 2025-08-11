@@ -2456,24 +2456,9 @@ do
                     }, {
                         d("UIListLayout", {
                             Padding = UDim.new(0, 4),
-                            FillDirection = "Horizontal", -- biar sejajar
+                            FillDirection = "Vertical",
                             VerticalAlignment = "Center",
                             HorizontalAlignment = "Left",
-                        }),
-                        iconElement,
-                        d("Frame", {
-                            BackgroundTransparency = 1,
-                            AutomaticSize = "Y",
-                            Size = UDim2.new(1, 0, 0, 0)
-                        }, {
-                            d("UIListLayout", {
-                                Padding = UDim.new(0, 2),
-                                FillDirection = "Vertical",
-                                VerticalAlignment = "Center",
-                                HorizontalAlignment = "Left",
-                            }),
-                            q,
-                            r
                         }),
                         q,
                         r
