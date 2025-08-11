@@ -7052,20 +7052,7 @@ do
             headerMain.ZIndex = 2  -- pastikan header di atas shadow
 
             -- lalu tambahkan Icon / Title / Arrow seperti biasa, parent = headerMain
-            d("UIListLayout", {
-    FillDirection = Enum.FillDirection.Horizontal,
-    VerticalAlignment = Enum.VerticalAlignment.Center,
-    HorizontalAlignment = Enum.HorizontalAlignment.Left,
-    SortOrder = Enum.SortOrder.LayoutOrder,
-    Padding = UDim.new(0, 8)
-}),
-d("UIPadding", {
-    PaddingLeft = UDim.new(0, 12),
-    PaddingRight = UDim.new(0, 12)
-})
-
--- Icon kiri
-if k.Icon then
+           if k.Icon then
     local iconData = b.Icon(k.Icon)
     d("ImageLabel", {
         Name = "Icon",
@@ -7080,11 +7067,11 @@ if k.Icon then
     })
 end
 
--- Title fleksibel (mengisi semua sisa space di antara icon & arrow)
+-- Title fleksibel (mengisi sisa space sebelum arrow)
 d("TextLabel", {
     Name = "Title",
     BackgroundTransparency = 1,
-    Size = UDim2.new(1, -34, 1, 0), -- akan terisi penuh, dikurangi space arrow
+    Size = UDim2.new(1, -34, 1, 0), -- minus lebar arrow + padding
     Text = k.Title,
     TextXAlignment = Enum.TextXAlignment.Left,
     FontFace = Font.new(b.Font, Enum.FontWeight.Medium),
@@ -7094,7 +7081,7 @@ d("TextLabel", {
     Parent = headerMain
 })
 
--- Arrow di kanan dengan lebar tetap
+-- Arrow kanan
 local arrow = d("ImageLabel", {
     Name = "Arrow",
     BackgroundTransparency = 1,
