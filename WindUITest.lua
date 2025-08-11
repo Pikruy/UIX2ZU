@@ -7113,7 +7113,7 @@ do
                 ImageRectOffset = b.Icon("chevron-down")[2].ImageRectPosition,
                 Size = UDim2.new(0, 16, 0, 16),
                 AnchorPoint = Vector2.new(0.5, 0.5),    -- pusat rotasi
-                Position = UDim2.new(0.5, -5, 0.5, 0),  -- geser 2px ke kiri
+                Position = UDim2.new(0.5, -8, 0.5, 0),  -- geser 2px ke kiri
                 BackgroundTransparency = 1,
                 Parent = arrowHolder,
                 ZIndex = headerMain.ZIndex + 1
