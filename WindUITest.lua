@@ -6980,7 +6980,7 @@ do
         local e = b.Tween
         local h = {}
 
-        function h.New(params)
+        function h.New(self, params)
             local k = {
                 __type = "Collapsible",
                 Title = params.Title or "Collapsible",
