@@ -7247,11 +7247,11 @@ do
                         task.delay(0.2, function()
                             if not expanded then
                                 contentFrame.Visible = false
+                                shadow.ImageTransparency = 1
+                                arrowGradient.Enabled = false
+                                arrow.ImageColor3 = originalColor3
                             end
                         end)
-                        shadow.ImageTransparency = 1
-                        arrowGradient.Enabled = false
-                        arrow.ImageColor3 = originalColor3
                     end
                 end
             end)
