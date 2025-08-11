@@ -7067,20 +7067,32 @@ do
             })
 
             -- Shadow image (z-index lebih rendah)
-            d("ImageLabel", {
+            local shadow = d("ImageLabel", {
                 Name = "Shadow",
                 BackgroundTransparency = 1,
                 Image = "rbxassetid://1316045217",   -- ganti kalau pakai asset lain
                 ScaleType = Enum.ScaleType.Slice,
                 SliceCenter = Rect.new(10, 10, 118, 118),
-                -- buat ukuran sedikit lebih besar dan geser supaya "mengelilingi" header
+
                 Size = UDim2.new(1, 12, 0, 48),
                 Position = UDim2.new(0, -6, 0, -4),
-                ImageTransparency = 0.75,            -- atur agar lebih lembut
+                ImageTransparency = 0.75,          
                 ZIndex = 1,
                 Parent = headerContainer
             })
-
+            local shadowGradient = Instance.new("UIGradient")
+            shadowGradient.Rotation = 90
+            shadowGradient.Color = ColorSequence.new({
+                ColorSequenceKeypoint.new(0, Color3.fromHex("#1E3AFF")), -- biru deep
+                ColorSequenceKeypoint.new(0.5, Color3.fromHex("#7A3CFF")), -- ungu lembut
+                ColorSequenceKeypoint.new(1, Color3.fromHex("#000000"))  -- hitam
+            })
+            shadowGradient.Transparency = NumberSequence.new({
+                NumberSequenceKeypoint.new(0, 0.6),
+                NumberSequenceKeypoint.new(1, 0.9)
+            })
+            shadowGradient.Enabled = false   -- disable dulu
+            shadowGradient.Parent = shadow
             -- Actual header (di atas shadow)
             local headerMain = d("Frame", {
                 Name = "HeaderMain",
@@ -7249,6 +7261,7 @@ do
                         end)
                         arrowGradient.Enabled = false
                         arrow.ImageColor3 = originalColor3
+                        shadowGradient.Enabled = expanded
                     end
                 end
             end)
