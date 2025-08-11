@@ -2359,7 +2359,7 @@ do
                 Thumbnail = g.Thumbnail,
                 ThumbnailSize = g.ThumbnailSize or 80,
                 Image = g.Image,
-                Icon = g.Icon or nil, -- 👈 TAMBAH: simpan icon di sini
+                Icon = g.Icon or nil,
                 IconThemed = g.IconThemed or false,
                 ImageSize = g.ImageSize or 30,
                 Color = g.Color,
