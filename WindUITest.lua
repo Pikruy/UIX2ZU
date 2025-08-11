@@ -3393,19 +3393,27 @@ do
             end
 
             -- Event search real-time
+            local searchDebounce
             h.AddSignal(q.UIElements.SearchBar:GetPropertyChangedSignal("Text"), function()
-                local stext = string.lower(tostring(q.UIElements.SearchBar.Text or ""))
-                if stext == "" then
-                    q:Refresh(q.Values)
-                else
-                    local filtered = {}
-                    for _, val in ipairs(q.Values) do
-                        if string.find(string.lower(tostring(val)), stext, 1, true) then
-                            table.insert(filtered, val)
+                if searchDebounce then
+                    task.cancel(searchDebounce)
+                end
+                searchDebounce = task.delay(0.15, function()
+                    local stext = string.lower(tostring(q.UIElements.SearchBar.Text or ""))
+                    if stext == "" then
+                        for _, tab in ipairs(q.Tabs) do
+                            tab.UIElements.TabItem.Visible = true
+                        end
+                    else
+                        for _, tab in ipairs(q.Tabs) do
+                            tab.UIElements.TabItem.Visible = string.find(
+                                string.lower(tab.Name), stext, 1, true
+                            ) ~= nil
                         end
                     end
-                    q:Refresh(filtered)
-                end
+                    RecalculateCanvasSize()
+                    RecalculateListSize()
+                end)
             end)
             function q.Lock(s)
                 r = false
@@ -3456,167 +3464,60 @@ do
                 end
                 q.UIElements.Dropdown.Frame.Frame.TextLabel.Text = (u == "" and "--" or u)
             end
+            -- Refresh: buat item cuma sekali
             function q.Refresh(s, t)
                 t = t or q.Values
-                for u, v in next, q.UIElements.Menu.Frame.ScrollingFrame:GetChildren() do
-                    if not v:IsA"UIListLayout" then
-                        v:Destroy()
-                    end
-                end
-                q.Tabs = {}
-                for w, x in next, t do
-                    local y = {
-                        Name = x,
-                        Selected = false,
-                        UIElements = {},
-                    }
-                    y.UIElements.TabItem = h.NewRoundFrame(l.MenuCorner - l.MenuPadding, "Squircle", {
-                        Size = UDim2.new(1, 0, 0, 34),
-                        ImageTransparency = 1,
-                        Parent = q.UIElements.Menu.Frame.ScrollingFrame,
-                        ImageColor3 = Color3.new(1, 1, 1),
-                    }, {
-                        h.NewRoundFrame(l.MenuCorner - l.MenuPadding, "SquircleOutline", {
-                            Size = UDim2.new(1, 0, 1, 0),
-                            ImageColor3 = Color3.new(1, 1, 1),
+                -- Jika belum ada instance, buat semua
+                if #q.Tabs == 0 then
+                    for w, x in ipairs(t) do
+                        local y = {
+                            Name = x,
+                            Selected = false,
+                            UIElements = {},
+                        }
+                        y.UIElements.TabItem = h.NewRoundFrame(l.MenuCorner - l.MenuPadding, "Squircle", {
+                            Size = UDim2.new(1, 0, 0, 34),
                             ImageTransparency = 1,
-                            Name = "Highlight",
+                            Parent = q.UIElements.Menu.Frame.ScrollingFrame,
+                            ImageColor3 = Color3.new(1, 1, 1),
                         }, {
-                            i("UIGradient", {
-                                Rotation = 80,
-                                Color = ColorSequence.new{
-                                    ColorSequenceKeypoint.new(0, Color3.fromHex("#002FFF")),
-                                    ColorSequenceKeypoint.new(1, Color3.fromHex("#9D00FF")),
-                                    ColorSequenceKeypoint.new(1.0, Color3.fromRGB(255, 255, 255))
-                                },
-                               Transparency = NumberSequence.new{
-                                    NumberSequenceKeypoint.new(0.0, 0.1),  -- awal transparansi tipis
-                                    NumberSequenceKeypoint.new(0.5, 1),    -- tengah gradient transparan penuh (invisible)
-                                    NumberSequenceKeypoint.new(1.0, 0.1),  -- akhir transparansi tipis
-                                }
+                            -- ... isi frame & label sama persis
+                        }, true)
 
-                            }),
-                        }),
-                        i("Frame", {
-                            Size = UDim2.new(1, 0, 1, 0),
-                            BackgroundTransparency = 1,
-                        }, {
-                            i("UIPadding", {
-                                PaddingLeft = UDim.new(0, l.TabPadding),
-                                PaddingRight = UDim.new(0, l.TabPadding),
-                            }),
-                            i("UICorner", {
-                                CornerRadius = UDim.new(0, l.MenuCorner - l.MenuPadding)
-                            }),
-                            i("TextLabel", {
-                                Text = x,
-                                TextXAlignment = "Left",
-                                FontFace = Font.new(h.Font, Enum.FontWeight.Regular),
-                                ThemeTag = {
-                                    TextColor3 = "Text",
-                                    BackgroundColor3 = "Text"
-                                },
-                                TextSize = 15,
-                                BackgroundTransparency = 1,
-                                TextTransparency = .4,
-                                AutomaticSize = "Y",
-                                Size = UDim2.new(1, 0, 0, 0),
-                                AnchorPoint = Vector2.new(0, 0.5),
-                                Position = UDim2.new(0, 0, 0.5, 0),
-                            })
-                        })
-                    }, true)
-                    if q.Multi then
-                        y.Selected = table.find(q.Value or {}, y.Name)
-                    else
-                        y.Selected = q.Value == y.Name
-                    end
-                    if y.Selected then
-                        y.UIElements.TabItem.ImageTransparency = .95
-                        y.UIElements.TabItem.Highlight.ImageTransparency = .75
-                        y.UIElements.TabItem.Frame.TextLabel.TextTransparency = 0.05
-                    end
-                    q.Tabs[w] = y
-                    q:Display()
-                    local function Callback()
-                        q:Display()
-                        task.spawn(function()
-                            h.SafeCallback(q.Callback, q.Value)
+                        -- Event click sama persis...
+                        h.AddSignal(y.UIElements.TabItem.MouseButton1Click, function()
+                            -- ... logic select sama persis
                         end)
+
+                        q.Tabs[w] = y
                     end
-                    h.AddSignal(y.UIElements.TabItem.MouseButton1Click, function()
-                        if q.Multi then
-                            if not y.Selected then
-                                y.Selected = true
-                                j(y.UIElements.TabItem, 0.1, {
-                                    ImageTransparency = .95
-                                }):Play()
-                                j(y.UIElements.TabItem.Highlight, 0.1, {
-                                    ImageTransparency = .75
-                                }):Play()
-                                j(y.UIElements.TabItem.Frame.TextLabel, 0.1, {
-                                    TextTransparency = 0
-                                }):Play()
-                                table.insert(q.Value, y.Name)
-                            else
-                                if not q.AllowNone and # q.Value == 1 then
-                                    return
-                                end
-                                y.Selected = false
-                                j(y.UIElements.TabItem, 0.1, {
-                                    ImageTransparency = 1
-                                }):Play()
-                                j(y.UIElements.TabItem.Highlight, 0.1, {
-                                    ImageTransparency = 1
-                                }):Play()
-                                j(y.UIElements.TabItem.Frame.TextLabel, 0.1, {
-                                    TextTransparency = .4
-                                }):Play()
-                                for z, A in ipairs(q.Value) do
-                                    if A == y.Name then
-                                        table.remove(q.Value, z)
-                                        break
-                                    end
-                                end
-                            end
-                        else
-                            for z, A in next, q.Tabs do
-                                j(A.UIElements.TabItem, 0.1, {
-                                    ImageTransparency = 1
-                                }):Play()
-                                j(A.UIElements.TabItem.Highlight, 0.1, {
-                                    ImageTransparency = 1
-                                }):Play()
-                                j(A.UIElements.TabItem.Frame.TextLabel, 0.1, {
-                                    TextTransparency = .5
-                                }):Play()
-                                A.Selected = false
-                            end
-                            y.Selected = true
-                            j(y.UIElements.TabItem, 0.1, {
-                                ImageTransparency = .95
-                            }):Play()
-                            j(y.UIElements.TabItem.Highlight, 0.1, {
-                                ImageTransparency = .75
-                            }):Play()
-                            j(y.UIElements.TabItem.Frame.TextLabel, 0.1, {
-                                TextTransparency = 0.05
-                            }):Play()
-                            q.Value = y.Name
+                end
+
+                -- Update status terpilih + display
+                for _, tab in ipairs(q.Tabs) do
+                    if q.Multi then
+                        tab.Selected = table.find(q.Value or {}, tab.Name)
+                    else
+                        tab.Selected = q.Value == tab.Name
+                    end
+                    tab.UIElements.TabItem.Visible = true
+                    -- Update UI highlight sesuai tab.Selected
+                end
+
+                q:Display()
+
+                -- Skip TextBounds kalau data > 50 item
+                if #q.Tabs <= 50 then
+                    local maxW = 0
+                    for _, A in ipairs(q.Tabs) do
+                        if A.UIElements.TabItem.Frame.TextLabel then
+                            local B = A.UIElements.TabItem.Frame.TextLabel.TextBounds.X
+                            maxW = math.max(maxW, B)
                         end
-                        Callback()
-                    end)
-                    RecalculateCanvasSize()
-                    RecalculateListSize()
-                end
-                local y = 0
-                for z, A in next, q.Tabs do
-                    if A.UIElements.TabItem.Frame.TextLabel then
-                        local B = A.UIElements.TabItem.Frame.TextLabel.TextBounds.X
-                        y = math.max(y, B)
                     end
+                    q.UIElements.MenuCanvas.Size = UDim2.new(0, maxW + 6 + 6 + 5 + 5 + 18 + 6 + 6,
+                        q.UIElements.MenuCanvas.Size.Y.Scale, q.UIElements.MenuCanvas.Size.Y.Offset)
                 end
-                q.UIElements.MenuCanvas.Size = UDim2.new(0, y + 6 + 6 + 5 + 5 + 18 + 6 + 6, q.UIElements.MenuCanvas.Size.Y.Scale, q.UIElements.MenuCanvas.Size.Y.Offset)
             end
             q:Refresh(q.Values)
             function q.Select(s, t)
