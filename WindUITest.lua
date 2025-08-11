@@ -7104,12 +7104,13 @@ do
                 ImageRectSize = b.Icon("chevron-down")[2].ImageRectSize,
                 ImageRectOffset = b.Icon("chevron-down")[2].ImageRectPosition,
                 Size = UDim2.new(0, 16, 0, 16),
-                AnchorPoint = Vector2.new(1, 0.5),
-                Position = UDim2.new(1, -8, 0.5, 0),
+                AnchorPoint = Vector2.new(0.5, 0.5), -- 🔹 penting biar rotasi di tengah
+                Position = UDim2.new(1, -16, 0.5, 0), -- 🔹 geser dikit biar pas
                 BackgroundTransparency = 1,
                 ThemeTag = { ImageColor3 = "Icon" },
                 Parent = headerMain
             })
+
 
 
             ----------------------------------------------------------------
@@ -7147,7 +7148,10 @@ do
 
                     -- Tween pakai TweenService
                     local tweenInfo = TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-                    TweenService:Create(arrow, tweenInfo, { Rotation = expanded and 180 or 0 }):Play()
+                    TweenService:Create(arrow, TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+                        Rotation = expanded and 180 or 0
+                    }):Play()
+
 
                     if expanded then
                         contentFrame.Visible = true
