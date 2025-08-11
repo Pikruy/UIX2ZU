@@ -3656,7 +3656,7 @@ do
                     j(q.UIElements.Menu, 0.1, {
                         Size = UDim2.new(1, 0, 1, 0)
                     }, Enum.EasingStyle.Quart, Enum.EasingDirection.Out):Play()
-                    
+
                     task.spawn(function()
                         task.wait(0.12) -- tunggu animasi
                         q.Opened = true
@@ -3667,17 +3667,19 @@ do
                             end)
                         end
 
-                        -- Scroll ke atas setelah menu siap
+                        -- Tunggu satu frame supaya UIListLayout update dulu
+                        task.wait() -- tunggu frame berikutnya
+
                         local sc = q.UIElements.Menu.Frame:FindFirstChild("ScrollingFrame")
                         if sc then
                             sc.CanvasPosition = Vector2.new(0, 0)
                         end
                     end)
 
-
                     UpdatePosition()
                 end
             end
+
             function q.Close(s)
                 q.Opened = false
                 j(q.UIElements.Menu, 0.25, {
