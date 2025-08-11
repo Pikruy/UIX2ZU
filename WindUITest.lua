@@ -3430,9 +3430,7 @@ do
                 ImageColor3 = Color3.fromRGB(200, 200, 200),
                 ScaleType = Enum.ScaleType.Fit,
             })
-            q.UIElements.SearchBar.Size = UDim2.new(1, -(l.MenuPadding * 2 + 30), 0, 34)
-            q.UIElements.SearchBar.Position = UDim2.new(0, l.MenuPadding + 30, 0, l.MenuPadding)
-
+            
             -- Event search real-time
             -- Search tanpa destroy massal, cuma toggle visible
             local searchDebounce
