@@ -3692,7 +3692,7 @@ do
                         task.wait(0.12) -- tunggu animasi
                         q.Opened = true
                         if q.UIElements.SearchBar then
-                            q.UIElements.SearchBar.Text = ""
+                            -- q.UIElements.SearchBar.Text = ""
                             --pcall(function()
                                 --q.UIElements.SearchBar:CaptureFocus()
                             --end)
