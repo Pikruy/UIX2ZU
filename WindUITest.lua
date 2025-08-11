@@ -7140,9 +7140,12 @@ do
             headerMain.InputBegan:Connect(function(input)
                 if input.UserInputType == Enum.UserInputType.MouseButton1 then
                     expanded = not expanded
+
+                    print("Expanded:", expanded, "Rotation target:", expanded and 180 or 0)
                     
-                    -- Muter icon, 0 derajat kalau tertutup, 180 derajat kalau terbuka
+                    -- Muter icon
                     e(arrow, 0.2, { Rotation = expanded and 180 or 0 }):Play()
+                    print("Current arrow.Rotation (before tween):", arrow.Rotation)
 
                     if expanded then
                         contentFrame.Visible = true
@@ -7157,8 +7160,14 @@ do
                             end
                         end)
                     end
+
+                    -- Delay sedikit untuk lihat hasil setelah tween
+                    task.delay(0.25, function()
+                        print("Arrow.Rotation (after tween):", arrow.Rotation)
+                    end)
                 end
             end)
+
 
 
             return k.__type, k
