@@ -7003,7 +7003,7 @@ do
             })
             k.Wrapper = wrapper
             -- Header
-            k.HeaderFrame = a.load'p'{
+            k.HeaderFrame = a.load'header'{
                 Title = k.Title,
                 Window = params.Window,
                 Parent = wrapper,
@@ -7069,6 +7069,68 @@ do
 
         return h
     end
+    function a.header()
+        local b = a.load'a'
+        local e = b.New
+        local h = {}
+
+        function h.New(params)
+            local k = {
+                __type = "Header",
+                Title = params.Title or "Untitled",
+                Icon = params.Icon or nil,
+                Window = params.Window,
+                UIElements = {}
+            }
+
+            -- Wrapper frame
+            local main = e("Frame", {
+                Size = UDim2.new(1, 0, 0, 28),
+                BackgroundTransparency = 1,
+                Parent = params.Parent
+            }, {
+                e("UIListLayout", {
+                    FillDirection = "Horizontal",
+                    Padding = UDim.new(0, 6),
+                    VerticalAlignment = Enum.VerticalAlignment.Center
+                })
+            })
+            k.UIElements.Main = main
+
+            -- Icon (kalau ada)
+            if k.Icon then
+                local iconData = b.Icon(k.Icon)
+                local icon = e("ImageLabel", {
+                    BackgroundTransparency = 1,
+                    Size = UDim2.new(0, 16, 0, 16),
+                    Image = iconData[1],
+                    ImageRectOffset = iconData[2].ImageRectPosition,
+                    ImageRectSize = iconData[2].ImageRectSize,
+                    ThemeTag = { ImageColor3 = "Icon" }
+                })
+                icon.Parent = main
+                k.UIElements.Icon = icon
+            end
+
+            -- Title label
+            local titleLabel = e("TextLabel", {
+                BackgroundTransparency = 1,
+                Size = UDim2.new(1, 0, 1, 0),
+                Text = k.Title,
+                TextXAlignment = Enum.TextXAlignment.Left,
+                FontFace = Font.new(b.Font, Enum.FontWeight.Medium),
+                TextSize = 14,
+                ThemeTag = { TextColor3 = "Text" }
+            })
+            titleLabel.Parent = main
+            k.UIElements.Title = titleLabel
+
+            return k.__type, k
+        end
+
+        return h
+    end
+
 end
 local aa = {
     Window = nil,
