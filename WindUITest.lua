@@ -5096,6 +5096,41 @@ do
                     return E
                 end
             end
+            function k:Collapsible(options)
+                local _, element = y.Collapsible:New({
+                    Title = options.Title,
+                    Parent = self.UIElements.ContainerFrame,
+                    Window = self.Window,
+                    Icon = options.Icon
+                })
+
+                element.Window = self.Window
+                element.WindUI = self.WindUI
+
+                local elementsLib = {
+                    Button = a.load'q',
+                    Toggle = a.load't',
+                    Slider = a.load'u',
+                    Keybind = a.load'v',
+                    Input = a.load'w',
+                    Dropdown = a.load'x',
+                    Code = a.load'A',
+                    Colorpicker = a.load'B',
+                    Section = a.load'C'
+                }
+
+                for name, lib in pairs(elementsLib) do
+                    element[name] = function(_, props)
+                        props.Parent = element.Content
+                        props.Window = self.Window
+                        props.WindUI = self.WindUI
+                        local _, obj = lib:New(props)
+                        return obj
+                    end
+                end
+
+                return element
+            end
             task.spawn(function()
                 local B = ac("Frame", {
                     BackgroundTransparency = 1,
@@ -6944,19 +6979,19 @@ do
         local e = b.Tween
         local h = {}
 
-        function h.New(i, j)
+        function h.New(params)
             local k = {
                 __type = "Collapsible",
-                Title = j.Title or "Collapsible",
-                Icon = j.Icon or nil,
+                Title = params.Title or "Collapsible",
+                Icon = params.Icon or nil,
                 UIElements = {}
             }
 
-            -- Header frame
+            -- Header
             k.HeaderFrame = a.load'p'{
                 Title = k.Title,
-                Window = j.Window,
-                Parent = j.Parent,
+                Window = params.Window,
+                Parent = params.Parent,
                 TextOffset = 44,
                 Hover = false,
             }
@@ -6981,7 +7016,7 @@ do
                 BackgroundTransparency = 1,
                 Visible = false,
                 ClipsDescendants = true,
-                Parent = j.Parent
+                Parent = params.Parent
             }, {
                 d("UIListLayout", {
                     FillDirection = "Vertical",
@@ -6992,7 +7027,7 @@ do
 
             k.Content = contentFrame
 
-            -- Toggle expand/collapse
+            -- Expand/Collapse behaviour
             local expanded = false
             b.AddSignal(k.HeaderFrame.UIElements.Main.MouseButton1Click, function()
                 expanded = not expanded
@@ -7012,12 +7047,6 @@ do
                     end)
                 end
             end)
-
-            -- API buat nambah elemen di dalam collapsible
-            function k:AddElement(elementType, params)
-                params.Parent = contentFrame
-                return elementType(params)
-            end
 
             return k.__type, k
         end
