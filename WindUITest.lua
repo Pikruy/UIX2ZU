@@ -3420,6 +3420,19 @@ do
                 sc.Size = UDim2.new(1, 0, 1, -(34 + l.MenuPadding))
             end
 
+            -- Tambah logo search di kiri SearchBar
+            local searchIcon = i("ImageLabel", {
+                Parent = q.UIElements.Menu.Frame,
+                Size = UDim2.new(0, 20, 0, 20),
+                Position = UDim2.new(0, l.MenuPadding + 5, 0, l.MenuPadding + 7),
+                BackgroundTransparency = 1,
+                Image = "rbxassetid://89404553671395", -- ganti dengan asset ID icon search
+                ImageColor3 = Color3.fromRGB(200, 200, 200),
+                ScaleType = Enum.ScaleType.Fit,
+            })
+            q.UIElements.SearchBar.Size = UDim2.new(1, -(l.MenuPadding * 2 + 30), 0, 34)
+            q.UIElements.SearchBar.Position = UDim2.new(0, l.MenuPadding + 30, 0, l.MenuPadding)
+
             -- Event search real-time
             -- Search tanpa destroy massal, cuma toggle visible
             local searchDebounce
@@ -3692,7 +3705,7 @@ do
                         task.wait(0.12) -- tunggu animasi
                         q.Opened = true
                         if q.UIElements.SearchBar then
-                            -- q.UIElements.SearchBar.Text = ""
+                            q.UIElements.SearchBar.Text = ""
                             --pcall(function()
                                 --q.UIElements.SearchBar:CaptureFocus()
                             --end)
