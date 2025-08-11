@@ -7009,19 +7009,41 @@ do
             local headerMain = d("Frame", {
                 Name = "HeaderMain",
                 Size = UDim2.new(1, 0, 0, 40),
-                BackgroundTransparency = 1,
+                BackgroundColor3 = Color3.fromRGB(38, 20, 58), -- warna ungu gelap mirip contoh
+                BorderSizePixel = 0,
                 Parent = wrapper
             }, {
-                d("UIPadding", {  -- ⬅ padding kiri-kanan
-                    PaddingLeft = UDim.new(0, 12),
-                    PaddingRight = UDim.new(0, 8)
+                -- Sudut melengkung
+                d("UICorner", {
+                    CornerRadius = UDim.new(0, 8)
                 }),
+
+                -- Bayangan belakang
+                d("ImageLabel", {
+                    Name = "Shadow",
+                    BackgroundTransparency = 1,
+                    Image = "rbxassetid://1316045217", -- ID shadow rounded
+                    ScaleType = Enum.ScaleType.Slice,
+                    SliceCenter = Rect.new(10, 10, 118, 118),
+                    Size = UDim2.new(1, 8, 1, 8),
+                    Position = UDim2.new(0, -4, 0, -4),
+                    ImageTransparency = 0.3,
+                    ZIndex = 0
+                }),
+
+                -- Padding dalam header
+                d("UIPadding", {
+                    PaddingLeft = UDim.new(0, 12),
+                    PaddingRight = UDim.new(0, 12)
+                }),
+
                 d("UIListLayout", {
                     FillDirection = "Horizontal",
                     VerticalAlignment = Enum.VerticalAlignment.Center,
-                    Padding = UDim.new(0, 8) -- jarak antar icon & text
+                    Padding = UDim.new(0, 8)
                 })
             })
+
 
             k.HeaderFrame = headerMain
 
