@@ -7098,17 +7098,25 @@ do
                 Parent = headerMain
             })
 
+            local arrowHolder = d("Frame", {
+                Name = "ArrowHolder",
+                Size = UDim2.new(0, 24, 1, 0),    -- reserve space untuk arrow (tidak ikut pos override)
+                BackgroundTransparency = 1,
+                LayoutOrder = 3,                  -- pastikan urutan kanan
+                Parent = headerMain
+            })
+
             local arrow = d("ImageLabel", {
                 Name = "Arrow",
                 Image = b.Icon("chevron-down")[1],
                 ImageRectSize = b.Icon("chevron-down")[2].ImageRectSize,
                 ImageRectOffset = b.Icon("chevron-down")[2].ImageRectPosition,
                 Size = UDim2.new(0, 16, 0, 16),
-                AnchorPoint = Vector2.new(0.5, 0.5), -- 🔹 penting biar rotasi di tengah
-                Position = UDim2.new(1, -16, 0.5, 0), -- 🔹 geser dikit biar pas
+                AnchorPoint = Vector2.new(0.5, 0.5),    -- pusat rotasi
+                Position = UDim2.new(0.5, 0, 0.5, 0),   -- center di holder
                 BackgroundTransparency = 1,
-                ThemeTag = { ImageColor3 = "Icon" },
-                Parent = headerMain
+                Parent = arrowHolder,
+                ZIndex = headerMain.ZIndex + 1
             })
 
 
@@ -7137,32 +7145,54 @@ do
             ----------------------------------------------------------------
             -- TOGGLE LOGIC
             ----------------------------------------------------------------
-            local TweenService = game:GetService("TweenService")
+           arrow:GetPropertyChangedSignal("Rotation"):Connect(function()
+    print("[DEBUG] arrow Rotation changed ->", arrow.Rotation, " fullName:", arrow:GetFullName())
+end)
+print("[DEBUG] created arrow ->", arrow:GetFullName())
 
-            local expanded = false
-            headerMain.InputBegan:Connect(function(input)
-                if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                    expanded = not expanded
-                    print("Expanded:", expanded) -- debug
+-- Toggle logic: gunakan TweenService langsung (bebas dari e wrapper)
+local TweenService = game:GetService("TweenService")
+local expanded = false
+headerMain.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        expanded = not expanded
 
-                    -- animasi arrow
-                    e(arrow, 0.2, { Rotation = expanded and 90 or 0 }):Play()
+        -- debug quick
+        print("Expanded:", expanded)
 
-                    if expanded then
-                        contentFrame.Visible = true
-                        e(contentFrame, 0.2, {
-                            Size = UDim2.new(1, 0, 0, layout.AbsoluteContentSize.Y)
-                        }):Play()
-                    else
-                        e(contentFrame, 0.2, { Size = UDim2.new(1, 0, 0, 0) }):Play()
-                        task.delay(0.2, function()
-                            if not expanded then
-                                contentFrame.Visible = false
-                            end
-                        end)
-                    end
+        -- tween rotasi (0 -> 90 derajat, lebih terlihat)
+        local rotTarget = expanded and 90 or 0
+        local tween = TweenService:Create(arrow, TweenInfo.new(0.18, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+            Rotation = rotTarget
+        })
+        tween:Play()
+
+        -- fallback direct set (untuk cek jika tween gagal)
+        task.delay(0.22, function()
+            print("[DEBUG] after tween, arrow.Rotation =", arrow.Rotation)
+            -- jika masih 0, coba langsung set untuk memastikan property bisa berubah
+            arrow.Rotation = rotTarget
+            print("[DEBUG] after direct set, arrow.Rotation =", arrow.Rotation)
+        end)
+
+        -- expand/collapse content (tetap pakai e untuk konten)
+        if expanded then
+            contentFrame.Visible = true
+            e(contentFrame, 0.2, {
+                Size = UDim2.new(1, 0, 0, layout.AbsoluteContentSize.Y)
+            }):Play()
+        else
+            e(contentFrame, 0.2, {
+                Size = UDim2.new(1, 0, 0, 0)
+            }):Play()
+            task.delay(0.2, function()
+                if not expanded then
+                    contentFrame.Visible = false
                 end
             end)
+        end
+    end
+end)
 
 
 
