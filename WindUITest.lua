@@ -7046,7 +7046,8 @@ do
                 d("UIListLayout", {
                     FillDirection = "Horizontal",
                     VerticalAlignment = Enum.VerticalAlignment.Center,
-                    Padding = UDim.new(0, 8)
+                    Padding = UDim.new(0, 12)
+                    print("NIGGA")
                 })
             })
             headerMain.ZIndex = 2  -- pastikan header di atas shadow
@@ -7085,9 +7086,8 @@ do
                 ImageRectOffset = b.Icon("chevron-down")[2].ImageRectPosition,
                 Size = UDim2.new(0, 16, 0, 16),
                 AnchorPoint = Vector2.new(1, 0.5),
-                Position = UDim2.new(1, -20, 0.5, 0),
+                Position = UDim2.new(1, -8, 0.5, 0),
                 BackgroundTransparency = 1,
-                ZIndex = 3,
                 ThemeTag = { ImageColor3 = "Icon" },
                 Parent = headerMain
             })
