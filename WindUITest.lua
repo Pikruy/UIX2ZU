@@ -3020,7 +3020,10 @@ do
                                     o:Disconnect()
                                     p:Disconnect()
                                     h = false
-                                    k.SliderFrame.Parent.ScrollingEnabled = true
+                                    
+                                    if k.SliderFrame.Parent:IsA("ScrollingFrame") then
+                                        k.SliderFrame.Parent.ScrollingEnabled = true
+                                    end
                                 end
                             end)
                         end
