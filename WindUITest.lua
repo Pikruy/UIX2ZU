@@ -7104,12 +7104,13 @@ do
                 ImageRectSize = b.Icon("chevron-down")[2].ImageRectSize,
                 ImageRectOffset = b.Icon("chevron-down")[2].ImageRectPosition,
                 Size = UDim2.new(0, 16, 0, 16),
-                AnchorPoint = Vector2.new(1, 0.5),
-                Position = UDim2.new(1, -8, 0.5, 0),
+                AnchorPoint = Vector2.new(0.5, 0.5), -- tengah
+                Position = UDim2.new(1, -16, 0.5, 0), -- geser dikit karena anchor di tengah
                 BackgroundTransparency = 1,
                 ThemeTag = { ImageColor3 = "Icon" },
                 Parent = headerMain
             })
+
 
 
             ----------------------------------------------------------------
