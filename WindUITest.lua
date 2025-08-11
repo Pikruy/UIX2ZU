@@ -7068,7 +7068,7 @@ do
             local contentFrame = d("Frame", {
                 Name = "Content",
                 Size = UDim2.new(1, 0, 0, 0),
-                BackgroundTransparency = 1,
+                BackgroundTransparency = 0,
                 Visible = false,
                 ClipsDescendants = true,
                 Parent = wrapper
