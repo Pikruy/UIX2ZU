@@ -7043,6 +7043,7 @@ do
                 d("UIGradient", { -- efek gradasi ringan biar mirip kaca
                     Color = ColorSequence.new{
                         ColorSequenceKeypoint.new(0, Color3.fromHex("#002FFF")),
+                        ColorSequenceKeypoint.new(0.5, Color3.fromHex("#9D00FF")),
                         ColorSequenceKeypoint.new(1, Color3.fromHex("#FFFFFF"))
                     },
                     Transparency = NumberSequence.new{
