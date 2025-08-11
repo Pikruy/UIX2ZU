@@ -5100,7 +5100,7 @@ do
                     return E
                 end
             end
-            function k:Collapsible(options)
+            function k.Collapsible(options)
                 local _, element = y.Collapsible:New({
                     Title = options.Title,
                     Parent = self.UIElements.ContainerFrame,
@@ -6981,7 +6981,7 @@ do
         local h = {}
 
         function h.New(params)
-            local k = {
+            local jj = {
                 __type = "Collapsible",
                 Title = params.Title or "Collapsible",
                 Icon = params.Icon or nil,
@@ -7001,20 +7001,18 @@ do
                     SortOrder = Enum.SortOrder.LayoutOrder
                 })
             })
-            k.Wrapper = wrapper
+            jj.Wrapper = wrapper
 
             -- Header
-            k.HeaderFrame = a.load'p'{
-                Title = k.Title,
-                Icon = k.Icon, -- ini WAJIB biar nggak default
+            jj.HeaderFrame = a.load'p'{
+                Title = jj.Title,
+                Icon = jj.Icon, -- ini WAJIB biar nggak default
                 Window = params.Window,
                 Parent = wrapper,
                 TextOffset = 44,
                 Hover = false,
             }
-
-
-
+            
             -- Arrow icon
             local arrow = d("ImageLabel", {
                 Name = "Arrow",
@@ -7024,7 +7022,7 @@ do
                 AnchorPoint = Vector2.new(1, 0.5),
                 Position = UDim2.new(1, -8, 0.5, 0),
             })
-            arrow.Parent = k.HeaderFrame.UIElements.Main
+            arrow.Parent = jj.HeaderFrame.UIElements.Main
 
             -- Helper untuk set icon
             local function setArrow(iconName)
@@ -7053,11 +7051,11 @@ do
             })
 
             local layout = contentFrame:FindFirstChildOfClass("UIListLayout")
-            k.Content = contentFrame
+            jj.Content = contentFrame
 
             -- Expand/Collapse
             local expanded = false
-            b.AddSignal(k.HeaderFrame.UIElements.Main.MouseButton1Click, function()
+            b.AddSignal(jj.HeaderFrame.UIElements.Main.MouseButton1Click, function()
                 expanded = not expanded
                 setArrow(expanded and "chevron-up" or "chevron-down")
 
@@ -7076,7 +7074,7 @@ do
                 end
             end)
 
-            return k.__type, k
+            return jj.__type, jj
         end
 
         return h
