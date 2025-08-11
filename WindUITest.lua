@@ -7039,20 +7039,29 @@ do
                 BorderSizePixel = 0,
                 Parent = headerContainer
             }, {
+                d("UIStroke", {
+                    Color = Color3.fromRGB(255,255,255),
+                    Transparency = 0.7,
+                    Thickness = 1
+                }),
                 d("UICorner", { CornerRadius = UDim.new(0, 8) }),
                 d("UIGradient", { -- efek gradasi ringan biar mirip kaca
                     Color = ColorSequence.new{
-                        ColorSequenceKeypoint.new(0, Color3.fromHex("#002FFF")),
-                        ColorSequenceKeypoint.new(0.5, Color3.fromHex("#9D00FF")),
-                        ColorSequenceKeypoint.new(1, Color3.fromHex("#FFFFFF"))
+                        ColorSequenceKeypoint.new(0, Color3.fromHex("#1E3AFF")),  -- biru deep
+                        ColorSequenceKeypoint.new(0.4, Color3.fromHex("#7A3CFF")), -- ungu lembut
+                        ColorSequenceKeypoint.new(0.7, Color3.fromHex("#2E2E2E")), -- abu gelap
+                        ColorSequenceKeypoint.new(1, Color3.fromHex("#000000"))    -- hitam
                     },
-                     Transparency = NumberSequence.new{
-                        NumberSequenceKeypoint.new(0, 0.6),  -- kiri: cukup transparan
-                        NumberSequenceKeypoint.new(0.5, 0.7),-- tengah: sedikit lebih transparan
-                        NumberSequenceKeypoint.new(1, 0.6)   -- kanan: sama seperti kiri
+                    Transparency = NumberSequence.new{
+                        NumberSequenceKeypoint.new(0, 0.55),  -- kiri: agak transparan
+                        NumberSequenceKeypoint.new(0.4, 0.65),-- transisi lembut
+                        NumberSequenceKeypoint.new(0.7, 0.7), -- sedikit lebih transparan
+                        NumberSequenceKeypoint.new(1, 0.8)    -- fade ke gelap
                     },
-                    Rotation = 45 
+                    Rotation = 90
+
                 }),
+                
                 d("UIPadding", {
                     PaddingLeft = UDim.new(0, 12),
                     PaddingRight = UDim.new(0, 8)
