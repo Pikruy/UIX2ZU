@@ -3420,17 +3420,6 @@ do
                 sc.Size = UDim2.new(1, 0, 1, -(34 + l.MenuPadding))
             end
 
-            -- Tambah logo search di kiri SearchBar
-            local searchIcon = i("ImageLabel", {
-                Parent = q.UIElements.Menu.Frame,
-                Size = UDim2.new(0, 20, 0, 20),
-                Position = UDim2.new(0, l.MenuPadding + 5, 0, l.MenuPadding + 7),
-                BackgroundTransparency = 1,
-                Image = "rbxassetid://89404553671395", -- ganti dengan asset ID icon search
-                ImageColor3 = Color3.fromRGB(200, 200, 200),
-                ScaleType = Enum.ScaleType.Fit,
-            })
-            
             -- Event search real-time
             -- Search tanpa destroy massal, cuma toggle visible
             local searchDebounce
@@ -5168,6 +5157,7 @@ do
                     Title = options.Title,
                     Parent = self.UIElements.ContainerFrame,
                     Window = self.Window,
+                    Open = options.Open,
                     Icon = options.Icon
                 })
                 element.Wrapper.Parent = self.UIElements.ContainerFrame
@@ -7047,6 +7037,7 @@ do
             local k = {
                 __type = "Collapsible",
                 Title = params.Title or "Collapsible",
+                Open = params.Open or false,
                 Icon = params.Icon,
                 UIElements = {}
             }
@@ -7209,40 +7200,45 @@ do
             -- TOGGLE LOGIC
             ----------------------------------------------------------------
             -- Toggle logic: gunakan TweenService langsung (bebas dari e wrapper)
-            local TweenService = game:GetService("TweenService")
+           local TweenService = game:GetService("TweenService")
             local expanded = false
+
+            local function SetExpanded(state)
+                expanded = state
+                local rotTarget = expanded and 180 or 0
+                local tween = TweenService:Create(arrow, TweenInfo.new(0.18, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+                    Rotation = rotTarget
+                })
+                tween:Play()
+
+                task.delay(0.22, function()
+                    arrow.Rotation = rotTarget
+                end)
+
+                if expanded then
+                    contentFrame.Visible = true
+                    e(contentFrame, 0.2, {
+                        Size = UDim2.new(1, 0, 0, layout.AbsoluteContentSize.Y)
+                    }):Play()
+                else
+                    e(contentFrame, 0.2, {
+                        Size = UDim2.new(1, 0, 0, 0)
+                    }):Play()
+                    task.delay(0.2, function()
+                        if not expanded then
+                            contentFrame.Visible = false
+                        end
+                    end)
+                end
+            end
+
+            -- Set state awal sesuai params.Open
+            SetExpanded(k.Open)
+
+            -- Event toggle hanya 1x
             headerMain.InputBegan:Connect(function(input)
                 if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                    expanded = not expanded
-                    -- tween rotasi (0 -> 90 derajat, lebih terlihat)
-                    local rotTarget = expanded and 180 or 0
-                    local tween = TweenService:Create(arrow, TweenInfo.new(0.18, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-                        Rotation = rotTarget
-                    })
-                    tween:Play()
-
-                    -- fallback direct set (untuk cek jika tween gagal)
-                    task.delay(0.22, function()
-                        -- jika masih 0, coba langsung set untuk memastikan property bisa berubah
-                        arrow.Rotation = rotTarget
-                    end)
-
-                    -- expand/collapse content (tetap pakai e untuk konten)
-                    if expanded then
-                        contentFrame.Visible = true
-                        e(contentFrame, 0.2, {
-                            Size = UDim2.new(1, 0, 0, layout.AbsoluteContentSize.Y)
-                        }):Play()
-                    else
-                        e(contentFrame, 0.2, {
-                            Size = UDim2.new(1, 0, 0, 0)
-                        }):Play()
-                        task.delay(0.2, function()
-                            if not expanded then
-                                contentFrame.Visible = false
-                            end
-                        end)
-                    end
+                    SetExpanded(not expanded)
                 end
             end)
 
