@@ -1601,75 +1601,6 @@ do
             })
             return o
         end
-        -- Fungsi baru untuk collapsible section
-        function b.NewCollapsible(title, icon, parent)
-            local expanded = false
-
-            -- Header
-            local header = e("TextButton", {
-                Size = UDim2.new(1, 0, 0, 42),
-                BackgroundTransparency = 1,
-                Text = "",
-                Parent = parent
-            }, {
-                e("UIListLayout", {
-                    FillDirection = "Horizontal",
-                    VerticalAlignment = "Center",
-                    Padding = UDim.new(0, 8),
-                }),
-                e("ImageLabel", {
-                    Image = d.Icon(icon or "folder")[1],
-                    ImageRectSize = d.Icon(icon or "folder")[2].ImageRectSize,
-                    ImageRectOffset = d.Icon(icon or "folder")[2].ImageRectPosition,
-                    Size = UDim2.new(0, 20, 0, 20),
-                    BackgroundTransparency = 1,
-                    ThemeTag = { ImageColor3 = "Icon" }
-                }),
-                e("TextLabel", {
-                    Text = title,
-                    BackgroundTransparency = 1,
-                    FontFace = Font.new(d.Font, Enum.FontWeight.SemiBold),
-                    ThemeTag = { TextColor3 = "Text" },
-                    AutomaticSize = "XY",
-                    TextSize = 16
-                }),
-                e("ImageLabel", {
-                    Name = "Arrow",
-                    Image = d.Icon("chevron-down")[1],
-                    ImageRectSize = d.Icon("chevron-down")[2].ImageRectSize,
-                    ImageRectOffset = d.Icon("chevron-down")[2].ImageRectPosition,
-                    Size = UDim2.new(0, 16, 0, 16),
-                    AnchorPoint = Vector2.new(1, 0.5),
-                    Position = UDim2.new(1, -8, 0.5, 0),
-                    BackgroundTransparency = 1,
-                    ThemeTag = { ImageColor3 = "Icon" }
-                })
-            })
-
-            -- Container isi
-            local contentFrame = e("Frame", {
-                Size = UDim2.new(1, 0, 0, 0),
-                BackgroundTransparency = 1,
-                AutomaticSize = "Y",
-                Visible = false,
-                ClipsDescendants = true,
-                Parent = parent
-            }, {
-                e("UIListLayout", {
-                    FillDirection = "Vertical",
-                    Padding = UDim.new(0, 6),
-                })
-            })
-
-            -- Toggle buka/tutup
-            d.AddSignal(header.MouseButton1Click, function()
-                expanded = not expanded
-                contentFrame.Visible = expanded
-                header.Arrow.Image = d.Icon(expanded and "chevron-up" or "chevron-down")[1]
-            end)
-
-            return contentFrame
-        end
         return b
     end
     function a.k()
@@ -3110,81 +3041,6 @@ do
         end
         return g
     end
-    function a.pro() -- Fungsi Collapsible
-        local b = a.load'a'
-        local d = b.New
-        local e = b.Tween
-        local h = {}
-
-        function h.New(i, j)
-            local k = {
-                __type = "Collapsible",
-                Title = j.Title or "Collapsible",
-                Icon = j.Icon or nil,
-                UIElements = {}
-            }
-
-            k.HeaderFrame = a.load'p'{
-                Title = k.Title,
-                Window = j.Window,
-                Parent = j.Parent,
-                TextOffset = 44,
-                Hover = false,
-            }
-
-            local arrow = d("ImageLabel", {
-                Name = "Arrow",
-                Image = b.Icon("chevron-down")[1],
-                ImageRectSize = b.Icon("chevron-down")[2].ImageRectSize,
-                ImageRectOffset = b.Icon("chevron-down")[2].ImageRectPosition,
-                Size = UDim2.new(0, 16, 0, 16),
-                AnchorPoint = Vector2.new(1, 0.5),
-                Position = UDim2.new(1, -8, 0.5, 0),
-                BackgroundTransparency = 1,
-                ThemeTag = { ImageColor3 = "Icon" }
-            })
-            arrow.Parent = k.HeaderFrame.UIElements.Main
-
-            local contentFrame = d("Frame", {
-                Size = UDim2.new(1, 0, 0, 0),
-                BackgroundTransparency = 1,
-                Visible = false,
-                ClipsDescendants = true,
-                Parent = j.Parent
-            }, {
-                d("UIListLayout", {
-                    FillDirection = "Vertical",
-                    Padding = UDim.new(0, 6),
-                })
-            })
-
-            local expanded = false
-            b.AddSignal(k.HeaderFrame.UIElements.Main.MouseButton1Click, function()
-                expanded = not expanded
-                arrow.Image = b.Icon(expanded and "chevron-up" or "chevron-down")[1]
-
-                if expanded then
-                    contentFrame.Visible = true
-                    e(contentFrame, 0.2, {
-                        Size = UDim2.new(1, 0, 0, contentFrame.UIListLayout.AbsoluteContentSize.Y)
-                    }):Play()
-                else
-                    e(contentFrame, 0.2, { Size = UDim2.new(1, 0, 0, 0) }):Play()
-                    task.delay(0.2, function()
-                        if not expanded then
-                            contentFrame.Visible = false
-                        end
-                    end)
-                end
-            end)
-
-            k.Content = contentFrame
-            return k.__type, k
-        end
-
-        return h
-    end
-
     function a.v() -- Fungsi Keybind
         local b = game:GetService"UserInputService"
         local e = a.load'a'
@@ -7081,6 +6937,93 @@ do
             return o
         end
     end
+    function a.I() -- Collapsible Section
+        local b = a.load'a'
+        local d = b.New
+        local e = b.Tween
+        local h = {}
+
+        function h.New(i, j)
+            local k = {
+                __type = "Collapsible",
+                Title = j.Title or "Collapsible",
+                Icon = j.Icon or nil,
+                UIElements = {}
+            }
+
+            -- Header frame
+            k.HeaderFrame = a.load'p'{
+                Title = k.Title,
+                Window = j.Window,
+                Parent = j.Parent,
+                TextOffset = 44,
+                Hover = false,
+            }
+
+            -- Arrow icon
+            local arrow = d("ImageLabel", {
+                Name = "Arrow",
+                Image = b.Icon("chevron-down")[1],
+                ImageRectSize = b.Icon("chevron-down")[2].ImageRectSize,
+                ImageRectOffset = b.Icon("chevron-down")[2].ImageRectPosition,
+                Size = UDim2.new(0, 16, 0, 16),
+                AnchorPoint = Vector2.new(1, 0.5),
+                Position = UDim2.new(1, -8, 0.5, 0),
+                BackgroundTransparency = 1,
+                ThemeTag = { ImageColor3 = "Icon" }
+            })
+            arrow.Parent = k.HeaderFrame.UIElements.Main
+
+            -- Content frame
+            local contentFrame = d("Frame", {
+                Size = UDim2.new(1, 0, 0, 0),
+                BackgroundTransparency = 1,
+                Visible = false,
+                ClipsDescendants = true,
+                Parent = j.Parent
+            }, {
+                d("UIListLayout", {
+                    FillDirection = "Vertical",
+                    Padding = UDim.new(0, 6),
+                    SortOrder = Enum.SortOrder.LayoutOrder
+                })
+            })
+
+            k.Content = contentFrame
+
+            -- Toggle expand/collapse
+            local expanded = false
+            b.AddSignal(k.HeaderFrame.UIElements.Main.MouseButton1Click, function()
+                expanded = not expanded
+                arrow.Image = b.Icon(expanded and "chevron-up" or "chevron-down")[1]
+
+                if expanded then
+                    contentFrame.Visible = true
+                    e(contentFrame, 0.2, {
+                        Size = UDim2.new(1, 0, 0, contentFrame.UIListLayout.AbsoluteContentSize.Y)
+                    }):Play()
+                else
+                    e(contentFrame, 0.2, { Size = UDim2.new(1, 0, 0, 0) }):Play()
+                    task.delay(0.2, function()
+                        if not expanded then
+                            contentFrame.Visible = false
+                        end
+                    end)
+                end
+            end)
+
+            -- API buat nambah elemen di dalam collapsible
+            function k:AddElement(elementType, params)
+                params.Parent = contentFrame
+                return elementType(params)
+            end
+
+            return k.__type, k
+        end
+
+        return h
+    end
+
 end
 local aa = {
     Window = nil,
