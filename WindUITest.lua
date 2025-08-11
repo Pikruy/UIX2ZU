@@ -7200,21 +7200,6 @@ do
             -- Toggle logic: gunakan TweenService langsung (bebas dari e wrapper)
             local TweenService = game:GetService("TweenService")
             local expanded = false
-            local originalColor3 = arrow.ImageColor3
-            local arrowGradient = Instance.new("UIGradient")
-            arrowGradient.Rotation = 90
-            arrowGradient.Color = ColorSequence.new({
-                ColorSequenceKeypoint.new(0, Color3.fromHex("#FFA500")), -- oranye terang (kontras biru)
-                ColorSequenceKeypoint.new(0.5, Color3.fromHex("#A6FF00")), -- kuning-hijau terang (kontras ungu)
-                ColorSequenceKeypoint.new(1, Color3.fromHex("#FFFFFF"))    -- putih (kontras hitam)
-            })
-            arrowGradient.Transparency = NumberSequence.new({
-                NumberSequenceKeypoint.new(0, 0.55),
-                NumberSequenceKeypoint.new(1, 0.8)
-            })
-
-            arrowGradient.Enabled = false 
-            arrowGradient.Parent = arrow
             headerMain.InputBegan:Connect(function(input)
                 if input.UserInputType == Enum.UserInputType.MouseButton1 then
                     expanded = not expanded
@@ -7237,7 +7222,6 @@ do
                         e(contentFrame, 0.2, {
                             Size = UDim2.new(1, 0, 0, layout.AbsoluteContentSize.Y)
                         }):Play()
-                        arrowGradient.Enabled = true
                         shadow.ImageTransparency = 0.8
                     else
                         e(contentFrame, 0.2, {
@@ -7247,7 +7231,6 @@ do
                             if not expanded then
                                 contentFrame.Visible = false
                                 shadow.ImageTransparency = 1
-                                arrowGradient.Enabled = false
                                 arrow.ImageColor3 = originalColor3
                             end
                         end)
