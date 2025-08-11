@@ -5157,7 +5157,6 @@ do
                     Title = options.Title,
                     Parent = self.UIElements.ContainerFrame,
                     Window = self.Window,
-                    Open = options.Open,
                     Icon = options.Icon
                 })
                 element.Wrapper.Parent = self.UIElements.ContainerFrame
@@ -7037,7 +7036,6 @@ do
             local k = {
                 __type = "Collapsible",
                 Title = params.Title or "Collapsible",
-                Open = params.Open or false,
                 Icon = params.Icon,
                 UIElements = {}
             }
@@ -7200,47 +7198,76 @@ do
             -- TOGGLE LOGIC
             ----------------------------------------------------------------
             -- Toggle logic: gunakan TweenService langsung (bebas dari e wrapper)
-           local TweenService = game:GetService("TweenService")
-            local expanded = false
+            local TweenService = game:GetService("TweenService")
+local expanded = false
 
-            local function SetExpanded(state)
-                expanded = state
-                local rotTarget = expanded and 180 or 0
-                local tween = TweenService:Create(arrow, TweenInfo.new(0.18, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-                    Rotation = rotTarget
-                })
-                tween:Play()
+-- Buat UIGradient untuk arrow dulu, simpan referensinya
+local arrowGradient = Instance.new("UIGradient")
+arrowGradient.Rotation = 0
+arrowGradient.Color = ColorSequence.new({
+    ColorSequenceKeypoint.new(0, Color3.fromHex("#1E3AFF")), -- biru deep
+    ColorSequenceKeypoint.new(0.5, Color3.fromHex("#7A3CFF")), -- ungu lembut
+    ColorSequenceKeypoint.new(1, Color3.fromHex("#000000"))  -- hitam
+})
+arrowGradient.Transparency = NumberSequence.new({
+    NumberSequenceKeypoint.new(0, 0.55),
+    NumberSequenceKeypoint.new(1, 0.8)
+})
+arrowGradient.Parent = arrow
 
-                task.delay(0.22, function()
-                    arrow.Rotation = rotTarget
-                end)
+-- Simpan warna asli arrow (misal solid putih atau sesuai kebutuhan)
+local originalColor3 = arrow.ImageColor3 or Color3.new(1, 1, 1)
 
-                if expanded then
-                    contentFrame.Visible = true
-                    e(contentFrame, 0.2, {
-                        Size = UDim2.new(1, 0, 0, layout.AbsoluteContentSize.Y)
-                    }):Play()
-                else
-                    e(contentFrame, 0.2, {
-                        Size = UDim2.new(1, 0, 0, 0)
-                    }):Play()
-                    task.delay(0.2, function()
-                        if not expanded then
-                            contentFrame.Visible = false
-                        end
-                    end)
-                end
-            end
+-- Fungsi untuk ubah warna arrow saat expanded atau tidak
+local function UpdateArrowColor(isExpanded)
+    if isExpanded then
+        -- Saat terbuka, pakai gradient dan full opacity
+        arrowGradient.Enabled = true
+        arrow.ImageColor3 = Color3.new(1,1,1) -- biar gak kelihatan warna dasar arrow
+    else
+        -- Saat tertutup, matikan gradient dan kembalikan warna asli
+        arrowGradient.Enabled = false
+        arrow.ImageColor3 = originalColor3
+    end
+end
 
-            -- Set state awal sesuai params.Open
-            SetExpanded(k.Open)
+headerMain.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+        expanded = not expanded
+        local rotTarget = expanded and 180 or 0
+        local tween = TweenService:Create(arrow, TweenInfo.new(0.18, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+            Rotation = rotTarget
+        })
+        tween:Play()
 
-            -- Event toggle hanya 1x
-            headerMain.InputBegan:Connect(function(input)
-                if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                    SetExpanded(not expanded)
+        task.delay(0.22, function()
+            arrow.Rotation = rotTarget
+        end)
+
+        if expanded then
+            contentFrame.Visible = true
+            e(contentFrame, 0.2, {
+                Size = UDim2.new(1, 0, 0, layout.AbsoluteContentSize.Y)
+            }):Play()
+        else
+            e(contentFrame, 0.2, {
+                Size = UDim2.new(1, 0, 0, 0)
+            }):Play()
+            task.delay(0.2, function()
+                if not expanded then
+                    contentFrame.Visible = false
                 end
             end)
+        end
+
+        -- Update warna arrow sesuai status
+        UpdateArrowColor(expanded)
+    end
+end)
+
+-- Inisialisasi warna arrow sesuai state awal jika perlu
+UpdateArrowColor(expanded)
+
 
 
 
