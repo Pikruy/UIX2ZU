@@ -7033,12 +7033,23 @@ do
             local headerMain = d("Frame", {
                 Name = "HeaderMain",
                 Size = UDim2.new(1, 0, 0, 40),
-                Position = UDim2.new(0, 0, 0, 4),    -- beri offset vertikal supaya center di container
-                BackgroundColor3 = Color3.fromRGB(192, 192, 192), -- contoh warna
+                Position = UDim2.new(0, 0, 0, 4),
+                BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+                BackgroundTransparency = 0.3, -- atur transparansi (0 = solid, 1 = hilang)
                 BorderSizePixel = 0,
                 Parent = headerContainer
             }, {
                 d("UICorner", { CornerRadius = UDim.new(0, 8) }),
+                d("UIGradient", { -- efek gradasi ringan biar mirip kaca
+                    Color = ColorSequence.new{
+                        ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)),
+                        ColorSequenceKeypoint.new(1, Color3.fromRGB(200, 200, 200))
+                    },
+                    Transparency = NumberSequence.new{
+                        NumberSequenceKeypoint.new(0, 0.1),
+                        NumberSequenceKeypoint.new(1, 0.3)
+                    }
+                }),
                 d("UIPadding", {
                     PaddingLeft = UDim.new(0, 12),
                     PaddingRight = UDim.new(0, 8)
@@ -7046,10 +7057,10 @@ do
                 d("UIListLayout", {
                     FillDirection = "Horizontal",
                     VerticalAlignment = Enum.VerticalAlignment.Center,
-                    Padding = UDim.new(0, 12)
-                    print("NIGGA")
+                    Padding = UDim.new(0, 8)
                 })
             })
+
             headerMain.ZIndex = 2  -- pastikan header di atas shadow
 
             -- lalu tambahkan Icon / Title / Arrow seperti biasa, parent = headerMain
