@@ -3689,6 +3689,117 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
             h.AddSignal(q.UIElements.Dropdown:GetPropertyChangedSignal"AbsolutePosition", UpdatePosition)
             return q.__type, q
         end
+        -- ==================== SECTION SYSTEM ====================
+        function l.NewSection(tab, props)
+            local section = {
+                __type = "Section",
+                Title = props.Title or "Section",
+                DefaultOpen = props.DefaultOpen ~= false, -- default true
+                Opened = props.DefaultOpen ~= false,
+                UIElements = {},
+                Children = {},
+                ParentTab = tab
+            }
+
+            -- Frame utama section (header)
+            section.UIElements.Header = a.load'p'{
+                Title = section.Title,
+                Parent = tab.UIElements.Container,
+                TextOffset = 0,
+                Hover = true,
+            }
+
+            -- Panah expand/collapse
+            local arrow = i("ImageLabel", {
+                Image = h.Icon"chevron-down"[1],
+                ImageRectOffset = h.Icon"chevron-down"[2].ImageRectPosition,
+                ImageRectSize = h.Icon"chevron-down"[2].ImageRectSize,
+                Size = UDim2.new(0, 16, 0, 16),
+                Position = UDim2.new(1, -12, 0.5, 0),
+                ThemeTag = { ImageColor3 = "Icon" },
+                AnchorPoint = Vector2.new(1, 0.5),
+                Parent = section.UIElements.Header.UIElements.Container
+            })
+
+            -- Container isi section
+            section.UIElements.Content = i("Frame", {
+                BackgroundTransparency = 1,
+                Size = UDim2.new(1, 0, 0, 0), -- awal tertutup
+                AutomaticSize = Enum.AutomaticSize.Y,
+                Parent = tab.UIElements.Container,
+                ClipsDescendants = true
+            }, {
+                i("UIListLayout", { SortOrder = "LayoutOrder" })
+            })
+
+            local contentLayout = section.UIElements.Content:FindFirstChildOfClass("UIListLayout")
+
+            -- Fungsi toggle buka/tutup
+            function section:Toggle(open)
+                self.Opened = open ~= nil and open or not self.Opened
+                if self.Opened then
+                    j(self.UIElements.Content, 0.2, {
+                        Size = UDim2.new(1, 0, 0, contentLayout.AbsoluteContentSize.Y)
+                    }):Play()
+                    arrow.Rotation = 0
+                else
+                    j(self.UIElements.Content, 0.2, { Size = UDim2.new(1, 0, 0, 0) }):Play()
+                    arrow.Rotation = -90
+                end
+            end
+
+            -- Klik header untuk toggle
+            h.AddSignal(section.UIElements.Header.MouseButton1Click, function()
+                section:Toggle()
+            end)
+
+            -- Auto-open kalau DefaultOpen true
+            if section.DefaultOpen then
+                section:Toggle(true)
+            end
+
+            -- Fungsi internal untuk nambah elemen ke section
+            function section:_AddElement(element)
+                if element and element.UIElements and element.UIElements.Dropdown then
+                    element.UIElements.Dropdown.Parent = self.UIElements.Content
+                elseif element and element.UIElements and element.UIElements.Main then
+                    element.UIElements.Main.Parent = self.UIElements.Content
+                end
+                table.insert(self.Children, element)
+                return element
+            end
+
+            -- Method API untuk bikin elemen langsung di section
+            function section:Toggle(props)
+                return self:_AddElement(l.NewToggle(self.ParentTab, props))
+            end
+            function section:Slider(props)
+                return self:_AddElement(l.NewSlider(self.ParentTab, props))
+            end
+            function section:Dropdown(props)
+                return self:_AddElement(l.NewDropdown(self.ParentTab, props))
+            end
+            function section:Button(props)
+                return self:_AddElement(l.NewButton(self.ParentTab, props))
+            end
+            function section:Textbox(props)
+                return self:_AddElement(l.NewTextbox(self.ParentTab, props))
+            end
+
+            return section
+        end
+        -- Simpan constructor tab lama biar tidak hilang
+        l._OldNewTab = l.NewTab
+        -- Tambahkan method Section() ke tab object
+        function l.NewTab(...)
+            local type_, tab = l._OldNewTab(...)
+            function tab:Section(props)
+                return l.NewSection(self, props)
+            end
+            return type_, tab
+        end
+        -- =========================================================
+
         return l
     end
     function a.y()
