@@ -7048,6 +7048,7 @@ do
                     },
                     Transparency = NumberSequence.new{
                         NumberSequenceKeypoint.new(0, 0.1),
+                        NumberSequenceKeypoint.new(0.5, 0.4),
                         NumberSequenceKeypoint.new(1, 0.3)
                     }
                 }),
