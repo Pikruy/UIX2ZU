@@ -7067,32 +7067,20 @@ do
             })
 
             -- Shadow image (z-index lebih rendah)
-            local shadow = d("ImageLabel", {
+            d("ImageLabel", {
                 Name = "Shadow",
                 BackgroundTransparency = 1,
                 Image = "rbxassetid://1316045217",   -- ganti kalau pakai asset lain
                 ScaleType = Enum.ScaleType.Slice,
                 SliceCenter = Rect.new(10, 10, 118, 118),
-
+                -- buat ukuran sedikit lebih besar dan geser supaya "mengelilingi" header
                 Size = UDim2.new(1, 12, 0, 48),
                 Position = UDim2.new(0, -6, 0, -4),
-                ImageTransparency = 0.75,          
+                ImageTransparency = 0.75,            -- atur agar lebih lembut
                 ZIndex = 1,
                 Parent = headerContainer
             })
-            local shadowGradient = Instance.new("UIGradient")
-            shadowGradient.Rotation = 90
-            shadowGradient.Color = ColorSequence.new({
-                ColorSequenceKeypoint.new(0, Color3.fromHex("#1E3AFF")), -- biru deep
-                ColorSequenceKeypoint.new(0.5, Color3.fromHex("#3ce2ff")), -- ungu lembut
-                ColorSequenceKeypoint.new(1, Color3.fromHex("#000000"))  -- hitam
-            })
-            shadowGradient.Transparency = NumberSequence.new({
-                NumberSequenceKeypoint.new(0, 0.6),
-                NumberSequenceKeypoint.new(1, 0.9)
-            })
-            shadowGradient.Enabled = false   -- disable dulu
-            shadowGradient.Parent = shadow
+
             -- Actual header (di atas shadow)
             local headerMain = d("Frame", {
                 Name = "HeaderMain",
@@ -7217,7 +7205,7 @@ do
             arrowGradient.Rotation = 90
             arrowGradient.Color = ColorSequence.new({
                 ColorSequenceKeypoint.new(0, Color3.fromHex("#1E3AFF")), -- biru deep
-                ColorSequenceKeypoint.new(0.5, Color3.fromHex("#3ce2ff")), -- ungu lembut
+                ColorSequenceKeypoint.new(0.5, Color3.fromHex("#3cd8ff")), -- ungu lembut
                 ColorSequenceKeypoint.new(1, Color3.fromHex("#000000")) -- putih
             })
             arrowGradient.Transparency = NumberSequence.new({
@@ -7249,7 +7237,7 @@ do
                             Size = UDim2.new(1, 0, 0, layout.AbsoluteContentSize.Y)
                         }):Play()
                         arrowGradient.Enabled = true
-                        arrow.ImageColor3 = Color3.new(1,1,1)
+                        arrow.ImageColor3 = Color3.new(0,225,225)
                     else
                         e(contentFrame, 0.2, {
                             Size = UDim2.new(1, 0, 0, 0)
@@ -7261,7 +7249,6 @@ do
                         end)
                         arrowGradient.Enabled = false
                         arrow.ImageColor3 = originalColor3
-                        shadowGradient.Enabled = expanded
                     end
                 end
             end)
