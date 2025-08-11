@@ -3204,7 +3204,7 @@ do
             local textBox = p.Frame.Frame.TextBox
             textBox:GetPropertyChangedSignal("Text"):Connect(function()
                 local text = textBox.Text
-                local allowed = l.AllowedType
+                local allowed = n.AllowedType
                 local filtered
 
                 if allowed == "Number" then
@@ -7002,28 +7002,39 @@ do
                 })
             })
             k.Wrapper = wrapper
+
             -- Header
             k.HeaderFrame = a.load'p'{
                 Title = k.Title,
+                Icon = k.Icon, -- ini penting biar muncul icon
                 Window = params.Window,
                 Parent = wrapper,
                 TextOffset = 44,
                 Hover = false,
             }
 
+
             -- Arrow icon
             local arrow = d("ImageLabel", {
                 Name = "Arrow",
-                Image = b.Icon("chevron-down")[1],
-                ImageRectSize = b.Icon("chevron-down")[2].ImageRectSize,
-                ImageRectOffset = b.Icon("chevron-down")[2].ImageRectPosition,
+                BackgroundTransparency = 1,
+                ThemeTag = { ImageColor3 = "Icon" },
                 Size = UDim2.new(0, 16, 0, 16),
                 AnchorPoint = Vector2.new(1, 0.5),
                 Position = UDim2.new(1, -8, 0.5, 0),
-                BackgroundTransparency = 1,
-                ThemeTag = { ImageColor3 = "Icon" }
             })
             arrow.Parent = k.HeaderFrame.UIElements.Main
+
+            -- Helper untuk set icon
+            local function setArrow(iconName)
+                local iconData = b.Icon(iconName)
+                arrow.Image = iconData[1]
+                arrow.ImageRectOffset = iconData[2].ImageRectPosition
+                arrow.ImageRectSize = iconData[2].ImageRectSize
+            end
+
+            -- Set default arrow
+            setArrow("chevron-down")
 
             -- Content frame
             local contentFrame = d("Frame", {
@@ -7047,7 +7058,7 @@ do
             local expanded = false
             b.AddSignal(k.HeaderFrame.UIElements.Main.MouseButton1Click, function()
                 expanded = not expanded
-                arrow.Image = b.Icon(expanded and "chevron-up" or "chevron-down")[1]
+                setArrow(expanded and "chevron-up" or "chevron-down")
 
                 if expanded then
                     contentFrame.Visible = true
@@ -7069,6 +7080,7 @@ do
 
         return h
     end
+
 end
 local aa = {
     Window = nil,
