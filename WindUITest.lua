@@ -7140,15 +7140,22 @@ do
             headerMain.InputBegan:Connect(function(input)
                 if input.UserInputType == Enum.UserInputType.MouseButton1 then
                     expanded = not expanded
-                    arrow.Image = b.Icon(expanded and "chevron-up" or "chevron-down")[1]
 
+                    -- Animasi rotasi arrow
+                    e(arrow, 0.2, {
+                        Rotation = expanded and 180 or 0
+                    }):Play()
+
+                    -- Animasi expand / collapse konten
                     if expanded then
                         contentFrame.Visible = true
                         e(contentFrame, 0.2, {
                             Size = UDim2.new(1, 0, 0, layout.AbsoluteContentSize.Y)
                         }):Play()
                     else
-                        e(contentFrame, 0.2, { Size = UDim2.new(1, 0, 0, 0) }):Play()
+                        e(contentFrame, 0.2, {
+                            Size = UDim2.new(1, 0, 0, 0)
+                        }):Play()
                         task.delay(0.2, function()
                             if not expanded then
                                 contentFrame.Visible = false
@@ -7157,6 +7164,7 @@ do
                     end
                 end
             end)
+
 
             return k.__type, k
         end
