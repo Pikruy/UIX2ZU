@@ -3385,7 +3385,19 @@ do
                 Font = Enum.Font.Code,
             })
             i("UICorner", { CornerRadius = UDim.new(0, 6), Parent = q.UIElements.SearchBar })
-
+            local glassBg = i("Frame", {
+                Name = "SearchBarBackground",
+                Size = q.UIElements.SearchBar.Size,
+                Position = q.UIElements.SearchBar.Position,
+                BackgroundColor3 = Color3.fromHex("#2f2f2f"),
+                BackgroundTransparency = 0.6,
+                ZIndex = q.UIElements.SearchBar.ZIndex - 1,
+                Parent = q.UIElements.SearchBar.Parent,
+            })
+            i("UICorner", {
+                CornerRadius = UDim.new(0, 6),
+                Parent = glassBg,
+            })
             -- Geser ScrollingFrame supaya tidak ketiban searchbar
             local sc = q.UIElements.Menu.Frame:FindFirstChild("ScrollingFrame")
             if sc then
@@ -3397,9 +3409,9 @@ do
             -- Search tanpa destroy massal, cuma toggle visible
             local searchDebounce
             h.AddSignal(q.UIElements.SearchBar:GetPropertyChangedSignal("Text"), function()
-                if searchDebounce then task.cancel(searchDebounce) end
+           --     if searchDebounce then task.cancel(searchDebounce) end
 
-                searchDebounce = task.delay(0.1, function()
+              --  searchDebounce = task.delay(0.1, function()
                     local stext = string.lower(q.UIElements.SearchBar.Text or "")
 
                     if stext == "" then
@@ -3422,7 +3434,7 @@ do
                     if sc then
                         sc.CanvasPosition = Vector2.new(0, 0)
                     end
-                end)
+              --  end)
             end)
 
 
