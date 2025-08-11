@@ -7052,44 +7052,60 @@ do
             headerMain.ZIndex = 2  -- pastikan header di atas shadow
 
             -- lalu tambahkan Icon / Title / Arrow seperti biasa, parent = headerMain
-            if k.Icon then
-                local iconData = b.Icon(k.Icon)
-                d("ImageLabel", {
-                    Name = "Icon",
-                    BackgroundTransparency = 1,
-                    Size = UDim2.new(0, 18, 0, 18),
-                    Image = iconData[1],
-                    ImageRectOffset = iconData[2].ImageRectPosition,
-                    ImageRectSize = iconData[2].ImageRectSize,
-                    ThemeTag = { ImageColor3 = "Icon" },
-                    Parent = headerMain
-                })
-            end
+            d("UIListLayout", {
+    FillDirection = Enum.FillDirection.Horizontal,
+    VerticalAlignment = Enum.VerticalAlignment.Center,
+    HorizontalAlignment = Enum.HorizontalAlignment.Left,
+    SortOrder = Enum.SortOrder.LayoutOrder,
+    Padding = UDim.new(0, 8)
+}),
+d("UIPadding", {
+    PaddingLeft = UDim.new(0, 12),
+    PaddingRight = UDim.new(0, 12)
+})
 
-            d("TextLabel", {
-                Name = "Title",
-                BackgroundTransparency = 1,
-                Size = UDim2.new(1, -40, 1, 0),
-                Text = k.Title,
-                TextXAlignment = Enum.TextXAlignment.Left,
-                FontFace = Font.new(b.Font, Enum.FontWeight.Medium),
-                TextSize = 14,
-                ThemeTag = { TextColor3 = "Text" },
-                Parent = headerMain
-            })
+-- Icon kiri
+if k.Icon then
+    local iconData = b.Icon(k.Icon)
+    d("ImageLabel", {
+        Name = "Icon",
+        BackgroundTransparency = 1,
+        Size = UDim2.new(0, 18, 0, 18),
+        Image = iconData[1],
+        ImageRectOffset = iconData[2].ImageRectPosition,
+        ImageRectSize = iconData[2].ImageRectSize,
+        ThemeTag = { ImageColor3 = "Icon" },
+        LayoutOrder = 1,
+        Parent = headerMain
+    })
+end
 
-            local arrow = d("ImageLabel", {
-                Name = "Arrow",
-                Image = b.Icon("chevron-down")[1],
-                ImageRectSize = b.Icon("chevron-down")[2].ImageRectSize,
-                ImageRectOffset = b.Icon("chevron-down")[2].ImageRectPosition,
-                Size = UDim2.new(0, 16, 0, 16),
-                AnchorPoint = Vector2.new(1, 0.5),
-                Position = UDim2.new(1, -8, 0.5, 0),
-                BackgroundTransparency = 1,
-                ThemeTag = { ImageColor3 = "Icon" },
-                Parent = headerMain
-            })
+-- Title fleksibel (mengisi semua sisa space di antara icon & arrow)
+d("TextLabel", {
+    Name = "Title",
+    BackgroundTransparency = 1,
+    Size = UDim2.new(1, -34, 1, 0), -- akan terisi penuh, dikurangi space arrow
+    Text = k.Title,
+    TextXAlignment = Enum.TextXAlignment.Left,
+    FontFace = Font.new(b.Font, Enum.FontWeight.Medium),
+    TextSize = 14,
+    ThemeTag = { TextColor3 = "Text" },
+    LayoutOrder = 2,
+    Parent = headerMain
+})
+
+-- Arrow di kanan dengan lebar tetap
+local arrow = d("ImageLabel", {
+    Name = "Arrow",
+    BackgroundTransparency = 1,
+    Size = UDim2.new(0, 16, 0, 16),
+    Image = b.Icon("chevron-down")[1],
+    ImageRectOffset = b.Icon("chevron-down")[2].ImageRectPosition,
+    ImageRectSize = b.Icon("chevron-down")[2].ImageRectSize,
+    ThemeTag = { ImageColor3 = "Icon" },
+    LayoutOrder = 3,
+    Parent = headerMain
+})
 
 
             ----------------------------------------------------------------
