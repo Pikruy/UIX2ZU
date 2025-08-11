@@ -7047,7 +7047,7 @@ do
             local expanded = false
             b.AddSignal(k.HeaderFrame.UIElements.Main.MouseButton1Click, function()
                 expanded = not expanded
-                setArrow(expanded and "chevron-up" or "chevron-down")
+                arrow.Image = b.Icon(expanded and "chevron-up" or "chevron-down")[1]
 
                 if expanded then
                     contentFrame.ClipsDescendants = false -- biar slider bisa drag lancar
