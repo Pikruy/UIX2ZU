@@ -7085,7 +7085,7 @@ do
                 ImageRectOffset = b.Icon("chevron-down")[2].ImageRectPosition,
                 Size = UDim2.new(0, 16, 0, 16),
                 AnchorPoint = Vector2.new(1, 0.5),
-                Position = UDim2.new(1, -2, 0.5, 0),
+                Position = UDim2.new(1, -10, 0.5, 0),
                 BackgroundTransparency = 1,
                 ThemeTag = { ImageColor3 = "Icon" },
                 Parent = headerMain
