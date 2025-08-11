@@ -7201,6 +7201,19 @@ do
             local TweenService = game:GetService("TweenService")
             local expanded = false
             local originalColor3 = arrow.ImageColor3
+            local arrowGradient = Instance.new("UIGradient")
+            arrowGradient.Rotation = 90
+            arrowGradient.Color = ColorSequence.new({
+                ColorSequenceKeypoint.new(0, Color3.fromHex("#1E3AFF")), -- biru deep
+                ColorSequenceKeypoint.new(0.5, Color3.fromHex("#7A3CFF")), -- ungu lembut
+                ColorSequenceKeypoint.new(1, Color3.fromHex("#ffffff")) -- putih
+            })
+            arrowGradient.Transparency = NumberSequence.new({
+                NumberSequenceKeypoint.new(0, 0.55),
+                NumberSequenceKeypoint.new(1, 0.8)
+            })
+            arrowGradient.Enabled = false  -- awalnya mati
+            arrowGradient.Parent = arrow
             headerMain.InputBegan:Connect(function(input)
                 if input.UserInputType == Enum.UserInputType.MouseButton1 then
                     expanded = not expanded
@@ -7223,7 +7236,8 @@ do
                         e(contentFrame, 0.2, {
                             Size = UDim2.new(1, 0, 0, layout.AbsoluteContentSize.Y)
                         }):Play()
-                        arrow.ImageColor3 = Color3.fromRGB(30, 60, 255)
+                        arrowGradient.Enabled = true
+                        arrow.ImageColor3 = Color3.new(1,1,1)
                     else
                         e(contentFrame, 0.2, {
                             Size = UDim2.new(1, 0, 0, 0)
@@ -7233,6 +7247,7 @@ do
                                 contentFrame.Visible = false
                             end
                         end)
+                        arrowGradient.Enabled = false
                         arrow.ImageColor3 = originalColor3
                     end
                 end
