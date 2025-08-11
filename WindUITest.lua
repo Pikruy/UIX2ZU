@@ -2406,6 +2406,20 @@ do
                     FontFace = Font.new(b.Font, Enum.FontWeight.Medium)
                 })
             end
+            local iconElement
+            if h.Icon then
+                local iconData = b.Icon(h.Icon)
+                iconElement = d("ImageLabel", {
+                    Name = "Icon",
+                    BackgroundTransparency = 1,
+                    Size = UDim2.new(0, 16, 0, 16),
+                    Image = iconData[1],
+                    ImageRectOffset = iconData[2].ImageRectPosition,
+                    ImageRectSize = iconData[2].ImageRectSize,
+                    ThemeTag = { ImageColor3 = "Icon" }
+                })
+            end
+
             local q = CreateText(h.Title, "Title")
             local r = CreateText(h.Desc, "Desc")
             if not h.Desc or h.Desc == "" then
@@ -2442,9 +2456,24 @@ do
                     }, {
                         d("UIListLayout", {
                             Padding = UDim.new(0, 4),
-                            FillDirection = "Vertical",
+                            FillDirection = "Horizontal", -- biar sejajar
                             VerticalAlignment = "Center",
                             HorizontalAlignment = "Left",
+                        }),
+                        iconElement,
+                        d("Frame", {
+                            BackgroundTransparency = 1,
+                            AutomaticSize = "Y",
+                            Size = UDim2.new(1, 0, 0, 0)
+                        }, {
+                            d("UIListLayout", {
+                                Padding = UDim.new(0, 2),
+                                FillDirection = "Vertical",
+                                VerticalAlignment = "Center",
+                                HorizontalAlignment = "Left",
+                            }),
+                            q,
+                            r
                         }),
                         q,
                         r
