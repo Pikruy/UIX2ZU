@@ -7012,21 +7012,26 @@ do
                 BackgroundTransparency = 1,
                 Parent = wrapper
             }, {
+                d("UIPadding", {  -- ⬅ padding kiri-kanan
+                    PaddingLeft = UDim.new(0, 12),
+                    PaddingRight = UDim.new(0, 8)
+                }),
                 d("UIListLayout", {
                     FillDirection = "Horizontal",
                     VerticalAlignment = Enum.VerticalAlignment.Center,
-                    Padding = UDim.new(0, 6)
+                    Padding = UDim.new(0, 8) -- jarak antar icon & text
                 })
             })
+
             k.HeaderFrame = headerMain
 
-            -- Icon (opsional)
+            -- Icon di kiri
             if k.Icon then
                 local iconData = b.Icon(k.Icon)
                 d("ImageLabel", {
                     Name = "Icon",
                     BackgroundTransparency = 1,
-                    Size = UDim2.new(0, 16, 0, 16),
+                    Size = UDim2.new(0, 18, 0, 18),
                     Image = iconData[1],
                     ImageRectOffset = iconData[2].ImageRectPosition,
                     ImageRectSize = iconData[2].ImageRectSize,
@@ -7035,7 +7040,7 @@ do
                 })
             end
 
-            -- Title
+            -- Title fleksibel, biar sisa space untuk chevron
             d("TextLabel", {
                 Name = "Title",
                 BackgroundTransparency = 1,
@@ -7048,16 +7053,16 @@ do
                 Parent = headerMain
             })
 
-            -- Arrow
+            -- Chevron di kanan
             local arrow = d("ImageLabel", {
                 Name = "Arrow",
                 Image = b.Icon("chevron-down")[1],
                 ImageRectSize = b.Icon("chevron-down")[2].ImageRectSize,
                 ImageRectOffset = b.Icon("chevron-down")[2].ImageRectPosition,
                 Size = UDim2.new(0, 16, 0, 16),
-                AnchorPoint = Vector2.new(1, 0.5),
-                Position = UDim2.new(1, -8, 0.5, 0),
                 BackgroundTransparency = 1,
+                AnchorPoint = Vector2.new(1, 0.5),
+                Position = UDim2.new(1, 0, 0.5, 0),
                 ThemeTag = { ImageColor3 = "Icon" },
                 Parent = headerMain
             })
