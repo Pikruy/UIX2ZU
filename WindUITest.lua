@@ -6983,7 +6983,7 @@ do
         function h.New(params)
             local k = {
                 __type = "Collapsible",
-                Title = params.Title or "Collapsible",
+                Title = params.Title or "Anjay Slebew",
                 Icon = params.Icon or nil,
                 UIElements = {}
             }
