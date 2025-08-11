@@ -7046,20 +7046,16 @@ do
                 }),
                 d("UICorner", { CornerRadius = UDim.new(0, 8) }),
                 d("UIGradient", { -- efek gradasi ringan biar mirip kaca
-                    Color = ColorSequence.new{
-                        ColorSequenceKeypoint.new(0, Color3.fromHex("#1E3AFF")),  -- biru deep
-                        ColorSequenceKeypoint.new(0.4, Color3.fromHex("#7A3CFF")), -- ungu lembut
-                        ColorSequenceKeypoint.new(0.7, Color3.fromHex("#2E2E2E")), -- abu gelap
-                        ColorSequenceKeypoint.new(1, Color3.fromHex("#000000"))    -- hitam
+                   Color = ColorSequence.new{
+                        ColorSequenceKeypoint.new(0, Color3.fromHex("#1E3AFF")), -- biru deep
+                        ColorSequenceKeypoint.new(0.5, Color3.fromHex("#7A3CFF")), -- ungu lembut
+                        ColorSequenceKeypoint.new(1, Color3.fromHex("#000000"))  -- hitam
                     },
                     Transparency = NumberSequence.new{
-                        NumberSequenceKeypoint.new(0, 0.55),  -- kiri: agak transparan
-                        NumberSequenceKeypoint.new(0.4, 0.65),-- transisi lembut
-                        NumberSequenceKeypoint.new(0.7, 0.7), -- sedikit lebih transparan
-                        NumberSequenceKeypoint.new(1, 0.8)    -- fade ke gelap
+                        NumberSequenceKeypoint.new(0, 0.55),
+                        NumberSequenceKeypoint.new(1, 0.8)
                     },
                     Rotation = 90
-
                 }),
                 
                 d("UIPadding", {
