@@ -7237,9 +7237,8 @@ do
                             Size = UDim2.new(1, 0, 0, layout.AbsoluteContentSize.Y)
                         }):Play()
                         arrowGradient.Enabled = true
-                        shadow.ImageTransparency = 0.75
-                        shadow.ZIndex = 2
-                        arrow.ImageColor3 = Color3.new(255,255,255)
+                        shadow.ImageTransparency = 0.8
+                        arrow.ImageColor3 = Color3.new(1,1,1)
                     else
                         e(contentFrame, 0.2, {
                             Size = UDim2.new(1, 0, 0, 0)
@@ -7249,7 +7248,7 @@ do
                                 contentFrame.Visible = false
                             end
                         end)
-                        shadow.ImageTransparency = 1
+                        shadow.ImageTransparency = 0.9
                         arrowGradient.Enabled = false
                         arrow.ImageColor3 = originalColor3
                     end
