@@ -7006,11 +7006,13 @@ do
             -- Header
             k.HeaderFrame = a.load'p'{
                 Title = k.Title,
+                Icon = k.Icon, -- ini penting biar muncul icon
                 Window = params.Window,
                 Parent = wrapper,
                 TextOffset = 44,
                 Hover = false,
             }
+
 
             -- Arrow icon
             local arrow = d("ImageLabel", {
