@@ -4710,6 +4710,111 @@ do
         end
         return b
     end
+    function a.I()
+        local b = a.load'a'
+        local d = b.New
+        local e = b.Tween
+        local h = {}
+
+        function h.New(params)
+            local k = {
+                __type = "Collapsible",
+                Title = params.Title or "Collapsible",
+                Icon = params.Icon or nil,
+                UIElements = {}
+            }
+
+            -- Wrapper
+            local wrapper = d("Frame", {
+                Size = UDim2.new(1, 0, 0, 0),
+                BackgroundTransparency = 1,
+                AutomaticSize = "Y",
+                Parent = params.Parent
+            }, {
+                d("UIListLayout", {
+                    FillDirection = "Vertical",
+                    Padding = UDim.new(0, 4),
+                    SortOrder = Enum.SortOrder.LayoutOrder
+                })
+            })
+            k.Wrapper = wrapper
+
+            -- Header
+            k.HeaderFrame = a.load'p'{
+                Title = k.Title,
+                Icon = k.Icon, -- ini WAJIB biar nggak default
+                Window = params.Window,
+                Parent = wrapper,
+                TextOffset = 44,
+                Hover = false,
+            }
+
+            -- Arrow icon
+            local arrow = d("ImageLabel", {
+                Name = "Arrow",
+                BackgroundTransparency = 1,
+                ThemeTag = { ImageColor3 = "Icon" },
+                Size = UDim2.new(0, 16, 0, 16),
+                AnchorPoint = Vector2.new(1, 0.5),
+                Position = UDim2.new(1, -8, 0.5, 0),
+            })
+            arrow.Parent = k.HeaderFrame.UIElements.Main
+
+            -- Helper untuk set icon
+            local function setArrow(iconName)
+                local iconData = b.Icon(iconName)
+                arrow.Image = iconData[1]
+                arrow.ImageRectOffset = iconData[2].ImageRectPosition
+                arrow.ImageRectSize = iconData[2].ImageRectSize
+            end
+
+            -- Set default arrow
+            setArrow("chevron-down")
+
+            -- Content frame
+            local contentFrame = d("Frame", {
+                Size = UDim2.new(1, 0, 0, 0),
+                BackgroundTransparency = 1,
+                Visible = false,
+                ClipsDescendants = true,
+                Parent = wrapper
+            }, {
+                d("UIListLayout", {
+                    FillDirection = "Vertical",
+                    Padding = UDim.new(0, 6),
+                    SortOrder = Enum.SortOrder.LayoutOrder
+                })
+            })
+
+            local layout = contentFrame:FindFirstChildOfClass("UIListLayout")
+            k.Content = contentFrame
+
+            -- Expand/Collapse
+            local expanded = false
+            b.AddSignal(k.HeaderFrame.UIElements.Main.MouseButton1Click, function()
+                expanded = not expanded
+                setArrow(expanded and "chevron-up" or "chevron-down")
+
+                if expanded then
+                    contentFrame.Visible = true
+                    e(contentFrame, 0.2, {
+                        Size = UDim2.new(1, 0, 0, layout.AbsoluteContentSize.Y)
+                    }):Play()
+                else
+                    e(contentFrame, 0.2, { Size = UDim2.new(1, 0, 0, 0) }):Play()
+                    task.delay(0.2, function()
+                        if not expanded then
+                            contentFrame.Visible = false
+                        end
+                    end)
+                end
+            end)
+
+            return k.__type, k
+        end
+
+        return h
+    end
     function a.D() -- 
         game:GetService"UserInputService"
         local aa = game.Players.LocalPlayer:GetMouse()
@@ -6974,112 +7079,6 @@ do
             return o
         end
     end
-    function a.I()
-        local b = a.load'a'
-        local d = b.New
-        local e = b.Tween
-        local h = {}
-
-        function h.New(params)
-            local k = {
-                __type = "Collapsible",
-                Title = params.Title or "Collapsible",
-                Icon = params.Icon or nil,
-                UIElements = {}
-            }
-
-            -- Wrapper
-            local wrapper = d("Frame", {
-                Size = UDim2.new(1, 0, 0, 0),
-                BackgroundTransparency = 1,
-                AutomaticSize = "Y",
-                Parent = params.Parent
-            }, {
-                d("UIListLayout", {
-                    FillDirection = "Vertical",
-                    Padding = UDim.new(0, 4),
-                    SortOrder = Enum.SortOrder.LayoutOrder
-                })
-            })
-            k.Wrapper = wrapper
-
-            -- Header (pastikan Title & Icon masuk ke header)
-            k.HeaderFrame = a.load'p'{
-                Title = k.Title,
-                Icon = k.Icon,
-                Window = params.Window,
-                Parent = wrapper,
-                TextOffset = 44,
-                Hover = false,
-            }
-
-            -- Arrow icon
-            local arrow = d("ImageLabel", {
-                Name = "Arrow",
-                BackgroundTransparency = 1,
-                ThemeTag = { ImageColor3 = "Icon" },
-                Size = UDim2.new(0, 16, 0, 16),
-                AnchorPoint = Vector2.new(1, 0.5),
-                Position = UDim2.new(1, -8, 0.5, 0),
-            })
-            arrow.Parent = k.HeaderFrame.UIElements.Main
-
-            -- Helper untuk set icon
-            local function setArrow(iconName)
-                local iconData = b.Icon(iconName)
-                arrow.Image = iconData[1]
-                arrow.ImageRectOffset = iconData[2].ImageRectPosition
-                arrow.ImageRectSize = iconData[2].ImageRectSize
-            end
-
-            -- Set default arrow
-            setArrow("chevron-down")
-
-            -- Content frame
-            local contentFrame = d("Frame", {
-                Size = UDim2.new(1, 0, 0, 0),
-                BackgroundTransparency = 1,
-                Visible = false,
-                ClipsDescendants = true,
-                Parent = wrapper
-            }, {
-                d("UIListLayout", {
-                    FillDirection = "Vertical",
-                    Padding = UDim.new(0, 6),
-                    SortOrder = Enum.SortOrder.LayoutOrder
-                })
-            })
-
-            local layout = contentFrame:FindFirstChildOfClass("UIListLayout")
-            k.Content = contentFrame
-
-            -- Expand/Collapse
-            local expanded = false
-            b.AddSignal(k.HeaderFrame.UIElements.Main.MouseButton1Click, function()
-                expanded = not expanded
-                setArrow(expanded and "chevron-up" or "chevron-down")
-
-                if expanded then
-                    contentFrame.Visible = true
-                    e(contentFrame, 0.2, {
-                        Size = UDim2.new(1, 0, 0, layout.AbsoluteContentSize.Y)
-                    }):Play()
-                else
-                    e(contentFrame, 0.2, { Size = UDim2.new(1, 0, 0, 0) }):Play()
-                    task.delay(0.2, function()
-                        if not expanded then
-                            contentFrame.Visible = false
-                        end
-                    end)
-                end
-            end)
-
-            return k.__type, k
-        end
-
-        return h
-    end
-
 
 end
 local aa = {
