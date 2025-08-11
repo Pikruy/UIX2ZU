@@ -7076,7 +7076,7 @@ do
                 -- buat ukuran sedikit lebih besar dan geser supaya "mengelilingi" header
                 Size = UDim2.new(1, 12, 0, 48),
                 Position = UDim2.new(0, -6, 0, -4),
-                ImageTransparency = 0.75,            -- atur agar lebih lembut
+                ImageTransparency = 1,            -- atur agar lebih lembut
                 ZIndex = 1,
                 Parent = headerContainer
             })
