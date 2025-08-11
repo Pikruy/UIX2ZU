@@ -7036,7 +7036,7 @@ do
             local k = {
                 __type = "Collapsible",
                 Title = params.Title or "Collapsible",
-                Icon = params.Icon,
+                Icon = params.Icon or "user",
                 UIElements = {}
             }
 
