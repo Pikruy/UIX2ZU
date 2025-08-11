@@ -5096,7 +5096,7 @@ do
                     return E
                 end
             end
-            function k.Collapsible(options)
+            function k:Collapsible(options)
                 local _, element = y.Collapsible:New({
                     Title = options.Title,
                     Parent = self.UIElements.ContainerFrame,
@@ -6974,7 +6974,7 @@ do
             return o
         end
     end
-    function a.I()
+     function a.I()
         local b = a.load'a'
         local d = b.New
         local e = b.Tween
