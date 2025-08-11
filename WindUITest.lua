@@ -7051,7 +7051,7 @@ do
                         NumberSequenceKeypoint.new(0.5, 0.7),-- tengah: sedikit lebih transparan
                         NumberSequenceKeypoint.new(1, 0.6)   -- kanan: sama seperti kiri
                     },
-                    Rotation = 90 
+                    Rotation = 45 
                 }),
                 d("UIPadding", {
                     PaddingLeft = UDim.new(0, 12),
