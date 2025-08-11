@@ -4710,7 +4710,7 @@ do
         end
         return b
     end
-    function a.D()
+    function a.D() -- 
         game:GetService"UserInputService"
         local aa = game.Players.LocalPlayer:GetMouse()
         local ab = a.load'a'
@@ -4994,9 +4994,9 @@ do
                 Code = a.load'A',
                 Colorpicker = a.load'B',
                 Section = a.load'C',
-                Collapsible = a.load'I'
+                Collapsible = a.load'I' -- pastikan ini ikut di loop
             }
-            function k.Divider(z) -- Ganti
+            function k.Divider(z) -- [Ganti / Edited]
                 local A = ac("Frame", {
                     Size = UDim2.new(1, 0, 0, 1),
                     Position = UDim2.new(0.5, 0, 0.5, 0),
@@ -5007,7 +5007,7 @@ do
                     }
                 })
                  -- Tambahkan gradient ke Layer
-                local gradientdivider = Instance.new("UIGradient") --ganti
+                local gradientdivider = Instance.new("UIGradient") -- [Ganti / Edited]
                 gradientdivider.Rotation = 0 -- horizontal blend
                 gradientdivider.Color = ColorSequence.new({
                     ColorSequenceKeypoint.new(0, Color3.fromHex("#9D00FF")), -- kiri
@@ -5096,7 +5096,7 @@ do
                     return E
                 end
             end
-            function k.Collapsible(options)
+            function k:Collapsible(options)
                 local _, element = y.Collapsible:New({
                     Title = options.Title,
                     Parent = self.UIElements.ContainerFrame,
@@ -5104,10 +5104,6 @@ do
                     Icon = options.Icon
                 })
 
-                element.Window = self.Window
-                element.WindUI = self.WindUI
-
-                -- auto-bind semua elemen ke content
                 local elementsLib = {
                     Button = a.load'q',
                     Toggle = a.load't',
