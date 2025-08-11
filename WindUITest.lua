@@ -3687,6 +3687,18 @@ do
                     j(q.UIElements.Menu, 0.1, {
                         Size = UDim2.new(1, 0, 1, 0)
                     }, Enum.EasingStyle.Quart, Enum.EasingDirection.Out):Play()
+                    
+                    task.spawn(function()
+                        task.wait(0.12) -- tunggu animasi
+                        q.Opened = true
+                        if q.UIElements.SearchBar then
+                            -- q.UIElements.SearchBar.Text = ""
+                            --pcall(function()
+                                --q.UIElements.SearchBar:CaptureFocus()
+                            --end)
+                        end
+                    end)
+
                     UpdatePosition()
                 end
             end
