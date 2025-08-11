@@ -3394,34 +3394,34 @@ do
             end
 
             -- Event search real-time
+            -- Search tanpa destroy massal, cuma toggle visible
             local searchDebounce
             h.AddSignal(q.UIElements.SearchBar:GetPropertyChangedSignal("Text"), function()
                 if searchDebounce then task.cancel(searchDebounce) end
-                searchDebounce = task.delay(0.15, function() -- tunggu 0.15 detik setelah user berhenti ngetik
+
+                searchDebounce = task.delay(0.1, function()
                     local stext = string.lower(q.UIElements.SearchBar.Text or "")
 
+                    -- Kalau kosong, semua visible
                     if stext == "" then
-                        q:Refresh(q.Values) -- full reset kalau kosong
+                        for _, tab in pairs(q.Tabs) do
+                            if tab.UIElements and tab.UIElements.TabItem then
+                                tab.UIElements.TabItem.Visible = true
+                            end
+                        end
                         return
                     end
 
-                    -- Filter cepat tanpa destroy massal
-                    local filtered = {}
-                    for _, val in ipairs(q.Values) do
-                        if string.find(string.lower(val), stext, 1, true) then
-                            table.insert(filtered, val)
+                    -- Filter cepat hanya toggle Visible
+                    for _, tab in pairs(q.Tabs) do
+                        if tab.UIElements and tab.UIElements.TabItem then
+                            local name = string.lower(tostring(tab.Name))
+                            tab.UIElements.TabItem.Visible = string.find(name, stext, 1, true) ~= nil
                         end
-                    end
-
-                    -- Cek jumlah sebelum refresh
-                    if #filtered < 200 then
-                        q:Refresh(filtered) -- rebuild normal kalau hasilnya sedikit
-                    else
-                        -- Kalau hasil ratusan, cuma render yang match visible
-                        q:Refresh(filtered)
                     end
                 end)
             end)
+
             function q.Lock(s)
                 r = false
                 return q.DropdownFrame:Lock()
