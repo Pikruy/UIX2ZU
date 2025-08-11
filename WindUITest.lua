@@ -3183,7 +3183,7 @@ do
             local textBox = p.Frame.Frame.TextBox
             textBox:GetPropertyChangedSignal("Text"):Connect(function()
                 local text = textBox.Text
-                local allowed = k.AllowedType
+                local allowed = l.AllowedType
                 local filtered
 
                 if allowed == "Number" then
