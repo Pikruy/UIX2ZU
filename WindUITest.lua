@@ -7047,9 +7047,10 @@ do
             local expanded = false
             b.AddSignal(k.HeaderFrame.UIElements.Main.MouseButton1Click, function()
                 expanded = not expanded
-                arrow.Image = b.Icon(expanded and "chevron-up" or "chevron-down")[1]
+                setArrow(expanded and "chevron-up" or "chevron-down")
 
                 if expanded then
+                    contentFrame.ClipsDescendants = false -- biar slider bisa drag lancar
                     contentFrame.Visible = true
                     e(contentFrame, 0.2, {
                         Size = UDim2.new(1, 0, 0, layout.AbsoluteContentSize.Y)
@@ -7059,6 +7060,7 @@ do
                     task.delay(0.2, function()
                         if not expanded then
                             contentFrame.Visible = false
+                            contentFrame.ClipsDescendants = true -- balikin lagi
                         end
                     end)
                 end
