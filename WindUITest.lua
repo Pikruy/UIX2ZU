@@ -7084,7 +7084,7 @@ do
             shadowGradient.Rotation = 90
             shadowGradient.Color = ColorSequence.new({
                 ColorSequenceKeypoint.new(0, Color3.fromHex("#1E3AFF")), -- biru deep
-                ColorSequenceKeypoint.new(0.5, Color3.fromHex("#7A3CFF")), -- ungu lembut
+                ColorSequenceKeypoint.new(0.5, Color3.fromHex("#3ce2ff")), -- ungu lembut
                 ColorSequenceKeypoint.new(1, Color3.fromHex("#000000"))  -- hitam
             })
             shadowGradient.Transparency = NumberSequence.new({
@@ -7217,7 +7217,7 @@ do
             arrowGradient.Rotation = 90
             arrowGradient.Color = ColorSequence.new({
                 ColorSequenceKeypoint.new(0, Color3.fromHex("#1E3AFF")), -- biru deep
-                ColorSequenceKeypoint.new(0.5, Color3.fromHex("#7A3CFF")), -- ungu lembut
+                ColorSequenceKeypoint.new(0.5, Color3.fromHex("#3ce2ff")), -- ungu lembut
                 ColorSequenceKeypoint.new(1, Color3.fromHex("#000000")) -- putih
             })
             arrowGradient.Transparency = NumberSequence.new({
