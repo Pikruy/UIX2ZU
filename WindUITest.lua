@@ -5096,41 +5096,6 @@ do
                     return E
                 end
             end
-            function k:Collapsible(options)
-                local _, element = y.Collapsible:New({
-                    Title = options.Title,
-                    Parent = self.UIElements.ContainerFrame,
-                    Window = self.Window,
-                    Icon = options.Icon
-                })
-
-                element.Window = self.Window
-                element.WindUI = self.WindUI
-
-                local elementsLib = {
-                    Button = a.load'q',
-                    Toggle = a.load't',
-                    Slider = a.load'u',
-                    Keybind = a.load'v',
-                    Input = a.load'w',
-                    Dropdown = a.load'x',
-                    Code = a.load'A',
-                    Colorpicker = a.load'B',
-                    Section = a.load'C'
-                }
-
-                for name, lib in pairs(elementsLib) do
-                    element[name] = function(_, props)
-                        props.Parent = element.Content
-                        props.Window = self.Window
-                        props.WindUI = self.WindUI
-                        local _, obj = lib:New(props)
-                        return obj
-                    end
-                end
-
-                return element
-            end
             task.spawn(function()
                 local B = ac("Frame", {
                     BackgroundTransparency = 1,
