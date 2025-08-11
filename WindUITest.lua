@@ -3666,7 +3666,14 @@ do
                                 q.UIElements.SearchBar:CaptureFocus()
                             end)
                         end
+
+                        -- Scroll ke atas setelah menu siap
+                        local sc = q.UIElements.Menu.Frame:FindFirstChild("ScrollingFrame")
+                        if sc then
+                            sc.CanvasPosition = Vector2.new(0, 0)
+                        end
                     end)
+
 
                     UpdatePosition()
                 end
