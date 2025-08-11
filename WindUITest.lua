@@ -7006,88 +7006,91 @@ do
             ----------------------------------------------------------------
             -- HEADER
             ----------------------------------------------------------------
-            local headerMain = d("Frame", {
-                Name = "HeaderMain",
-                Size = UDim2.new(1, 0, 0, 40),
-                BackgroundColor3 = Color3.fromRGB(38, 20, 58), -- warna ungu gelap mirip contoh
-                BorderSizePixel = 0,
-                Parent = wrapper
-            }, {
-                -- Sudut melengkung
-                d("UICorner", {
-                    CornerRadius = UDim.new(0, 8)
-                }),
+           -- Header container (fixed height) — ini *parent* untuk shadow + header
+local headerContainer = d("Frame", {
+    Name = "HeaderContainer",
+    Size = UDim2.new(1, 0, 0, 48),        -- tinggi container sedikit lebih besar agar shadow bisa keluar
+    BackgroundTransparency = 1,
+    Parent = wrapper
+})
 
-                -- Bayangan belakang
-                d("ImageLabel", {
-                    Name = "Shadow",
-                    BackgroundTransparency = 1,
-                    Image = "rbxassetid://1316045217", -- ID shadow rounded
-                    ScaleType = Enum.ScaleType.Slice,
-                    SliceCenter = Rect.new(10, 10, 118, 118),
-                    Size = UDim2.new(1, 8, 1, 8),
-                    Position = UDim2.new(0, -4, 0, -4),
-                    ImageTransparency = 0.3,
-                    ZIndex = 0
-                }),
+-- Shadow image (z-index lebih rendah)
+d("ImageLabel", {
+    Name = "Shadow",
+    BackgroundTransparency = 1,
+    Image = "rbxassetid://1316045217",   -- ganti kalau pakai asset lain
+    ScaleType = Enum.ScaleType.Slice,
+    SliceCenter = Rect.new(10, 10, 118, 118),
+    -- buat ukuran sedikit lebih besar dan geser supaya "mengelilingi" header
+    Size = UDim2.new(1, 12, 0, 48),
+    Position = UDim2.new(0, -6, 0, -4),
+    ImageTransparency = 0.75,            -- atur agar lebih lembut
+    ZIndex = 1,
+    Parent = headerContainer
+})
 
-                -- Padding dalam header
-                d("UIPadding", {
-                    PaddingLeft = UDim.new(0, 12),
-                    PaddingRight = UDim.new(0, 12)
-                }),
+-- Actual header (di atas shadow)
+local headerMain = d("Frame", {
+    Name = "HeaderMain",
+    Size = UDim2.new(1, 0, 0, 40),
+    Position = UDim2.new(0, 0, 0, 4),    -- beri offset vertikal supaya center di container
+    BackgroundColor3 = Color3.fromRGB(38, 20, 58), -- contoh warna
+    BorderSizePixel = 0,
+    Parent = headerContainer
+}, {
+    d("UICorner", { CornerRadius = UDim.new(0, 8) }),
+    d("UIPadding", {
+        PaddingLeft = UDim.new(0, 12),
+        PaddingRight = UDim.new(0, 8)
+    }),
+    d("UIListLayout", {
+        FillDirection = "Horizontal",
+        VerticalAlignment = Enum.VerticalAlignment.Center,
+        Padding = UDim.new(0, 8)
+    })
+})
+headerMain.ZIndex = 2  -- pastikan header di atas shadow
 
-                d("UIListLayout", {
-                    FillDirection = "Horizontal",
-                    VerticalAlignment = Enum.VerticalAlignment.Center,
-                    Padding = UDim.new(0, 8)
-                })
-            })
+-- lalu tambahkan Icon / Title / Arrow seperti biasa, parent = headerMain
+if k.Icon then
+    local iconData = b.Icon(k.Icon)
+    d("ImageLabel", {
+        Name = "Icon",
+        BackgroundTransparency = 1,
+        Size = UDim2.new(0, 18, 0, 18),
+        Image = iconData[1],
+        ImageRectOffset = iconData[2].ImageRectPosition,
+        ImageRectSize = iconData[2].ImageRectSize,
+        ThemeTag = { ImageColor3 = "Icon" },
+        Parent = headerMain
+    })
+end
 
+d("TextLabel", {
+    Name = "Title",
+    BackgroundTransparency = 1,
+    Size = UDim2.new(1, -40, 1, 0),
+    Text = k.Title,
+    TextXAlignment = Enum.TextXAlignment.Left,
+    FontFace = Font.new(b.Font, Enum.FontWeight.Medium),
+    TextSize = 14,
+    ThemeTag = { TextColor3 = "Text" },
+    Parent = headerMain
+})
 
-            k.HeaderFrame = headerMain
+local arrow = d("ImageLabel", {
+    Name = "Arrow",
+    Image = b.Icon("chevron-down")[1],
+    ImageRectSize = b.Icon("chevron-down")[2].ImageRectSize,
+    ImageRectOffset = b.Icon("chevron-down")[2].ImageRectPosition,
+    Size = UDim2.new(0, 16, 0, 16),
+    AnchorPoint = Vector2.new(1, 0.5),
+    Position = UDim2.new(1, -8, 0.5, 0),
+    BackgroundTransparency = 1,
+    ThemeTag = { ImageColor3 = "Icon" },
+    Parent = headerMain
+})
 
-            -- Icon di kiri
-            if k.Icon then
-                local iconData = b.Icon(k.Icon)
-                d("ImageLabel", {
-                    Name = "Icon",
-                    BackgroundTransparency = 1,
-                    Size = UDim2.new(0, 18, 0, 18),
-                    Image = iconData[1],
-                    ImageRectOffset = iconData[2].ImageRectPosition,
-                    ImageRectSize = iconData[2].ImageRectSize,
-                    ThemeTag = { ImageColor3 = "Icon" },
-                    Parent = headerMain
-                })
-            end
-
-            -- Title fleksibel, biar sisa space untuk chevron
-            d("TextLabel", {
-                Name = "Title",
-                BackgroundTransparency = 1,
-                Size = UDim2.new(1, -40, 1, 0),
-                Text = k.Title,
-                TextXAlignment = Enum.TextXAlignment.Left,
-                FontFace = Font.new(b.Font, Enum.FontWeight.Medium),
-                TextSize = 14,
-                ThemeTag = { TextColor3 = "Text" },
-                Parent = headerMain
-            })
-
-            -- Chevron di kanan
-            local arrow = d("ImageLabel", {
-                Name = "Arrow",
-                Image = b.Icon("chevron-down")[1],
-                ImageRectSize = b.Icon("chevron-down")[2].ImageRectSize,
-                ImageRectOffset = b.Icon("chevron-down")[2].ImageRectPosition,
-                Size = UDim2.new(0, 16, 0, 16),
-                BackgroundTransparency = 1,
-                AnchorPoint = Vector2.new(1, 0.5),
-                Position = UDim2.new(1, 0, 0.5, 0),
-                ThemeTag = { ImageColor3 = "Icon" },
-                Parent = headerMain
-            })
 
             ----------------------------------------------------------------
             -- CONTENT
