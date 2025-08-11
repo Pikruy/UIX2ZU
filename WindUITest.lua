@@ -7098,7 +7098,7 @@ do
                 }),
                 d("UICorner", { CornerRadius = UDim.new(0, 8) }),
                 d("UIGradient", { -- efek gradasi ringan biar mirip kaca
-                   Color = ColorSequence.new{
+                    Color = ColorSequence.new{
                         ColorSequenceKeypoint.new(0, Color3.fromHex("#1E3AFF")), -- biru deep
                         ColorSequenceKeypoint.new(0.5, Color3.fromHex("#7A3CFF")), -- ungu lembut
                         ColorSequenceKeypoint.new(1, Color3.fromHex("#000000"))  -- hitam
@@ -7204,14 +7204,15 @@ do
             local arrowGradient = Instance.new("UIGradient")
             arrowGradient.Rotation = 90
             arrowGradient.Color = ColorSequence.new({
-                ColorSequenceKeypoint.new(0, Color3.fromHex("#1E3AFF")), -- biru deep
-                ColorSequenceKeypoint.new(0.5, Color3.fromHex("#3cd8ff")), -- ungu lembut
-                ColorSequenceKeypoint.new(1, Color3.fromHex("#ffffff")) -- putih
+                ColorSequenceKeypoint.new(0, Color3.fromHex("#FFA500")), -- oranye terang (kontras biru)
+                ColorSequenceKeypoint.new(0.5, Color3.fromHex("#A6FF00")), -- kuning-hijau terang (kontras ungu)
+                ColorSequenceKeypoint.new(1, Color3.fromHex("#FFFFFF"))    -- putih (kontras hitam)
             })
             arrowGradient.Transparency = NumberSequence.new({
                 NumberSequenceKeypoint.new(0, 0.55),
                 NumberSequenceKeypoint.new(1, 0.8)
             })
+
             arrowGradient.Enabled = false 
             arrowGradient.Parent = arrow
             headerMain.InputBegan:Connect(function(input)
