@@ -3396,34 +3396,52 @@ do
             -- Event search real-time
             -- Search tanpa destroy massal, cuma toggle visible
             local searchDebounce
-            h.AddSignal(q.UIElements.SearchBar:GetPropertyChangedSignal("Text"), function()
-                if searchDebounce then task.cancel(searchDebounce) end
+h.AddSignal(q.UIElements.SearchBar:GetPropertyChangedSignal("Text"), function()
+    if searchDebounce then task.cancel(searchDebounce) end
 
-                searchDebounce = task.delay(0.1, function()
-                    local stext = string.lower(q.UIElements.SearchBar.Text or "")
+    searchDebounce = task.delay(0.1, function()
+        local stext = string.lower(q.UIElements.SearchBar.Text or "")
 
-                    if stext == "" then
-                        for _, tab in pairs(q.Tabs) do
-                            if tab.UIElements and tab.UIElements.TabItem then
-                                tab.UIElements.TabItem.Visible = true
-                            end
-                        end
-                    else
-                        for _, tab in pairs(q.Tabs) do
-                            if tab.UIElements and tab.UIElements.TabItem then
-                                local name = string.lower(tostring(tab.Name))
-                                tab.UIElements.TabItem.Visible = string.find(name, stext, 1, true) ~= nil
-                            end
-                        end
-                    end
-                    
-                    -- Reset scroll ke paling atas setiap kali filter selesai
-                    local sc = q.UIElements.Menu.Frame:FindFirstChild("ScrollingFrame")
-                    if sc then
-                        sc.CanvasPosition = Vector2.new(0, 0)
-                    end
-                end)
-            end)
+        if stext == "" then
+            -- Jika search kosong:
+            -- Pilihan tidak difilter, tampilkan semua
+            -- Jika kamu ingin rebuild total (misal data berubah), panggil Refresh
+            -- Contoh:
+            -- q:Refresh(q.Values)  -- gunakan ini kalau ingin rebuild ulang
+            -- atau cukup toggle visible semua jika tidak rebuild:
+            for _, tab in pairs(q.Tabs) do
+                if tab.UIElements and tab.UIElements.TabItem then
+                    tab.UIElements.TabItem.Visible = true
+                end
+            end
+        else
+            -- Jika ada teks search:
+            -- Metode 1: toggle visible saja (lebih ringan)
+            for _, tab in pairs(q.Tabs) do
+                if tab.UIElements and tab.UIElements.TabItem then
+                    local name = string.lower(tostring(tab.Name))
+                    tab.UIElements.TabItem.Visible = string.find(name, stext, 1, true) ~= nil
+                end
+            end
+
+            -- Metode 2 (opsional): kalau ingin rebuild ulang dengan data filter, lakukan seperti ini:
+            -- local filtered = {}
+            -- for _, val in ipairs(q.Values) do
+            --     if string.find(string.lower(tostring(val)), stext, 1, true) then
+            --         table.insert(filtered, val)
+            --     end
+            -- end
+            -- q:Refresh(filtered)
+        end
+
+        -- Reset scroll ke atas supaya hasil langsung kelihatan
+        local sc = q.UIElements.Menu.Frame:FindFirstChild("ScrollingFrame")
+        if sc then
+            sc.CanvasPosition = Vector2.new(0, 0)
+        end
+    end)
+end)
+
 
 
             function q.Lock(s)
