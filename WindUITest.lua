@@ -2359,7 +2359,6 @@ do
                 Thumbnail = g.Thumbnail,
                 ThumbnailSize = g.ThumbnailSize or 80,
                 Image = g.Image,
-                Icon = g.Icon or nil,
                 IconThemed = g.IconThemed or false,
                 ImageSize = g.ImageSize or 30,
                 Color = g.Color,
@@ -5101,7 +5100,7 @@ do
                     return E
                 end
             end
-            function k.Collapsible(options)
+            function k:Collapsible(options)
                 local _, element = y.Collapsible:New({
                     Title = options.Title,
                     Parent = self.UIElements.ContainerFrame,
@@ -6988,28 +6987,7 @@ do
                 Icon = params.Icon or nil,
                 UIElements = {}
             }
-            if k.Icon then
-                l = ab.Image(k.Icon, k.Icon, 0, i, "Section", true, k.IconThemed)
-                l.Size = UDim2.new(0, k.IconSize, 0, k.IconSize)
-                l.ImageLabel.ImageTransparency = .25
-            end
-            local o = ac("Frame", {
-                Size = UDim2.new(0, k.IconSize, 0, k.IconSize),
-                BackgroundTransparency = 1,
-                Visible = false
-            }, {
-                ac("ImageLabel", {
-                    Size = UDim2.new(1, 0, 1, 0),
-                    BackgroundTransparency = 1,
-                    Image = ab.Icon"chevron-down"[1],
-                    ImageRectSize = ab.Icon"chevron-down"[2].ImageRectSize,
-                    ImageRectOffset = ab.Icon"chevron-down"[2].ImageRectPosition,
-                    ThemeTag = {
-                        ImageColor3 = "Icon",
-                    },
-                    ImageTransparency = .7,
-                })
-            })
+
             -- Wrapper
             local wrapper = d("Frame", {
                 Size = UDim2.new(1, 0, 0, 0),
