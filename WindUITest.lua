@@ -6984,7 +6984,7 @@ do
             local k = {
                 __type = "Collapsible",
                 Title = params.Title or "Collapsible",
-                Icon = params.Icon or nil,
+                Icon = params.Icon,
                 UIElements = {}
             }
 
