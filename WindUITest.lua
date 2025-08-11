@@ -3402,25 +3402,29 @@ do
                 searchDebounce = task.delay(0.1, function()
                     local stext = string.lower(q.UIElements.SearchBar.Text or "")
 
-                    -- Kalau kosong, semua visible
                     if stext == "" then
                         for _, tab in pairs(q.Tabs) do
                             if tab.UIElements and tab.UIElements.TabItem then
                                 tab.UIElements.TabItem.Visible = true
                             end
                         end
-                        return
-                    end
-
-                    -- Filter cepat hanya toggle Visible
-                    for _, tab in pairs(q.Tabs) do
-                        if tab.UIElements and tab.UIElements.TabItem then
-                            local name = string.lower(tostring(tab.Name))
-                            tab.UIElements.TabItem.Visible = string.find(name, stext, 1, true) ~= nil
+                    else
+                        for _, tab in pairs(q.Tabs) do
+                            if tab.UIElements and tab.UIElements.TabItem then
+                                local name = string.lower(tostring(tab.Name))
+                                tab.UIElements.TabItem.Visible = string.find(name, stext, 1, true) ~= nil
+                            end
                         end
+                    end
+                    
+                    -- Reset scroll ke paling atas setiap kali filter selesai
+                    local sc = q.UIElements.Menu.Frame:FindFirstChild("ScrollingFrame")
+                    if sc then
+                        sc.CanvasPosition = Vector2.new(0, 0)
                     end
                 end)
             end)
+
 
             function q.Lock(s)
                 r = false
@@ -3647,7 +3651,6 @@ do
                 q:Refresh(q.Values)
             end
             RecalculateListSize()
-            local RunService = game:GetService("RunService")
             function q.Open(s)
                 if r then
                     q.UIElements.Menu.Visible = true
@@ -3657,7 +3660,7 @@ do
                     j(q.UIElements.Menu, 0.1, {
                         Size = UDim2.new(1, 0, 1, 0)
                     }, Enum.EasingStyle.Quart, Enum.EasingDirection.Out):Play()
-
+                    
                     task.spawn(function()
                         task.wait(0.12) -- tunggu animasi
                         q.Opened = true
@@ -3667,27 +3670,11 @@ do
                                 q.UIElements.SearchBar:CaptureFocus()
                             end)
                         end
-
-                        local sc = q.UIElements.Menu.Frame:FindFirstChild("ScrollingFrame")
-                        if sc then
-                            -- Nonaktifkan AutomaticCanvasSize sementara
-                            sc.AutomaticCanvasSize = Enum.AutomaticSize.None
-
-                            -- Jalankan loop kecil untuk set CanvasPosition berkali-kali
-                            for _ = 1, 3 do
-                                sc.CanvasPosition = Vector2.new(0, 0)
-                                RunService.Heartbeat:Wait()
-                            end
-
-                            -- Aktifkan kembali AutomaticCanvasSize
-                            sc.AutomaticCanvasSize = Enum.AutomaticSize.Y
-                        end
                     end)
 
                     UpdatePosition()
                 end
             end
-
             function q.Close(s)
                 q.Opened = false
                 j(q.UIElements.Menu, 0.25, {
