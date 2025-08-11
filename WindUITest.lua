@@ -7206,13 +7206,13 @@ do
             arrowGradient.Color = ColorSequence.new({
                 ColorSequenceKeypoint.new(0, Color3.fromHex("#1E3AFF")), -- biru deep
                 ColorSequenceKeypoint.new(0.5, Color3.fromHex("#7A3CFF")), -- ungu lembut
-                ColorSequenceKeypoint.new(1, Color3.fromHex("#ffffff")) -- putih
+                ColorSequenceKeypoint.new(1, Color3.fromHex("#000000")) -- putih
             })
             arrowGradient.Transparency = NumberSequence.new({
                 NumberSequenceKeypoint.new(0, 0.55),
                 NumberSequenceKeypoint.new(1, 0.8)
             })
-            arrowGradient.Enabled = false  -- awalnya mati
+            arrowGradient.Enabled = false 
             arrowGradient.Parent = arrow
             headerMain.InputBegan:Connect(function(input)
                 if input.UserInputType == Enum.UserInputType.MouseButton1 then
