@@ -7198,36 +7198,27 @@ do
             -- TOGGLE LOGIC
             ----------------------------------------------------------------
             -- Toggle logic: gunakan TweenService langsung (bebas dari e wrapper)
-            local TweenService = game:GetService("TweenService")
+           local TweenService = game:GetService("TweenService")
 local expanded = false
 
--- Buat UIGradient untuk arrow dulu, simpan referensinya
 local arrowGradient = Instance.new("UIGradient")
 arrowGradient.Rotation = 0
 arrowGradient.Color = ColorSequence.new({
-    ColorSequenceKeypoint.new(0, Color3.fromHex("#1E3AFF")), -- biru deep
-    ColorSequenceKeypoint.new(0.5, Color3.fromHex("#7A3CFF")), -- ungu lembut
-    ColorSequenceKeypoint.new(1, Color3.fromHex("#000000"))  -- hitam
+    ColorSequenceKeypoint.new(0, Color3.fromHex("#1E3AFF")),
+    ColorSequenceKeypoint.new(0.5, Color3.fromHex("#7A3CFF")),
+    ColorSequenceKeypoint.new(1, Color3.fromHex("#000000"))
 })
-arrowGradient.Transparency = NumberSequence.new({
-    NumberSequenceKeypoint.new(0, 0.55),
-    NumberSequenceKeypoint.new(1, 0.8)
-})
+arrowGradient.Transparency = NumberSequence.new(1, 1) -- mulai transparan
 arrowGradient.Parent = arrow
 
--- Simpan warna asli arrow (misal solid putih atau sesuai kebutuhan)
-local originalColor3 = arrow.ImageColor3 or Color3.new(1, 1, 1)
-
--- Fungsi untuk ubah warna arrow saat expanded atau tidak
 local function UpdateArrowColor(isExpanded)
     if isExpanded then
-        -- Saat terbuka, pakai gradient dan full opacity
-        arrowGradient.Enabled = true
-        arrow.ImageColor3 = Color3.new(1,1,1) -- biar gak kelihatan warna dasar arrow
+        arrowGradient.Transparency = NumberSequence.new({
+            NumberSequenceKeypoint.new(0, 0.55),
+            NumberSequenceKeypoint.new(1, 0.8)
+        })
     else
-        -- Saat tertutup, matikan gradient dan kembalikan warna asli
-        arrowGradient.Enabled = false
-        arrow.ImageColor3 = originalColor3
+        arrowGradient.Transparency = NumberSequence.new(1, 1)
     end
 end
 
@@ -7260,13 +7251,12 @@ headerMain.InputBegan:Connect(function(input)
             end)
         end
 
-        -- Update warna arrow sesuai status
         UpdateArrowColor(expanded)
     end
 end)
 
--- Inisialisasi warna arrow sesuai state awal jika perlu
 UpdateArrowColor(expanded)
+
 
 
 
