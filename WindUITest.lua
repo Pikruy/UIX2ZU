@@ -7113,7 +7113,7 @@ do
                 ImageRectOffset = b.Icon("chevron-down")[2].ImageRectPosition,
                 Size = UDim2.new(0, 16, 0, 16),
                 AnchorPoint = Vector2.new(0.5, 0.5),    -- pusat rotasi
-                Position = UDim2.new(0.5, 0, 0.5, 0),   -- center di holder
+                Position = UDim2.new(0.5, -5, 0.5, 0),  -- geser 2px ke kiri
                 BackgroundTransparency = 1,
                 Parent = arrowHolder,
                 ZIndex = headerMain.ZIndex + 1
@@ -7145,54 +7145,43 @@ do
             ----------------------------------------------------------------
             -- TOGGLE LOGIC
             ----------------------------------------------------------------
-           arrow:GetPropertyChangedSignal("Rotation"):Connect(function()
-    print("[DEBUG] arrow Rotation changed ->", arrow.Rotation, " fullName:", arrow:GetFullName())
-end)
-print("[DEBUG] created arrow ->", arrow:GetFullName())
+            -- Toggle logic: gunakan TweenService langsung (bebas dari e wrapper)
+            local TweenService = game:GetService("TweenService")
+            local expanded = false
+            headerMain.InputBegan:Connect(function(input)
+                if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                    expanded = not expanded
+                    -- tween rotasi (0 -> 90 derajat, lebih terlihat)
+                    local rotTarget = expanded and 180 or 0
+                    local tween = TweenService:Create(arrow, TweenInfo.new(0.18, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+                        Rotation = rotTarget
+                    })
+                    tween:Play()
 
--- Toggle logic: gunakan TweenService langsung (bebas dari e wrapper)
-local TweenService = game:GetService("TweenService")
-local expanded = false
-headerMain.InputBegan:Connect(function(input)
-    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-        expanded = not expanded
+                    -- fallback direct set (untuk cek jika tween gagal)
+                    task.delay(0.22, function()
+                        -- jika masih 0, coba langsung set untuk memastikan property bisa berubah
+                        arrow.Rotation = rotTarget
+                    end)
 
-        -- debug quick
-        print("Expanded:", expanded)
-
-        -- tween rotasi (0 -> 90 derajat, lebih terlihat)
-        local rotTarget = expanded and 90 or 0
-        local tween = TweenService:Create(arrow, TweenInfo.new(0.18, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-            Rotation = rotTarget
-        })
-        tween:Play()
-
-        -- fallback direct set (untuk cek jika tween gagal)
-        task.delay(0.22, function()
-            print("[DEBUG] after tween, arrow.Rotation =", arrow.Rotation)
-            -- jika masih 0, coba langsung set untuk memastikan property bisa berubah
-            arrow.Rotation = rotTarget
-            print("[DEBUG] after direct set, arrow.Rotation =", arrow.Rotation)
-        end)
-
-        -- expand/collapse content (tetap pakai e untuk konten)
-        if expanded then
-            contentFrame.Visible = true
-            e(contentFrame, 0.2, {
-                Size = UDim2.new(1, 0, 0, layout.AbsoluteContentSize.Y)
-            }):Play()
-        else
-            e(contentFrame, 0.2, {
-                Size = UDim2.new(1, 0, 0, 0)
-            }):Play()
-            task.delay(0.2, function()
-                if not expanded then
-                    contentFrame.Visible = false
+                    -- expand/collapse content (tetap pakai e untuk konten)
+                    if expanded then
+                        contentFrame.Visible = true
+                        e(contentFrame, 0.2, {
+                            Size = UDim2.new(1, 0, 0, layout.AbsoluteContentSize.Y)
+                        }):Play()
+                    else
+                        e(contentFrame, 0.2, {
+                            Size = UDim2.new(1, 0, 0, 0)
+                        }):Play()
+                        task.delay(0.2, function()
+                            if not expanded then
+                                contentFrame.Visible = false
+                            end
+                        end)
+                    end
                 end
             end)
-        end
-    end
-end)
 
 
 
