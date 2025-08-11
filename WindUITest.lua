@@ -6980,7 +6980,7 @@ do
         local e = b.Tween
         local h = {}
 
-        function h.New(self, params)
+        function h.New(self,params)
             local k = {
                 __type = "Collapsible",
                 Title = params.Title or "Collapsible",
@@ -7002,53 +7002,16 @@ do
                 })
             })
             k.Wrapper = wrapper
+            -- Header
+            k.HeaderFrame = a.load'p'{
+                Title = k.Title,
+                Window = params.Window,
+                Parent = wrapper,
+                TextOffset = 44,
+                Hover = false,
+            }
 
-            ----------------------------------------------------------------
-            -- HEADER
-            ----------------------------------------------------------------
-            local headerMain = d("Frame", {
-                Name = "HeaderMain",
-                Size = UDim2.new(1, 0, 0, 40),
-                BackgroundTransparency = 1,
-                Parent = wrapper
-            }, {
-                d("UIListLayout", {
-                    FillDirection = "Horizontal",
-                    VerticalAlignment = Enum.VerticalAlignment.Center,
-                    Padding = UDim.new(0, 6)
-                })
-            })
-            k.HeaderFrame = headerMain
-
-            -- Icon (opsional)
-            if k.Icon then
-                local iconData = b.Icon(k.Icon)
-                d("ImageLabel", {
-                    Name = "Icon",
-                    BackgroundTransparency = 1,
-                    Size = UDim2.new(0, 16, 0, 16),
-                    Image = iconData[1],
-                    ImageRectOffset = iconData[2].ImageRectPosition,
-                    ImageRectSize = iconData[2].ImageRectSize,
-                    ThemeTag = { ImageColor3 = "Icon" },
-                    Parent = headerMain
-                })
-            end
-
-            -- Title
-            d("TextLabel", {
-                Name = "Title",
-                BackgroundTransparency = 1,
-                Size = UDim2.new(1, -40, 1, 0),
-                Text = k.Title,
-                TextXAlignment = Enum.TextXAlignment.Left,
-                FontFace = Font.new(b.Font, Enum.FontWeight.Medium),
-                TextSize = 14,
-                ThemeTag = { TextColor3 = "Text" },
-                Parent = headerMain
-            })
-
-            -- Arrow
+            -- Arrow icon
             local arrow = d("ImageLabel", {
                 Name = "Arrow",
                 Image = b.Icon("chevron-down")[1],
@@ -7058,15 +7021,12 @@ do
                 AnchorPoint = Vector2.new(1, 0.5),
                 Position = UDim2.new(1, -8, 0.5, 0),
                 BackgroundTransparency = 1,
-                ThemeTag = { ImageColor3 = "Icon" },
-                Parent = headerMain
+                ThemeTag = { ImageColor3 = "Icon" }
             })
+            arrow.Parent = k.HeaderFrame.UIElements.Main
 
-            ----------------------------------------------------------------
-            -- CONTENT
-            ----------------------------------------------------------------
+            -- Content frame
             local contentFrame = d("Frame", {
-                Name = "Content",
                 Size = UDim2.new(1, 0, 0, 0),
                 BackgroundTransparency = 1,
                 Visible = false,
@@ -7079,32 +7039,28 @@ do
                     SortOrder = Enum.SortOrder.LayoutOrder
                 })
             })
-            k.Content = contentFrame
 
             local layout = contentFrame:FindFirstChildOfClass("UIListLayout")
+            k.Content = contentFrame
 
-            ----------------------------------------------------------------
-            -- TOGGLE LOGIC
-            ----------------------------------------------------------------
+            -- Expand/Collapse
             local expanded = false
-            headerMain.InputBegan:Connect(function(input)
-                if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                    expanded = not expanded
-                    arrow.Image = b.Icon(expanded and "chevron-up" or "chevron-down")[1]
+            b.AddSignal(k.HeaderFrame.UIElements.Main.MouseButton1Click, function()
+                expanded = not expanded
+                arrow.Image = b.Icon(expanded and "chevron-up" or "chevron-down")[1]
 
-                    if expanded then
-                        contentFrame.Visible = true
-                        e(contentFrame, 0.2, {
-                            Size = UDim2.new(1, 0, 0, layout.AbsoluteContentSize.Y)
-                        }):Play()
-                    else
-                        e(contentFrame, 0.2, { Size = UDim2.new(1, 0, 0, 0) }):Play()
-                        task.delay(0.2, function()
-                            if not expanded then
-                                contentFrame.Visible = false
-                            end
-                        end)
-                    end
+                if expanded then
+                    contentFrame.Visible = true
+                    e(contentFrame, 0.2, {
+                        Size = UDim2.new(1, 0, 0, layout.AbsoluteContentSize.Y)
+                    }):Play()
+                else
+                    e(contentFrame, 0.2, { Size = UDim2.new(1, 0, 0, 0) }):Play()
+                    task.delay(0.2, function()
+                        if not expanded then
+                            contentFrame.Visible = false
+                        end
+                    end)
                 end
             end)
 
@@ -7113,7 +7069,6 @@ do
 
         return h
     end
-
 end
 local aa = {
     Window = nil,
