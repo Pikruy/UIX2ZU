@@ -7006,6 +7006,7 @@ do
             k.HeaderFrame = a.load'p'{
                 Title = k.Title,
                 Window = params.Window,
+                Icon = k.Icon,
                 Parent = wrapper,
                 TextOffset = 44,
                 Hover = false,
