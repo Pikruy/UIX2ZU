@@ -7166,6 +7166,7 @@ do
                 Size = UDim2.new(0, 16, 0, 16),
                 AnchorPoint = Vector2.new(0.5, 0.5),    -- pusat rotasi
                 Position = UDim2.new(0.5, -12, 0.5, 0),  -- geser 2px ke kiri
+                ImageColor3 = Color3.new(255, 255, 255),
                 BackgroundTransparency = 1,
                 Parent = arrowHolder,
                 ZIndex = headerMain.ZIndex + 1
@@ -7223,6 +7224,7 @@ do
                             Size = UDim2.new(1, 0, 0, layout.AbsoluteContentSize.Y)
                         }):Play()
                         shadow.ImageTransparency = 0.8
+                        arrow.ImageColor3 = Color3.new(0, 255, 0)
                     else
                         e(contentFrame, 0.2, {
                             Size = UDim2.new(1, 0, 0, 0)
@@ -7231,7 +7233,7 @@ do
                             if not expanded then
                                 contentFrame.Visible = false
                                 shadow.ImageTransparency = 1
-                                arrow.ImageColor3 = originalColor3
+                                arrow.ImageColor3 = Color3.new(255, 255, 255)
                             end
                         end)
                     end
