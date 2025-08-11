@@ -5116,7 +5116,8 @@ do
                     Dropdown = a.load'x',
                     Code = a.load'A',
                     Colorpicker = a.load'B',
-                    Section = a.load'C'
+                    Section = a.load'C',
+                    Collapsible = a.load'collapsible'
                 }
 
                 for name, lib in pairs(elementsLib) do
