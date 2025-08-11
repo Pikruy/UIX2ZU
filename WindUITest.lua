@@ -5101,7 +5101,7 @@ do
                 end
             end
             function k:Collapsible(options)
-                local _, element = y.Collapsible:New({
+                local element = y.Collapsible:New({
                     Title = options.Title,
                     Parent = self.UIElements.ContainerFrame,
                     Window = self.Window,
