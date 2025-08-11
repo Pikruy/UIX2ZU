@@ -4710,7 +4710,7 @@ do
         end
         return b
     end
-    function a.collapsible() -- Collapsible Section
+    function a.collapsible()
         local b = a.load'a'
         local d = b.New
         local e = b.Tween
@@ -4724,11 +4724,25 @@ do
                 UIElements = {}
             }
 
+            -- Wrapper utama
+            local wrapper = d("Frame", {
+                Size = UDim2.new(1, 0, 0, 0),
+                BackgroundTransparency = 1,
+                AutomaticSize = "Y",
+                Parent = params.Parent
+            }, {
+                d("UIListLayout", {
+                    FillDirection = "Vertical",
+                    Padding = UDim.new(0, 4),
+                    SortOrder = Enum.SortOrder.LayoutOrder
+                })
+            })
+
             -- Header
             k.HeaderFrame = a.load'p'{
                 Title = k.Title,
                 Window = params.Window,
-                Parent = params.Parent,
+                Parent = wrapper,
                 TextOffset = 44,
                 Hover = false,
             }
@@ -4753,7 +4767,7 @@ do
                 BackgroundTransparency = 1,
                 Visible = false,
                 ClipsDescendants = true,
-                Parent = params.Parent
+                Parent = wrapper
             }, {
                 d("UIListLayout", {
                     FillDirection = "Vertical",
@@ -4790,6 +4804,7 @@ do
 
         return h
     end
+
     function a.D()
         game:GetService"UserInputService"
         local aa = game.Players.LocalPlayer:GetMouse()
@@ -5176,7 +5191,7 @@ do
                     return E
                 end
             end
-            function k:Collapsible(options)
+            function k.Collapsible(options)
                 local _, element = y.Collapsible:New({
                     Title = options.Title,
                     Parent = self.UIElements.ContainerFrame,
@@ -5187,6 +5202,7 @@ do
                 element.Window = self.Window
                 element.WindUI = self.WindUI
 
+                -- auto-bind semua elemen ke content
                 local elementsLib = {
                     Button = a.load'q',
                     Toggle = a.load't',
@@ -5211,6 +5227,7 @@ do
 
                 return element
             end
+
 
             task.spawn(function()
                 local B = ac("Frame", {
