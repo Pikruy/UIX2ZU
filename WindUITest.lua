@@ -7239,7 +7239,6 @@ do
                         }):Play()
                         arrowGradient.Enabled = true
                         shadow.ImageTransparency = 0.8
-                        arrow.ImageColor3 = Color3.new(1,1,1)
                     else
                         e(contentFrame, 0.2, {
                             Size = UDim2.new(1, 0, 0, 0)
