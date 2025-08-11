@@ -7067,7 +7067,7 @@ do
             })
 
             -- Shadow image (z-index lebih rendah)
-            d("ImageLabel", {
+            local shadow = d("ImageLabel", {
                 Name = "Shadow",
                 BackgroundTransparency = 1,
                 Image = "rbxassetid://1316045217",   -- ganti kalau pakai asset lain
@@ -7237,6 +7237,7 @@ do
                             Size = UDim2.new(1, 0, 0, layout.AbsoluteContentSize.Y)
                         }):Play()
                         arrowGradient.Enabled = true
+                        shadow.Transparency = 0.15
                         arrow.ImageColor3 = Color3.new(255,255,255)
                     else
                         e(contentFrame, 0.2, {
@@ -7247,6 +7248,7 @@ do
                                 contentFrame.Visible = false
                             end
                         end)
+                        shadow.Transparency = 1
                         arrowGradient.Enabled = false
                         arrow.ImageColor3 = originalColor3
                     end
