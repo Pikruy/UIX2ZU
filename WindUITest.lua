@@ -7136,16 +7136,18 @@ do
             ----------------------------------------------------------------
             -- TOGGLE LOGIC
             ----------------------------------------------------------------
+            local TweenService = game:GetService("TweenService")
+
             local expanded = false
             headerMain.InputBegan:Connect(function(input)
                 if input.UserInputType == Enum.UserInputType.MouseButton1 then
                     expanded = not expanded
 
-                    print("Expanded:", expanded, "Rotation target:", expanded and 180 or 0)
-                    
-                    -- Muter icon
-                    e(arrow, 0.2, { Rotation = expanded and 180 or 0 }):Play()
-                    print("Current arrow.Rotation (before tween):", arrow.Rotation)
+                    print("Expanded:", expanded)
+
+                    -- Tween pakai TweenService
+                    local tweenInfo = TweenInfo.new(0.2, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+                    TweenService:Create(arrow, tweenInfo, { Rotation = expanded and 180 or 0 }):Play()
 
                     if expanded then
                         contentFrame.Visible = true
@@ -7160,14 +7162,8 @@ do
                             end
                         end)
                     end
-
-                    -- Delay sedikit untuk lihat hasil setelah tween
-                    task.delay(0.25, function()
-                        print("Arrow.Rotation (after tween):", arrow.Rotation)
-                    end)
                 end
             end)
-
 
 
             return k.__type, k
