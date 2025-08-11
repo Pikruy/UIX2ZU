@@ -318,8 +318,7 @@ do
             local function update(v)
                 local w = v.Position - s
                 h.Tween(k, 0.02, {
-                    Position = UDim2.new(
-t.X.Scale, t.X.Offset + w.X, t.Y.Scale, t.Y.Offset + w.Y)
+                    Position = UDim2.new(t.X.Scale, t.X.Offset + w.X, t.Y.Scale, t.Y.Offset + w.Y)
                 }):Play()
             end
             for v, w in pairs(l) do
@@ -940,8 +939,7 @@ t.X.Scale, t.X.Offset + w.X, t.Y.Scale, t.Y.Offset + w.Y)
             o.UIElements.Main.Size = UDim2.new(0, r, 0, 0)
             local s
             if i.Icon then
-                s = d.Image(
-i.Icon, i.Title .. ":" .. i.Icon, 0, i.WindUI.Window, "KeySystem", i.IconThemed)
+                s = d.Image(i.Icon, i.Title .. ":" .. i.Icon, 0, i.WindUI.Window, "KeySystem", i.IconThemed)
                 s.Size = UDim2.new(0, 24, 0, 24)
                 s.LayoutOrder = - 1
             end
@@ -1400,8 +1398,7 @@ i.Icon, i.Title .. ":" .. i.Icon, 0, i.WindUI.Window, "KeySystem", i.IconThemed)
             j.UIElements.Main.Size = UDim2.new(0, l, 0, 0)
             local o
             if h.Icon then
-                o = d.Image(
-h.Icon, h.Title .. ":" .. h.Icon, 0, g.WindUI.Window, "Popup", g.IconThemed)
+                o = d.Image(h.Icon, h.Title .. ":" .. h.Icon, 0, g.WindUI.Window, "Popup", g.IconThemed)
                 o.Size = UDim2.new(0, 22, 0, 22)
                 o.LayoutOrder = - 1
             end
@@ -1666,8 +1663,7 @@ h.Icon, h.Title .. ":" .. h.Icon, 0, g.WindUI.Window, "Popup", g.IconThemed)
                     return
                 end
                 local x = s / w
-                h.CanvasPosition = Vector2.new(
-h.CanvasPosition.X, x * v)
+                h.CanvasPosition = Vector2.new(h.CanvasPosition.X, x * v)
             end
             local function updateThumbPosition()
                 if q then
@@ -2143,8 +2139,7 @@ h.CanvasPosition.X, x * v)
                     j:Destroy()
                 end
                 if s then
-                    j = d.Image(
-s, h.Title, 0, h.Folder, "OpenButton", true, h.IconThemed)
+                    j = d.Image(s, h.Title, 0, h.Folder, "OpenButton", true, h.IconThemed)
                     j.Size = UDim2.new(0, 22, 0, 22)
                     j.LayoutOrder = - 1
                     j.Parent = i.Button.TextButton
@@ -2380,13 +2375,11 @@ s, h.Title, 0, h.Folder, "OpenButton", true, h.IconThemed)
             local o
             local p
             if h.Thumbnail then
-                o = b.Image(
-h.Thumbnail, h.Title, h.UICorner - 3, g.Window.Folder, "Thumbnail", false, h.IconThemed)
+                o = b.Image(h.Thumbnail, h.Title, h.UICorner - 3, g.Window.Folder, "Thumbnail", false, h.IconThemed)
                 o.Size = UDim2.new(1, 0, 0, j)
             end
             if h.Image then
-                p = b.Image(
-h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or false)
+                p = b.Image(h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or false)
                 if h.Color == "White" then
                     p.ImageLabel.ImageColor3 = Color3.new(0, 0, 0)
                 elseif h.Color then
@@ -3154,10 +3147,7 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
             UICorner = 8,
             UIPadding = 8,
         }
-        local h = a.load'd'
-
-
-.New
+        local h = a.load'd'.New
         local i = a.load'e'.New
         function g.New(j, k)
             local l = {
@@ -3689,117 +3679,6 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
             h.AddSignal(q.UIElements.Dropdown:GetPropertyChangedSignal"AbsolutePosition", UpdatePosition)
             return q.__type, q
         end
-        -- ==================== SECTION SYSTEM ====================
-        function l.NewSection(tab, props)
-            local section = {
-                __type = "Section",
-                Title = props.Title or "Section",
-                DefaultOpen = props.DefaultOpen ~= false, -- default true
-                Opened = props.DefaultOpen ~= false,
-                UIElements = {},
-                Children = {},
-                ParentTab = tab
-            }
-
-            -- Frame utama section (header)
-            section.UIElements.Header = a.load'p'{
-                Title = section.Title,
-                Parent = tab.UIElements.Container,
-                TextOffset = 0,
-                Hover = true,
-            }
-
-            -- Panah expand/collapse
-            local arrow = i("ImageLabel", {
-                Image = h.Icon"chevron-down"[1],
-                ImageRectOffset = h.Icon"chevron-down"[2].ImageRectPosition,
-                ImageRectSize = h.Icon"chevron-down"[2].ImageRectSize,
-                Size = UDim2.new(0, 16, 0, 16),
-                Position = UDim2.new(1, -12, 0.5, 0),
-                ThemeTag = { ImageColor3 = "Icon" },
-                AnchorPoint = Vector2.new(1, 0.5),
-                Parent = section.UIElements.Header.UIElements.Container
-            })
-
-            -- Container isi section
-            section.UIElements.Content = i("Frame", {
-                BackgroundTransparency = 1,
-                Size = UDim2.new(1, 0, 0, 0), -- awal tertutup
-                AutomaticSize = Enum.AutomaticSize.Y,
-                Parent = tab.UIElements.Container,
-                ClipsDescendants = true
-            }, {
-                i("UIListLayout", { SortOrder = "LayoutOrder" })
-            })
-
-            local contentLayout = section.UIElements.Content:FindFirstChildOfClass("UIListLayout")
-
-            -- Fungsi toggle buka/tutup
-            function section:Toggle(open)
-                self.Opened = open ~= nil and open or not self.Opened
-                if self.Opened then
-                    j(self.UIElements.Content, 0.2, {
-                        Size = UDim2.new(1, 0, 0, contentLayout.AbsoluteContentSize.Y)
-                    }):Play()
-                    arrow.Rotation = 0
-                else
-                    j(self.UIElements.Content, 0.2, { Size = UDim2.new(1, 0, 0, 0) }):Play()
-                    arrow.Rotation = -90
-                end
-            end
-
-            -- Klik header untuk toggle
-            h.AddSignal(section.UIElements.Header.MouseButton1Click, function()
-                section:Toggle()
-            end)
-
-            -- Auto-open kalau DefaultOpen true
-            if section.DefaultOpen then
-                section:Toggle(true)
-            end
-
-            -- Fungsi internal untuk nambah elemen ke section
-            function section:_AddElement(element)
-                if element and element.UIElements and element.UIElements.Dropdown then
-                    element.UIElements.Dropdown.Parent = self.UIElements.Content
-                elseif element and element.UIElements and element.UIElements.Main then
-                    element.UIElements.Main.Parent = self.UIElements.Content
-                end
-                table.insert(self.Children, element)
-                return element
-            end
-
-            -- Method API untuk bikin elemen langsung di section
-            function section:Toggle(props)
-                return self:_AddElement(l.NewToggle(self.ParentTab, props))
-            end
-            function section:Slider(props)
-                return self:_AddElement(l.NewSlider(self.ParentTab, props))
-            end
-            function section:Dropdown(props)
-                return self:_AddElement(l.NewDropdown(self.ParentTab, props))
-            end
-            function section:Button(props)
-                return self:_AddElement(l.NewButton(self.ParentTab, props))
-            end
-            function section:Textbox(props)
-                return self:_AddElement(l.NewTextbox(self.ParentTab, props))
-            end
-
-            return section
-        end
-        -- Simpan constructor tab lama biar tidak hilang
-        l._OldNewTab = l.NewTab
-        -- Tambahkan method Section() ke tab object
-        function l.NewTab(...)
-            local type_, tab = l._OldNewTab(...)
-            function tab:Section(props)
-                return l.NewSection(self, props)
-            end
-            return type_, tab
-        end
-        -- =========================================================
-
         return l
     end
     function a.y()
@@ -4956,16 +4835,14 @@ h.Image, h.Title, h.UICorner - 3, g.Window.Folder, "Image", h.Color and true or 
             local r
             local s
             if k.Icon then
-                r = ab.Image(
-k.Icon, k.Icon .. ":" .. k.Title, 0, i.Window.Folder, k.__type, true, k.IconThemed)
+                r = ab.Image(k.Icon, k.Icon .. ":" .. k.Title, 0, i.Window.Folder, k.__type, true, k.IconThemed)
                 r.Size = UDim2.new(0, 16, 0, 16)
                 r.Parent = k.UIElements.Main.Frame
                 r.ImageLabel.ImageTransparency = not k.Locked and 0 or .7
                 k.UIElements.Main.Frame.TextLabel.Size = UDim2.new(1, - 30, 0, 0)
                 q = - 30
                 k.UIElements.Icon = r
-                s = ab.Image(
-k.Icon, k.Icon .. ":" .. k.Title, 0, i.Window.Folder, k.__type, true, k.IconThemed)
+                s = ab.Image(k.Icon, k.Icon .. ":" .. k.Title, 0, i.Window.Folder, k.__type, true, k.IconThemed)
                 s.Size = UDim2.new(0, 16, 0, 16)
                 s.ImageLabel.ImageTransparency = not k.Locked and 0 or .7
                 q = - 30
