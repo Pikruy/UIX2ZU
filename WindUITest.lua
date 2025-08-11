@@ -7229,13 +7229,13 @@ do
                         e(contentFrame, 0.2, {
                             Size = UDim2.new(1, 0, 0, 0)
                         }):Play()
-                        task.delay(0.2, function()
-                            if not expanded then
+                      --  task.delay(0.2, function()
+                        --    if not expanded then
                                 contentFrame.Visible = false
                                 shadow.ImageTransparency = 1
                                 arrow.ImageColor3 = Color3.new(255, 255, 255)
-                            end
-                        end)
+                        --    end
+                       -- end)
                     end
                 end
             end)
