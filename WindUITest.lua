@@ -5096,7 +5096,7 @@ do
                     return E
                 end
             end
-            function k:Collapsible(options)
+            function k.Collapsible(options)
                 local _, element = y.Collapsible:New({
                     Title = options.Title,
                     Parent = self.UIElements.ContainerFrame,
@@ -5132,8 +5132,6 @@ do
 
                 return element
             end
-
-
             task.spawn(function()
                 local B = ac("Frame", {
                     BackgroundTransparency = 1,
