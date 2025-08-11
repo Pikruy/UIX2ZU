@@ -3556,7 +3556,7 @@ do
                             }),
                             i("TextLabel", {
                                 Text = x,
-                                TextXAlignment = "Left",
+                                TextXAlignment = "Center",
                                 FontFace = Font.new(h.Font, Enum.FontWeight.Regular),
                                 ThemeTag = {
                                     TextColor3 = "Text",
