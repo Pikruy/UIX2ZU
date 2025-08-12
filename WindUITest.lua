@@ -435,8 +435,8 @@ do
             local g = {
                 Enabled = e.Enabled or false,
                 Translations = e.Translations or {},
-                Prefix = d.Prefix or "loc:",
-                DefaultLanguage = d.DefaultLanguage or "en"
+                Prefix = f.Prefix or "loc:",
+                DefaultLanguage = f.DefaultLanguage or "en"
             }
             f.Localization = g
             return g
