@@ -2545,6 +2545,7 @@ do
                 Title = g.Title or "Button",
                 Desc = g.Desc or nil,
                 Locked = g.Locked or false,
+                Icon = g.Icon or "mouse-pointer-click",
                 Callback = g.Callback or function()
                 end,
                 UIElements = {}
@@ -2555,14 +2556,16 @@ do
                 Desc = h.Desc,
                 Parent = g.Parent,
                 Window = g.Window,
+                Icon = h.Icon or "mouse-pointer-click",
                 TextOffset = 20,
                 Hover = true,
                 Scalable = true,
             }
             h.UIElements.ButtonIcon = d("ImageLabel", {
-                Image = b.Icon"mouse-pointer-click"[1],
-                ImageRectOffset = b.Icon"mouse-pointer-click"[2].ImageRectPosition,
-                ImageRectSize = b.Icon"mouse-pointer-click"[2].ImageRectSize,
+                Image = b.Icon(h.Icon)[1],
+                ImageRectOffset = b.Icon(h.Icon)[2].ImageRectPosition,
+                ImageRectSize = b.Icon(h.Icon)[2].ImageRectSize,
+
                 BackgroundTransparency = 1,
                 Parent = h.ButtonFrame.UIElements.Main,
                 Size = UDim2.new(0, 20, 0, 20),
