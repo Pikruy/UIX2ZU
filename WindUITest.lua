@@ -436,7 +436,7 @@ do
                 Enabled = e.Enabled or false,
                 Translations = e.Translations or {},
                 Prefix = e.Prefix or "loc:",
-                DefaultLanguage = e.DefaultLanguage or "en"
+                DefaultLanguage = e.DefaultLanguage or _G.MyLang or "en"
             }
             f.Localization = g
             return g
