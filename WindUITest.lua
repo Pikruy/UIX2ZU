@@ -488,74 +488,75 @@ do
             },
             ["Ethereal Violet"] = {
                 Name = "Ethereal Violet",
-                Accent = "#A020F0", -- violet terang
+                Accent = "#9D00FF",
                 Outline = "#f3e8ff",
                 Text = "#f3e8ff",
                 Placeholder = "#d4b3ff",
                 Background = "#2b0055",
-                Button = "#A020F0",
+                Button = "#9D00FF",
                 Icon = "#dab6ff",
             },
-            ["Amethyst Frost"] = {
-                Name = "Amethyst Frost",
-                Accent = "#8A2BE2", -- biru keunguan elegan
-                Outline = "#ede9fe",
-                Text = "#ede9fe",
-                Placeholder = "#c6b5fd",
-                Background = "#240046",
-                Button = "#8A2BE2",
-                Icon = "#d8c1ff",
+            ["Blush Amethyst"] = {
+                Name = "Blush Amethyst",
+                Accent = "#CC66FF", -- ungu pink lembut
+                Outline = "#fae8ff",
+                Text = "#fae8ff",
+                Placeholder = "#e8c6ff",
+                Background = "#3b0a4d",
+                Button = "#CC66FF",
+                Icon = "#edccff",
             },
-            ["Orchid Mist"] = {
-                Name = "Orchid Mist",
-                Accent = "#B57DFF", -- ungu pastel
-                Outline = "#f4eefe",
-                Text = "#f4eefe",
-                Placeholder = "#e0ccff",
-                Background = "#3a1d66",
-                Button = "#B57DFF",
-                Icon = "#e4d1ff",
+            ["Lagoon Sapphire"] = {
+                Name = "Lagoon Sapphire",
+                Accent = "#4DB5FF", -- biru tosca pastel
+                Outline = "#e0f7ff",
+                Text = "#e0f7ff",
+                Placeholder = "#b3e4fc",
+                Background = "#082b47",
+                Button = "#4DB5FF",
+                Icon = "#bce6ff",
             },
-            ["Deep Sapphire"] = {
-                Name = "Deep Sapphire",
-                Accent = "#223DFF", -- biru vivid
-                Outline = "#dee7fe",
-                Text = "#dee7fe",
-                Placeholder = "#a7b4fc",
-                Background = "#0d1447",
-                Button = "#223DFF",
-                Icon = "#b5c5ff",
+            ["Golden Nebula"] = {
+                Name = "Golden Nebula",
+                Accent = "#D4AF37", -- gold elegan
+                Outline = "#fff8e1",
+                Text = "#fff8e1",
+                Placeholder = "#fce7b2",
+                Background = "#3a2b0b",
+                Button = "#D4AF37",
+                Icon = "#fff0b3",
             },
-            ["Celestial Azure"] = {
-                Name = "Celestial Azure",
-                Accent = "#338CFF", -- biru cerah ke cyan
-                Outline = "#e0f2fe",
-                Text = "#e0f2fe",
-                Placeholder = "#b3d6fc",
-                Background = "#0a2b55",
-                Button = "#338CFF",
-                Icon = "#baddff",
+            ["Coral Twilight"] = {
+                Name = "Coral Twilight",
+                Accent = "#FF66B2", -- pink coral
+                Outline = "#ffe6f0",
+                Text = "#ffe6f0",
+                Placeholder = "#ffcce0",
+                Background = "#4d1a33",
+                Button = "#FF66B2",
+                Icon = "#ffd1e6",
             },
-            ["Magenta Star"] = {
-                Name = "Magenta Star",
-                Accent = "#CC00FF", -- magenta neon
-                Outline = "#f7e5ff",
-                Text = "#f7e5ff",
-                Placeholder = "#e0b8ff",
-                Background = "#33004d",
-                Button = "#CC00FF",
-                Icon = "#e3c1ff",
+            ["Mint Galaxy"] = {
+                Name = "Mint Galaxy",
+                Accent = "#66FFC2", -- hijau mint lembut
+                Outline = "#e0fff4",
+                Text = "#e0fff4",
+                Placeholder = "#b3ffe3",
+                Background = "#0a3b2f",
+                Button = "#66FFC2",
+                Icon = "#b8ffe9",
             },
-            ["Twilight Amaranth"] = {
-                Name = "Twilight Amaranth",
-                Accent = "#7D5CFF", -- ungu kebiruan lembut
-                Outline = "#ede9fe",
-                Text = "#ede9fe",
-                Placeholder = "#c4b5fd",
-                Background = "#2f1d66",
-                Button = "#7D5CFF",
-                Icon = "#d6bcff",
+            ["Royal Abyss"] = {
+                Name = "Royal Abyss",
+                Accent = "#1E3AFF",
+                Outline = "#dbeafe",
+                Text = "#dbeafe",
+                Placeholder = "#a5b4fc",
+                Background = "#0f1747",
+                Button = "#1E3AFF",
+                Icon = "#b3c5ff",
             },
+
 
 
 
