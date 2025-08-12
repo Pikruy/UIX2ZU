@@ -445,7 +445,7 @@ do
     end
     function a.c()
         return {
-            Dark = {
+            ["Dark"] = {
                 Name = 'Dark',
                 Accent = '#312e81',
                 Dialog = "#18181b",
@@ -456,46 +456,6 @@ do
                 Button = '#9A73F8',
                 Icon = '#ffffff'
             },
-            ["Purple Gojo"] = {
-                Name = "Purple Gojo",
-                Accent = "#9D00FF",
-                Outline = "#f3e8ff",
-                Text = "#f3e8ff",
-                Placeholder = "#e0b3ff",
-                Background = "#2b0055",
-                Button = "#9D00FF",
-                Icon = "#d6a5ff",
-            },
-            ["Amethyst Rose"] = {
-                Name = "Amethyst Rose",
-                Accent = "#6B00CC",
-                Outline = "#e9d5ff",
-                Text = "#e9d5ff",
-                Placeholder = "#c4b5fd",
-                Background = "#2e0059",
-                Button = "#6B00CC",
-                Icon = "#d0b0ff",
-            },
-            ["Mystic Orchid"] = {
-                Name = "Mystic Orchid",
-                Accent = "#7A3CFF",
-                Outline = "#ede9fe",
-                Text = "#ede9fe",
-                Placeholder = "#c4b5fd",
-                Background = "#321b66",
-                Button = "#7A3CFF",
-                Icon = "#d6bcff",
-            },
-            ["Royal Void"] = {
-                Name = "Royal Void",
-                Accent = "#1E3AFF",
-                Outline = "#dbeafe",
-                Text = "#dbeafe",
-                Placeholder = "#a5b4fc",
-                Background = "#0f1747",
-                Button = "#1E3AFF",
-                Icon = "#b3c5ff",
-            },
             ["Cosmic Blue"] = {
                 Name = "Cosmic Blue",
                 Accent = "#002FFF",
@@ -505,26 +465,6 @@ do
                 Background = "#000c66",
                 Button = "#002FFF",
                 Icon = "#b3c5ff",
-            },
-            ["Nebula Gold"] = {
-                Name = "Nebula Gold",
-                Accent = "#8A2BE2", -- ungu biru elegan
-                Outline = "#ede9fe",
-                Text = "#ede9fe",
-                Placeholder = "#c4b5fd",
-                Background = "#2e0059",
-                Button = "#8A2BE2",
-                Icon = "#d6bcff",
-            },
-            ["Twilight Emerald"] = {
-                Name = "Twilight Emerald",
-                Accent = "#6B00CC",
-                Outline = "#e9d5ff",
-                Text = "#e9d5ff",
-                Placeholder = "#c4b5fd",
-                Background = "#240046",
-                Button = "#6B00CC",
-                Icon = "#d0b0ff",
             },
             ["Violet"] = {
                 Name = "Violet",
@@ -546,76 +486,77 @@ do
                 Button = "#6366f1",
                 Icon = "#c7d2fe",
             },
-            ["Void Phantom"] = {
-                Name = "Void Phantom",
-                Accent = "#A020F0", -- ungu neon ke biru
+            ["Ethereal Violet"] = {
+                Name = "Ethereal Violet",
+                Accent = "#A020F0", -- violet terang
                 Outline = "#f3e8ff",
                 Text = "#f3e8ff",
-                Placeholder = "#d1b3ff",
-                Background = "#1a0033",
+                Placeholder = "#d4b3ff",
+                Background = "#2b0055",
                 Button = "#A020F0",
                 Icon = "#dab6ff",
             },
-            ["Lunar Amethyst"] = {
-                Name = "Lunar Amethyst",
-                Accent = "#8000FF", -- ungu pekat
-                Outline = "#e9d5ff",
-                Text = "#e9d5ff",
-                Placeholder = "#c4b5fd",
-                Background = "#220046",
-                Button = "#8000FF",
-                Icon = "#cfb3ff",
-            },
-            ["Stellar Orchid"] = {
-                Name = "Stellar Orchid",
-                Accent = "#6F00B5", -- ungu tua misterius
-                Outline = "#e5d4ff",
-                Text = "#e5d4ff",
-                Placeholder = "#c8b3fd",
-                Background = "#1c0033",
-                Button = "#6F00B5",
-                Icon = "#d0b6ff",
-            },
-            ["Royal Abyss"] = {
-                Name = "Royal Abyss",
-                Accent = "#1A1AFF", -- biru neon
-                Outline = "#dbeafe",
-                Text = "#dbeafe",
-                Placeholder = "#b3bffd",
-                Background = "#000b4f",
-                Button = "#1A1AFF",
-                Icon = "#b7c6ff",
-            },
-            ["Cosmic Azure"] = {
-                Name = "Cosmic Azure",
-                Accent = "#0033FF", -- biru murni
-                Outline = "#dbeafe",
-                Text = "#dbeafe",
-                Placeholder = "#a5b4fc",
-                Background = "#00084d",
-                Button = "#0033FF",
-                Icon = "#b3c5ff",
-            },
-            ["Nebula Amaranth"] = {
-                Name = "Nebula Amaranth",
-                Accent = "#9A4DFF", -- ungu lembut
+            ["Amethyst Frost"] = {
+                Name = "Amethyst Frost",
+                Accent = "#8A2BE2", -- biru keunguan elegan
                 Outline = "#ede9fe",
                 Text = "#ede9fe",
-                Placeholder = "#cbb5fd",
-                Background = "#2f1b66",
-                Button = "#9A4DFF",
+                Placeholder = "#c6b5fd",
+                Background = "#240046",
+                Button = "#8A2BE2",
+                Icon = "#d8c1ff",
+            },
+            ["Orchid Mist"] = {
+                Name = "Orchid Mist",
+                Accent = "#B57DFF", -- ungu pastel
+                Outline = "#f4eefe",
+                Text = "#f4eefe",
+                Placeholder = "#e0ccff",
+                Background = "#3a1d66",
+                Button = "#B57DFF",
+                Icon = "#e4d1ff",
+            },
+            ["Deep Sapphire"] = {
+                Name = "Deep Sapphire",
+                Accent = "#223DFF", -- biru vivid
+                Outline = "#dee7fe",
+                Text = "#dee7fe",
+                Placeholder = "#a7b4fc",
+                Background = "#0d1447",
+                Button = "#223DFF",
+                Icon = "#b5c5ff",
+            },
+            ["Celestial Azure"] = {
+                Name = "Celestial Azure",
+                Accent = "#338CFF", -- biru cerah ke cyan
+                Outline = "#e0f2fe",
+                Text = "#e0f2fe",
+                Placeholder = "#b3d6fc",
+                Background = "#0a2b55",
+                Button = "#338CFF",
+                Icon = "#baddff",
+            },
+            ["Magenta Star"] = {
+                Name = "Magenta Star",
+                Accent = "#CC00FF", -- magenta neon
+                Outline = "#f7e5ff",
+                Text = "#f7e5ff",
+                Placeholder = "#e0b8ff",
+                Background = "#33004d",
+                Button = "#CC00FF",
+                Icon = "#e3c1ff",
+            },
+            ["Twilight Amaranth"] = {
+                Name = "Twilight Amaranth",
+                Accent = "#7D5CFF", -- ungu kebiruan lembut
+                Outline = "#ede9fe",
+                Text = "#ede9fe",
+                Placeholder = "#c4b5fd",
+                Background = "#2f1d66",
+                Button = "#7D5CFF",
                 Icon = "#d6bcff",
             },
-            ["Twilight Sapphire"] = {
-                Name = "Twilight Sapphire",
-                Accent = "#4B00CC", -- ungu kebiruan gelap
-                Outline = "#e9d5ff",
-                Text = "#e9d5ff",
-                Placeholder = "#c4b5fd",
-                Background = "#1d0047",
-                Button = "#4B00CC",
-                Icon = "#ccb3ff",
-            },
+
 
 
         }
