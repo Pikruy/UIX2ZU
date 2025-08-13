@@ -6770,10 +6770,10 @@ do
             end
             function o.Divider(L)
                 local M = b("Frame", {
-                    Size = UDim2.new(1, 0, 0, 1),
+                    Size = UDim2.new(1, 0, 0, 2),
                     Position = UDim2.new(0.5, 0, 0, 0),
                     AnchorPoint = Vector2.new(0.5, 0),
-                    BackgroundTransparency = .9,
+                    BackgroundTransparency = .5,
                     ThemeTag = {
                         BackgroundColor3 = "Text"
                     }
