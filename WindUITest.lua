@@ -5175,7 +5175,7 @@ do
                     Icon = options.Icon
                 })
                 element.Wrapper.Parent = self.UIElements.ContainerFrame
-                element.Parent = self
+               -- element.Parent = self
                 local elementsLib = {
                     Button = a.load'q',
                     Toggle = a.load't',
@@ -5198,8 +5198,8 @@ do
                     end
                 end
                 function element:Paragraph(props)
-                    props.Parent = element.Content  
                     local para = self.Parent:Paragraph(props)
+                    props.Parent = element.Content  
                     return para
                 end
                 function element:Divider()
