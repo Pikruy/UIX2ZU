@@ -3709,7 +3709,18 @@ do
                             j(y.UIElements.TabItem.Frame.TextLabel, 0.1, { TextTransparency = 0.05 }):Play()
                             q.Value = y.Name
                         end
-
+                        if q.Multi and q.Exclusive and #q.Value == 0 then
+                            local defaultExclusive = type(q.Exclusive) == "table" and q.Exclusive[1] or q.Exclusive
+                            q.Value = { defaultExclusive }
+                            for _, tab in ipairs(q.Tabs) do
+                                if tab.Name == defaultExclusive then
+                                    tab.Selected = true
+                                    j(tab.UIElements.TabItem, 0.1, { ImageTransparency = .95 }):Play()
+                                    j(tab.UIElements.TabItem.Highlight, 0.1, { ImageTransparency = .75 }):Play()
+                                    j(tab.UIElements.TabItem.Frame.TextLabel, 0.1, { TextTransparency = 0 }):Play()
+                                end
+                            end
+                        end
                         Callback()
                     end)
                     RecalculateCanvasSize()
