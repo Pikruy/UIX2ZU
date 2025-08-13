@@ -5082,7 +5082,7 @@ do
                 gradientdivider.Rotation = 0 -- horizontal blend
                 gradientdivider.Color = ColorSequence.new({
                     ColorSequenceKeypoint.new(0, Color3.fromHex("#9D00FF")), -- kiri
-                    ColorSequenceKeypoint.new(0.5, Color3.fromHex("#6B00CC")), -- tengah campuran
+                    ColorSequenceKeypoint.new(0.5, Color3.fromHex("#002FFF")), -- tengah campuran
                     ColorSequenceKeypoint.new(1, Color3.fromHex("#ffffff")) -- kanan
                 })
                 gradientdivider.Transparency = NumberSequence.new({
