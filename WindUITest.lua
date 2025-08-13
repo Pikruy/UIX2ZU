@@ -5097,7 +5097,7 @@ do
                 return B
             end
             function k.Paragraph(z, A)
-                A.Parent = k.UIElements.ContainerFrame
+                A.Parent = A.Parent or k.UIElements.ContainerFrame
                 A.Window = l
                 A.Hover = false
                 A.TextOffset = 0
