@@ -2408,7 +2408,7 @@ do
                     TextSize = r == "Desc" and 15 or 17,
                     TextXAlignment = "Left",
                     ThemeTag = {
-                        TextColor3 = not h.Color and (r == "Desc" and "Icon" or "Placeholder") or nil, --Desc Paragraphss
+                        TextColor3 = not h.Color and (r == "Desc" and "Placeholder" or "Text") or nil, --Desc Paragraphss
                     },
                     TextColor3 = h.Color and (h.Color == "White" and Color3.new(0, 0, 0) or h.Color ~= "White" and Color3.new(1, 1, 1)) or nil,
                     TextTransparency = h.Color and (r == "Desc" and .3 or 0),
