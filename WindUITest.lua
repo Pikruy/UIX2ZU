@@ -5198,8 +5198,8 @@ do
                     end
                 end
                 function element:Paragraph(props)
+                    props.Parent = element.Content
                     local para = self.Parent:Paragraph(props)
-                    props.Parent = element.Content  
                     return para
                 end
                 function element:Divider()
