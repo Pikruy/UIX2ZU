@@ -5175,7 +5175,7 @@ do
                     Icon = options.Icon
                 })
                 element.Wrapper.Parent = self.UIElements.ContainerFrame
-               -- element.Parent = self
+                element.Parent = self
                 local elementsLib = {
                     Button = a.load'q',
                     Toggle = a.load't',
