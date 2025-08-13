@@ -3552,6 +3552,48 @@ do
                     end
                 end
             end
+            function q:NewSelect(value)
+                local newSelection = {}
+                local singleSelections = {"- Any -", "- None -"} -- list pilihan tunggal
+
+                -- Kalau value yang dipilih adalah salah satu singleSelections
+                if table.find(singleSelections, value) then
+                    newSelection = {value}
+                else
+                    -- Kalau sebelumnya ada singleSelections, buang
+                    for _, single in ipairs(singleSelections) do
+                        if self.Value and table.find(self.Value, single) then
+                            self.Value = {}
+                            break
+                        end
+                    end
+
+                    -- Copy semua value lama kecuali singleSelections
+                    for _, v in ipairs(self.Value or {}) do
+                        if not table.find(singleSelections, v) then
+                            table.insert(newSelection, v)
+                        end
+                    end
+
+                    -- Tambah value kalau belum ada
+                    if not table.find(newSelection, value) then
+                        table.insert(newSelection, value)
+                    end
+                end
+
+                -- Kalau kosong, fallback ke "- None -"
+                if #newSelection == 0 then
+                    newSelection = {"- None -"}
+                end
+
+                self.Value = newSelection
+                self:SetValue(self.Value)
+
+                task.spawn(function()
+                    h.SafeCallback(self.Callback, self.Value)
+                end)
+            end
+
             function q.Refresh(s, t)
                 t = t or q.Values
                 for u, v in next, q.UIElements.Menu.Frame.ScrollingFrame:GetChildren() do
