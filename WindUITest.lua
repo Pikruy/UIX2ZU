@@ -6778,6 +6778,19 @@ do
                         BackgroundColor3 = "Text"
                     }
                 })
+                local gradient = Instance.new("UIGradient")
+                gradient.Rotation = 0 -- horizontal
+                gradient.Color = ColorSequence.new({
+                    ColorSequenceKeypoint.new(0, Color3.fromHex("#ffffff")), -- kiri
+                    ColorSequenceKeypoint.new(0.5, Color3.fromHex("#002FFF")), -- tengah
+                    ColorSequenceKeypoint.new(1, Color3.fromHex("#FFFFFF")) -- kanan putih bright
+                })
+                gradient.Transparency = NumberSequence.new({
+                    NumberSequenceKeypoint.new(0, 0.1),
+                    NumberSequenceKeypoint.new(0.5, 1),
+                    NumberSequenceKeypoint.new(1, 0.1),
+                })
+                gradient.Parent = M
                 local N = b("Frame", {
                     Parent = o.UIElements.SideBar.Frame,
                     Size = UDim2.new(1, - 7, 0, 5),
