@@ -5087,7 +5087,7 @@ do
                 })
                 gradientdivider.Transparency = NumberSequence.new({
                     NumberSequenceKeypoint.new(0.0, 0.1),
-                    NumberSequenceKeypoint.new(0.5, 0.9),
+                    NumberSequenceKeypoint.new(0.5, 0.8),
                     NumberSequenceKeypoint.new(1.0, 0.1),
                 })
                 gradientdivider.Parent = A
@@ -6773,24 +6773,11 @@ do
                     Size = UDim2.new(1, 0, 0, 15),
                     Position = UDim2.new(0.5, 0, 0, 0),
                     AnchorPoint = Vector2.new(0.5, 0),
-                    BackgroundTransparency = .8,
+                    BackgroundTransparency = .75,
                     ThemeTag = {
                         BackgroundColor3 = "Text"
                     }
                 })
-                local gradient = Instance.new("UIGradient")
-                gradient.Rotation = 0 -- horizontal
-                gradient.Color = ColorSequence.new({
-                    ColorSequenceKeypoint.new(0, Color3.fromHex("#9D00FF")), -- kiri
-                    ColorSequenceKeypoint.new(0.5, Color3.fromHex("#6B00CC")), -- tengah
-                    ColorSequenceKeypoint.new(1, Color3.fromHex("#FFFFFF")) -- kanan putih bright
-                })
-                gradient.Transparency = NumberSequence.new({
-                    NumberSequenceKeypoint.new(0, 0.1),
-                    NumberSequenceKeypoint.new(0.5, 1),
-                    NumberSequenceKeypoint.new(1, 0.1),
-                })
-                gradient.Parent = M
                 local N = b("Frame", {
                     Parent = o.UIElements.SideBar.Frame,
                     Size = UDim2.new(1, - 7, 0, 5),
