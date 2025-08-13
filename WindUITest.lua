@@ -5069,7 +5069,7 @@ do
             }
             function k.Divider(z) -- [Ganti / Edited]
                 local A = ac("Frame", {
-                    Size = UDim2.new(1, 0, 0, 1),
+                    Size = UDim2.new(1, 0, 0, 3),
                     Position = UDim2.new(0.5, 0, 0.5, 0),
                     AnchorPoint = Vector2.new(0.5, 0.5),
                     BackgroundTransparency = .1,
@@ -5083,9 +5083,13 @@ do
                 gradientdivider.Color = ColorSequence.new({
                     ColorSequenceKeypoint.new(0, Color3.fromHex("#9D00FF")), -- kiri
                     ColorSequenceKeypoint.new(0.5, Color3.fromHex("#6B00CC")), -- tengah campuran
-                    ColorSequenceKeypoint.new(1, Color3.fromHex("#002FFF")) -- kanan
+                    ColorSequenceKeypoint.new(1, Color3.fromHex("#ffffff")) -- kanan
                 })
-
+                gradientdivider.Transparency = NumberSequence.new({
+                    NumberSequenceKeypoint.new(0.0, 0.1),
+                    NumberSequenceKeypoint.new(0.5, 1),
+                    NumberSequenceKeypoint.new(1.0, 0.1),
+                })
                 gradientdivider.Parent = A
                 local B = ac("Frame", {
                     Parent = k.UIElements.ContainerFrame,
