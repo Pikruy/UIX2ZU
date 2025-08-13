@@ -5199,7 +5199,10 @@ do
                 end
                 function element:Paragraph(props)
                     props.Parent = element.Content
-                    local para = self.Parent:Paragraph(props)
+                    props.Window = self.Window
+                    props.WindUI = self.WindUI
+                    local _, para = a.load'p':New(props)
+                    table.insert(self.Elements, para)
                     return para
                 end
                 function element:Divider()
