@@ -3467,7 +3467,43 @@ do
                 end)
             end)
 
+            function q.Unselect(s, name)
+                for _, tab in pairs(q.Tabs) do
+                    if tab.Name == name and tab.Selected then
+                        -- Tandai tidak terpilih
+                        tab.Selected = false
 
+                        -- Animasi unselect
+                        j(tab.UIElements.TabItem, 0.1, {
+                            ImageTransparency = 1
+                        }):Play()
+                        j(tab.UIElements.TabItem.Highlight, 0.1, {
+                            ImageTransparency = 1
+                        }):Play()
+                        j(tab.UIElements.TabItem.Frame.TextLabel, 0.1, {
+                            TextTransparency = .4
+                        }):Play()
+
+                        -- Hapus dari daftar value
+                        for i, v in ipairs(q.Value) do
+                            if v == name then
+                                table.remove(q.Value, i)
+                                break
+                            end
+                        end
+
+                        -- Update tampilan teks tanpa refresh
+                        q:Display()
+
+                        -- Trigger callback
+                        task.spawn(function()
+                            h.SafeCallback(q.Callback, q.Value)
+                        end)
+
+                        break
+                    end
+                end
+            end
             function q.Lock(s)
                 r = false
                 return q.DropdownFrame:Lock()
