@@ -3304,7 +3304,8 @@ do
                 end,
                 UIElements = {},
                 Opened = false,
-                Tabs = {}
+                Tabs = {},
+                Exclusive = p.Exclusive or nil
             }
             if q.Multi and not q.Value then
                 q.Value = {}
@@ -3552,48 +3553,6 @@ do
                     end
                 end
             end
-            function q:NewSelect(value)
-                local newSelection = {}
-                local singleSelections = {"- Any -", "- None -"} -- list pilihan tunggal
-
-                -- Kalau value yang dipilih adalah salah satu singleSelections
-                if table.find(singleSelections, value) then
-                    newSelection = {value}
-                else
-                    -- Kalau sebelumnya ada singleSelections, buang
-                    for _, single in ipairs(singleSelections) do
-                        if self.Value and table.find(self.Value, single) then
-                            self.Value = {}
-                            break
-                        end
-                    end
-
-                    -- Copy semua value lama kecuali singleSelections
-                    for _, v in ipairs(self.Value or {}) do
-                        if not table.find(singleSelections, v) then
-                            table.insert(newSelection, v)
-                        end
-                    end
-
-                    -- Tambah value kalau belum ada
-                    if not table.find(newSelection, value) then
-                        table.insert(newSelection, value)
-                    end
-                end
-
-                -- Kalau kosong, fallback ke "- None -"
-                if #newSelection == 0 then
-                    newSelection = {"- None -"}
-                end
-
-                self.Value = newSelection
-                self:SetValue(self.Value)
-
-                task.spawn(function()
-                    h.SafeCallback(self.Callback, self.Value)
-                end)
-            end
-
             function q.Refresh(s, t)
                 t = t or q.Values
                 for u, v in next, q.UIElements.Menu.Frame.ScrollingFrame:GetChildren() do
@@ -3684,32 +3643,48 @@ do
                     end
                     h.AddSignal(y.UIElements.TabItem.MouseButton1Click, function()
                         if q.Multi then
+                            -- Handle Exclusive option
+                            if q.Exclusive then
+                                if y.Name == q.Exclusive then
+                                    -- Klik opsi exclusive -> hapus semua pilihan lain
+                                    for _, tab in ipairs(q.Tabs) do
+                                        if tab.Name ~= q.Exclusive and tab.Selected then
+                                            q:Unselect(tab.Name)
+                                        end
+                                    end
+                                    q.Value = { q.Exclusive }
+                                    -- Pastikan exclusive terpilih visualnya
+                                    if not y.Selected then
+                                        y.Selected = true
+                                        j(y.UIElements.TabItem, 0.1, { ImageTransparency = .95 }):Play()
+                                        j(y.UIElements.TabItem.Highlight, 0.1, { ImageTransparency = .75 }):Play()
+                                        j(y.UIElements.TabItem.Frame.TextLabel, 0.1, { TextTransparency = 0 }):Play()
+                                    end
+                                    Callback()
+                                    return -- stop di sini biar gak toggle off lagi
+                                else
+                                    -- Klik opsi lain -> pastikan exclusive di-unselect
+                                    if table.find(q.Value, q.Exclusive) then
+                                        q:Unselect(q.Exclusive)
+                                    end
+                                end
+                            end
+
+                            -- Normal multi-select toggle
                             if not y.Selected then
                                 y.Selected = true
-                                j(y.UIElements.TabItem, 0.1, {
-                                    ImageTransparency = .95
-                                }):Play()
-                                j(y.UIElements.TabItem.Highlight, 0.1, {
-                                    ImageTransparency = .75
-                                }):Play()
-                                j(y.UIElements.TabItem.Frame.TextLabel, 0.1, {
-                                    TextTransparency = 0
-                                }):Play()
+                                j(y.UIElements.TabItem, 0.1, { ImageTransparency = .95 }):Play()
+                                j(y.UIElements.TabItem.Highlight, 0.1, { ImageTransparency = .75 }):Play()
+                                j(y.UIElements.TabItem.Frame.TextLabel, 0.1, { TextTransparency = 0 }):Play()
                                 table.insert(q.Value, y.Name)
                             else
-                                if not q.AllowNone and # q.Value == 1 then
+                                if not q.AllowNone and #q.Value == 1 then
                                     return
                                 end
                                 y.Selected = false
-                                j(y.UIElements.TabItem, 0.1, {
-                                    ImageTransparency = 1
-                                }):Play()
-                                j(y.UIElements.TabItem.Highlight, 0.1, {
-                                    ImageTransparency = 1
-                                }):Play()
-                                j(y.UIElements.TabItem.Frame.TextLabel, 0.1, {
-                                    TextTransparency = .4
-                                }):Play()
+                                j(y.UIElements.TabItem, 0.1, { ImageTransparency = 1 }):Play()
+                                j(y.UIElements.TabItem.Highlight, 0.1, { ImageTransparency = 1 }):Play()
+                                j(y.UIElements.TabItem.Frame.TextLabel, 0.1, { TextTransparency = .4 }):Play()
                                 for z, A in ipairs(q.Value) do
                                     if A == y.Name then
                                         table.remove(q.Value, z)
@@ -3718,32 +3693,23 @@ do
                                 end
                             end
                         else
-                            for z, A in next, q.Tabs do
-                                j(A.UIElements.TabItem, 0.1, {
-                                    ImageTransparency = 1
-                                }):Play()
-                                j(A.UIElements.TabItem.Highlight, 0.1, {
-                                    ImageTransparency = 1
-                                }):Play()
-                                j(A.UIElements.TabItem.Frame.TextLabel, 0.1, {
-                                    TextTransparency = .5
-                                }):Play()
+                            -- Single-select mode (biasa)
+                            for _, A in next, q.Tabs do
+                                j(A.UIElements.TabItem, 0.1, { ImageTransparency = 1 }):Play()
+                                j(A.UIElements.TabItem.Highlight, 0.1, { ImageTransparency = 1 }):Play()
+                                j(A.UIElements.TabItem.Frame.TextLabel, 0.1, { TextTransparency = .5 }):Play()
                                 A.Selected = false
                             end
                             y.Selected = true
-                            j(y.UIElements.TabItem, 0.1, {
-                                ImageTransparency = .95
-                            }):Play()
-                            j(y.UIElements.TabItem.Highlight, 0.1, {
-                                ImageTransparency = .75
-                            }):Play()
-                            j(y.UIElements.TabItem.Frame.TextLabel, 0.1, {
-                                TextTransparency = 0.05
-                            }):Play()
+                            j(y.UIElements.TabItem, 0.1, { ImageTransparency = .95 }):Play()
+                            j(y.UIElements.TabItem.Highlight, 0.1, { ImageTransparency = .75 }):Play()
+                            j(y.UIElements.TabItem.Frame.TextLabel, 0.1, { TextTransparency = 0.05 }):Play()
                             q.Value = y.Name
                         end
+
                         Callback()
                     end)
+
                     RecalculateCanvasSize()
                     RecalculateListSize()
                 end
