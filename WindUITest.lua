@@ -3459,7 +3459,6 @@ do
                             end
                         end
                     end
-                    
                     -- Reset scroll ke paling atas setiap kali filter selesai
                     local sc = q.UIElements.Menu.Frame:FindFirstChild("ScrollingFrame")
                     if sc then
@@ -4820,8 +4819,8 @@ do
                 Selected = false,
                 Index = nil,
                 Parent = j.Parent,
-                Window = l, -- ✅ Simpan Window untuk Collapsible
-                WindUI = o, -- ✅ Simpan WindUI untuk Collapsible
+                Window = l,
+                WindUI = o,
                 UIElements = {},
                 Elements = {},
                 ContainerFrame = nil,
@@ -5066,7 +5065,7 @@ do
                 Code = a.load'A',
                 Colorpicker = a.load'B',
                 Section = a.load'C',
-                Collapsible = a.load'I' -- pastikan ini ikut di loop
+                Collapsible = a.load'I'
             }
             function k.Divider(z) -- [Ganti / Edited]
                 local A = ac("Frame", {
@@ -5197,7 +5196,17 @@ do
                         return obj
                     end
                 end
+                function element:Paragraph(props)
+                    props.Parent = element.Content  
+                    local para = self.Window:Paragraph(props)
+                    return para
+                end
 
+                function element:Divider()
+                    local div = self.Window:Divider()
+                    div.Parent = element.Content 
+                    return div
+                end
                 return element
             end
             task.spawn(function()
