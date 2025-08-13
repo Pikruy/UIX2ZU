@@ -451,7 +451,7 @@ do
                 Dialog = "#18181b",
                 Outline = '#7B4AE2',
                 Text = '#FFFFFF',
-                Placeholder = '#002FFF', --80EFFF
+                Placeholder = '#a5b4fc', --80EFFF
                 Background = '#1C1B29',
                 Button = '#9A73F8',
                 Icon = '#ffffff'
@@ -2408,7 +2408,7 @@ do
                     TextSize = r == "Desc" and 15 or 17,
                     TextXAlignment = "Left",
                     ThemeTag = {
-                        TextColor3 = not h.Color and (r == "Desc" and "Icon" or "Text") or nil, --Desc Paragraph
+                        TextColor3 = not h.Color and (r == "Desc" and "Icon" or "Placeholder") or nil, --Desc Paragraphss
                     },
                     TextColor3 = h.Color and (h.Color == "White" and Color3.new(0, 0, 0) or h.Color ~= "White" and Color3.new(1, 1, 1)) or nil,
                     TextTransparency = h.Color and (r == "Desc" and .3 or 0),
@@ -7521,4 +7521,3 @@ function aa.CreateWindow(g, h)
 end
 
 return aa
---blassssssss
