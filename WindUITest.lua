@@ -5087,7 +5087,7 @@ do
                 })
                 gradientdivider.Transparency = NumberSequence.new({
                     NumberSequenceKeypoint.new(0.0, 0.1),
-                    NumberSequenceKeypoint.new(0.5, 1),
+                    NumberSequenceKeypoint.new(0.5, 0.5),
                     NumberSequenceKeypoint.new(1.0, 0.1),
                 })
                 gradientdivider.Parent = A
