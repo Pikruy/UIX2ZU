@@ -5202,9 +5202,6 @@ do
                     props.Window = self.Window
                     props.WindUI = self.WindUI
                     local para = self.Parent:Paragraph(props)
-                    if para then
-                        table.insert(self.Elements, para)
-                    end
                     return para
                 end
                 function element:Divider()
