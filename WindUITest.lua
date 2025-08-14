@@ -2562,37 +2562,34 @@ do
                 h.UIElements.Main:Destroy()
             end
             function h.Lock(s)
-    k = false
-    h.UIElements.Locked.Active = true
-    h.UIElements.Locked.Visible = true
+                k = false
+                h.UIElements.Locked.Active = true
+                h.UIElements.Locked.Visible = true
 
-    local lock = h.UIElements.Locked:FindFirstChild("Lock")
-    if lock then
-        lock.BackgroundTransparency = 1 -- selalu transparan
-        local img = lock:FindFirstChild("ImageLabel")
-        local txt = lock:FindFirstChild("TextLabel")
-        if img then f(img, 0.08, { ImageTransparency = 0 }):Play() end -- gembok muncul
-        if txt then f(txt, 0.08, { TextTransparency = 0 }):Play() end
-    end
-end
+                local lock = h.UIElements.Locked:FindFirstChild("Lock")
+                if lock then
+                    lock.BackgroundTransparency = 1 -- selalu transparan
+                    local img = lock:FindFirstChild("ImageLabel")
+                    local txt = lock:FindFirstChild("TextLabel")
+                    if img then f(img, 0.08, { ImageTransparency = 0 }):Play() end -- gembok muncul
+                    if txt then f(txt, 0.08, { TextTransparency = 0 }):Play() end
+                end
+            end
 
-function h.Unlock(s)
-    local lock = h.UIElements.Locked:FindFirstChild("Lock")
-    if lock then
-        lock.BackgroundTransparency = 1 -- tetap transparan
-        local img = lock:FindFirstChild("ImageLabel")
-        local txt = lock:FindFirstChild("TextLabel")
-        if img then f(img, 0.08, { ImageTransparency = 1 }):Play() end -- gembok hilang
-        if txt then f(txt, 0.08, { TextTransparency = 1 }):Play() end
-    end
-    
-    h.UIElements.Locked.Active = false
-    h.UIElements.Locked.Visible = false
-    k = true
-end
-
-
-
+            function h.Unlock(s)
+                local lock = h.UIElements.Locked:FindFirstChild("Lock")
+                if lock then
+                    lock.BackgroundTransparency = 1 -- tetap transparan
+                    local img = lock:FindFirstChild("ImageLabel")
+                    local txt = lock:FindFirstChild("TextLabel")
+                    if img then f(img, 0.08, { ImageTransparency = 1 }):Play() end -- gembok hilang
+                    if txt then f(txt, 0.08, { TextTransparency = 1 }):Play() end
+                end
+                
+                h.UIElements.Locked.Active = false
+                h.UIElements.Locked.Visible = false
+                k = true
+            end
             return h
         end
     end
@@ -5314,10 +5311,31 @@ end
                         props.Parent = element.Content
                         props.Window = self.Window
                         props.WindUI = self.WindUI
-                        local _, obj = lib:New(props)
+                        local frame, obj = lib:New(props)
+
+                        local F
+                        for G, H in pairs(obj) do
+                            if typeof(H) == "table" and G:match"Frame$" then
+                                F = H
+                                break
+                            end
+                        end
+                        if F then
+                            function obj.SetTitle(_, text)
+                                F:SetTitle(text)
+                            end
+                            function obj.SetDesc(_, text)
+                                F:SetDesc(text)
+                            end
+                            function obj.Destroy(_)
+                                F:Destroy()
+                            end
+                        end
+
                         return obj
                     end
                 end
+
                 function element:Paragraph(props)
                     props.Parent = element.Content
                     props.Window = self.Window
