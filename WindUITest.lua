@@ -2585,11 +2585,12 @@ do
                     if img then f(img, 0.08, { ImageTransparency = 1 }):Play() end
                     if txt then f(txt, 0.08, { TextTransparency = 1 }):Play() end
                 end
-
+                
                 h.UIElements.Locked.Active = false
                 h.UIElements.Locked.Visible = false
                 k = true
             end
+
 
             return h
         end
