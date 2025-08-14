@@ -1180,6 +1180,7 @@ do
                 Duration = g.Duration or 5,
                 Buttons = g.Buttons or {},
                 CanClose = true,
+                Countdown = g.Countdown or false,
                 UIElements = {},
                 Closed = false,
             }
@@ -1360,35 +1361,39 @@ do
 
             task.spawn(function()
                 task.wait()
+
+                -- Animasi masuk
                 e(r, 0.45, {
                     Size = UDim2.new(1, 0, 0, q.AbsoluteSize.Y)
                 }, Enum.EasingStyle.Quint, Enum.EasingDirection.Out):Play()
                 e(q, 0.45, {
                     Position = UDim2.new(0, 0, 1, 0)
                 }, Enum.EasingStyle.Quint, Enum.EasingDirection.Out):Play()
+
+                -- Kalau ada durasi
                 if h.Duration then
-                    local timeLeft = h.Duration
-                    -- Cari label content kalau ada
+                    -- Cari label konten
                     local contentLabel
                     for _, child in ipairs(p:GetChildren()) do
-                        if child:IsA("TextLabel") and child.TextTransparency > 0 then -- kira-kira ini label content
+                        if child:IsA("TextLabel") and child.TextTransparency > 0 then
                             contentLabel = child
                             break
                         end
                     end
 
-                    -- Countdown
-                    task.spawn(function()
-                        while timeLeft > 0 and not h.Closed do
-                            if contentLabel then
+                    -- Kalau countdown diaktifkan
+                    if h.Countdown and contentLabel then
+                        local timeLeft = h.Duration
+                        task.spawn(function()
+                            while timeLeft > 0 and not h.Closed do
                                 contentLabel.Text = (g.Content or "") .. " (" .. timeLeft .. "s)"
+                                task.wait(1)
+                                timeLeft -= 1
                             end
-                            task.wait(1)
-                            timeLeft -= 1
-                        end
-                    end)
+                        end)
+                    end
 
-                    -- Progress bar
+                    -- Progress bar jalan bersamaan
                     e(o, h.Duration, {
                         Size = UDim2.new(0, 0, 0, 3)
                     }, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut):Play()
@@ -1397,6 +1402,7 @@ do
                     h:Close()
                 end
             end)
+
 
             if l then
                 b.AddSignal(l.TextButton.MouseButton1Click, function()
