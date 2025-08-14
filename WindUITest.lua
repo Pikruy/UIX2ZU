@@ -1367,9 +1367,32 @@ do
                     Position = UDim2.new(0, 0, 1, 0)
                 }, Enum.EasingStyle.Quint, Enum.EasingDirection.Out):Play()
                 if h.Duration then
+                    local timeLeft = h.Duration
+                    -- Cari label content kalau ada
+                    local contentLabel
+                    for _, child in ipairs(p:GetChildren()) do
+                        if child:IsA("TextLabel") and child.TextTransparency > 0 then -- kira-kira ini label content
+                            contentLabel = child
+                            break
+                        end
+                    end
+
+                    -- Countdown
+                    task.spawn(function()
+                        while timeLeft > 0 and not h.Closed do
+                            if contentLabel then
+                                contentLabel.Text = (g.Content or "") .. " (" .. timeLeft .. "s)"
+                            end
+                            task.wait(1)
+                            timeLeft -= 1
+                        end
+                    end)
+
+                    -- Progress bar
                     e(o, h.Duration, {
                         Size = UDim2.new(0, 0, 0, 3)
                     }, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut):Play()
+
                     task.wait(h.Duration)
                     h:Close()
                 end
