@@ -2565,15 +2565,11 @@ do
                 k = false
                 h.UIElements.Locked.Active = true
                 h.UIElements.Locked.Visible = true
-                f(h.UIElements.Locked.Lock.ImageLabel, .2, { ImageTransparency = 0 }):Play()
-                f(h.UIElements.Locked.Lock.TextLabel, .2, { TextTransparency = 0 }):Play()
             end
             function h.Unlock(s)
                 k = true
                 h.UIElements.Locked.Active = false
                 h.UIElements.Locked.Visible = false
-                h.UIElements.Locked.Lock.ImageLabel.ImageTransparency = 1
-                h.UIElements.Locked.Lock.TextLabel.TextTransparency = 1
             end
             return h
         end
