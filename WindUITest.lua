@@ -2472,7 +2472,46 @@ do
                 Visible = false,
                 Active = false,
                 ZIndex = 9999999,
+            }, {
+                d("Frame", {
+                    Name = "Lock",
+                    Size = UDim2.new(1, h.UIPadding, 1, h.UIPadding),
+                    BackgroundTransparency = 1,
+                    Position = UDim2.new(0.5, 0, 0.5, 0),
+                    AnchorPoint = Vector2.new(0.5, 0.5),
+                    ZIndex = 999999,
+                }, {
+                    d("UICorner", { CornerRadius = UDim.new(0, 11) }),
+                    d("ImageLabel", {
+                        Name = "ImageLabel",
+                        Image = b.Icon'lock'[1],
+                        ImageRectOffset = b.Icon'lock'[2].ImageRectPosition,
+                        ImageRectSize   = b.Icon'lock'[2].ImageRectSize,
+                        Size = UDim2.new(0, 22, 0, 22),
+                        ImageTransparency = 1,
+                        BackgroundTransparency = 1,
+                        Active = false
+                    }),
+                    d("TextLabel", {
+                        Name = "TextLabel",
+                        BackgroundTransparency = 1,
+                        Text = "Locked",
+                        TextTransparency = 1,
+                        AutomaticSize = "XY",
+                        FontFace = Font.new(b.Font, Enum.FontWeight.SemiBold),
+                        TextSize = 16,
+                        Active = false,
+                        TextColor3 = Color3.new(1, 1, 1)
+                    }),
+                    d("UIListLayout", {
+                        Padding = UDim.new(0, h.UIPadding),
+                        FillDirection = "Horizontal",
+                        VerticalAlignment = "Center",
+                        HorizontalAlignment = "Center"
+                    })
+                })
             })
+
             h.UIElements.Main = e(h.UICorner, "Squircle", {
                 Size = UDim2.new(1, 0, 0, 50),
                 AutomaticSize = "Y",
@@ -2526,12 +2565,32 @@ do
                 k = false
                 h.UIElements.Locked.Active = true
                 h.UIElements.Locked.Visible = true
+
+                local lock = h.UIElements.Locked:FindFirstChild("Lock")
+                if lock then
+                    f(lock, 0.08, { BackgroundTransparency = 0.6 }):Play()
+                    local img = lock:FindFirstChild("ImageLabel")
+                    local txt = lock:FindFirstChild("TextLabel")
+                    if img then f(img, 0.08, { ImageTransparency = 0 }):Play() end
+                    if txt then f(txt, 0.08, { TextTransparency = 0 }):Play() end
+                end
             end
+
             function h.Unlock(s)
-                k = true
+                local lock = h.UIElements.Locked:FindFirstChild("Lock")
+                if lock then
+                    f(lock, 0.08, { BackgroundTransparency = 1 }):Play()
+                    local img = lock:FindFirstChild("ImageLabel")
+                    local txt = lock:FindFirstChild("TextLabel")
+                    if img then f(img, 0.08, { ImageTransparency = 1 }):Play() end
+                    if txt then f(txt, 0.08, { TextTransparency = 1 }):Play() end
+                end
+
                 h.UIElements.Locked.Active = false
                 h.UIElements.Locked.Visible = false
+                k = true
             end
+
             return h
         end
     end
