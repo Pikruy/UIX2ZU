@@ -2562,14 +2562,33 @@ do
                 h.UIElements.Main:Destroy()
             end
             function h.Lock(s)
-                k = false
-                h.UIElements.Locked.Active = true
+                e(h.UIElements.Locked.Lock, 0.08, {
+                    BackgroundTransparency = 0.6
+                }):Play()
+                e(h.UIElements.Locked.Lock.ImageLabel, 0.08, {
+                    ImageTransparency = 0
+                }):Play()
+                e(h.UIElements.Locked.Lock.TextLabel, 0.08, {
+                    TextTransparency = 0
+                }):Play()
+                h.UIElements.Locked.Lock.Active = true
                 h.UIElements.Locked.Visible = true
+                k = false
             end
+
             function h.Unlock(s)
-                k = true
-                h.UIElements.Locked.Active = false
+                e(h.UIElements.Locked.Lock, 0.08, {
+                    BackgroundTransparency = 1
+                }):Play()
+                e(h.UIElements.Locked.Lock.ImageLabel, 0.08, {
+                    ImageTransparency = 1
+                }):Play()
+                e(h.UIElements.Locked.Lock.TextLabel, 0.08, {
+                    TextTransparency = 1
+                }):Play()
+                h.UIElements.Locked.Lock.Active = false
                 h.UIElements.Locked.Visible = false
+                k = true
             end
             return h
         end
