@@ -396,14 +396,15 @@ function module:CalcValueMultiFromText(nameWithWeight)
     local variantListStr = nameWithWeight:match("^%[(.-)%]")
     if variantListStr then
         for v in string.gmatch(variantListStr, "[^,%s]+") do
-            if module.MutationsByName[v] then
-                valueMulti += (module.MutationsByName[v].ValueMulti - 1)
+            if mutations[v] then
+                valueMulti += (mutations[v].ValueMulti - 1)
             end
         end
     end
 
     return math.max(1, valueMulti)
 end
+
 
 module.MutationsByName = mutations
 return module
