@@ -2211,7 +2211,7 @@ do
                 local u = {
                     Title = t.Title,
                     Icon = t.Icon,
-                    Enabled = t.Enabled,
+                    Enabled = t.Enabled or false,
                     Position = t.Position,
                     Draggable = t.Draggable,
                     OnlyMobile = t.OnlyMobile,
