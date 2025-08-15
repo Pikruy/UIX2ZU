@@ -370,10 +370,6 @@ do
                 t = t:gsub("[^%w%-_%.]", "")
                 return t
             end
-            local themes = a.c()
-            local themeName = s or "Cosmic Blue"                 -- bisa diganti default "Dark" kalau mau
-            local theme = themes[themeName] or themes["Cosmic Blue"]
-            local accentColor = Color3.fromHex(theme.Accent or "#002FFF")
             p = p or "Temp"
             l = SanitizeFilename(l)
             local t = i("Frame", {
@@ -390,7 +386,7 @@ do
                     i("UIGradient", {
                         Rotation = 45,
                         Color = ColorSequence.new{
-                            ColorSequenceKeypoint.new(0, accentColor),
+                            ColorSequenceKeypoint.new(0, Color3.fromHex("#002FFF")),
                             ColorSequenceKeypoint.new(1, Color3.fromHex("#FFFFFF")), -- putih
                         },
                         Transparency = NumberSequence.new{
