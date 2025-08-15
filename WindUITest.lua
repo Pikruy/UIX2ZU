@@ -370,7 +370,10 @@ do
                 t = t:gsub("[^%w%-_%.]", "")
                 return t
             end
-            local accentColor = Color3.fromHex(a.c()[_G.CurrentTheme].Accent)
+            local themes = a.c()
+            local themeName = s or "Cosmic Blue"                 -- bisa diganti default "Dark" kalau mau
+            local theme = themes[themeName] or themes["Cosmic Blue"]
+            local accentColor = Color3.fromHex(theme.Accent or "#002FFF")
             p = p or "Temp"
             l = SanitizeFilename(l)
             local t = i("Frame", {
