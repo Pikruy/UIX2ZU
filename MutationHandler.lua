@@ -357,13 +357,6 @@ function module.GetMutations()
     return list
 end
 
-function module:CalcValueMultiFromName(name)
-    if mutations[name] then
-        return mutations[name].ValueMulti
-    end
-    return 1
-end
-
 function module:CalcValueMulti(plant)
     if typeof(plant) ~= "Instance" then
         return 1
@@ -385,6 +378,26 @@ function module:CalcValueMulti(plant)
             if mutations[name] and not detected[name] then
                 valueMulti += (mutations[name].ValueMulti - 1)
                 detected[name] = true
+            end
+        end
+    end
+
+    return math.max(1, valueMulti)
+end
+
+function module:CalcValueMultiFromText(nameWithWeight)
+    if typeof(nameWithWeight) ~= "string" then
+        return 1
+    end
+
+    local valueMulti = 1
+
+    -- Ambil isi di dalam [ ... ] pertama (mutasi/variant)
+    local variantListStr = nameWithWeight:match("^%[(.-)%]")
+    if variantListStr then
+        for v in string.gmatch(variantListStr, "[^,%s]+") do
+            if module.MutationsByName[v] then
+                valueMulti += (module.MutationsByName[v].ValueMulti - 1)
             end
         end
     end
