@@ -7410,7 +7410,7 @@ do
             local TweenService = game:GetService("TweenService")
             local expanded = false
             headerMain.InputBegan:Connect(function(input)
-                if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
                     expanded = not expanded
                     -- tween rotasi (0 -> 90 derajat, lebih terlihat)
                     local rotTarget = expanded and 180 or 0
