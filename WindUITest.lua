@@ -7409,23 +7409,45 @@ do
             -- Toggle logic: gunakan TweenService langsung (bebas dari e wrapper)
             local TweenService = game:GetService("TweenService")
             local expanded = false
-            headerMain.InputBegan:Connect(function(input)
-                if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
-                    expanded = not expanded
-                    -- tween rotasi (0 -> 90 derajat, lebih terlihat)
-                    local rotTarget = expanded and 180 or 0
-                    local tween = TweenService:Create(arrow, TweenInfo.new(0.18, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
-                        Rotation = rotTarget
-                    })
-                    tween:Play()
+            local dragThreshold = 5
+            local isDragging = false
+            local startPos
 
-                    -- fallback direct set (untuk cek jika tween gagal)
+            -- Simpan posisi awal saat mulai klik/touch
+            headerMain.InputBegan:Connect(function(input)
+                if input.UserInputType == Enum.UserInputType.MouseButton1 
+                or input.UserInputType == Enum.UserInputType.Touch then
+                    isDragging = false
+                    startPos = input.Position
+                end
+            end)
+
+            -- Deteksi gerakan drag
+            headerMain.InputChanged:Connect(function(input)
+                if input.UserInputType == Enum.UserInputType.MouseMovement 
+                or input.UserInputType == Enum.UserInputType.Touch then
+                    if startPos and (input.Position - startPos).Magnitude > dragThreshold then
+                        isDragging = true
+                    end
+                end
+            end)
+
+            -- Toggle cuma kalau InputEnded & tidak drag
+            headerMain.InputEnded:Connect(function(input)
+                if (input.UserInputType == Enum.UserInputType.MouseButton1 
+                or input.UserInputType == Enum.UserInputType.Touch) 
+                and not isDragging then
+
+                    expanded = not expanded
+                    local rotTarget = expanded and 180 or 0
+                    TweenService:Create(arrow, TweenInfo.new(0.18, Enum.EasingStyle.Quad, Enum.EasingDirection.Out), {
+                        Rotation = rotTarget
+                    }):Play()
+
                     task.delay(0.22, function()
-                        -- jika masih 0, coba langsung set untuk memastikan property bisa berubah
                         arrow.Rotation = rotTarget
                     end)
 
-                    -- expand/collapse content (tetap pakai e untuk konten)
                     if expanded then
                         contentFrame.Visible = true
                         e(contentFrame, 0.2, {
@@ -7437,16 +7459,13 @@ do
                         e(contentFrame, 0.2, {
                             Size = UDim2.new(1, 0, 0, 0)
                         }):Play()
-                      --  task.delay(0.2, function()
-                        --    if not expanded then
-                                contentFrame.Visible = false
-                                shadow.ImageTransparency = 1
-                                arrow.ImageColor3 = Color3.new(255, 255, 255)
-                        --    end
-                       -- end)
+                        contentFrame.Visible = false
+                        shadow.ImageTransparency = 1
+                        arrow.ImageColor3 = Color3.new(255, 255, 255)
                     end
                 end
             end)
+
 
 
 
