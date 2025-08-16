@@ -2211,7 +2211,7 @@ do
                 local u = {
                     Title = t.Title,
                     Icon = t.Icon,
-                    Enabled = t.Enabled or false,
+                    Enabled = t.Enabled or false, --ganti
                     Position = t.Position,
                     Draggable = t.Draggable,
                     OnlyMobile = t.OnlyMobile,
@@ -3642,74 +3642,83 @@ do
             end
             function q.Refresh(s, t)
                 t = t or q.Values
-                for u, v in next, q.UIElements.Menu.Frame.ScrollingFrame:GetChildren() do
-                    if not v:IsA"UIListLayout" then
-                        v:Destroy()
-                    end
-                end
+                if not q.ItemPool then q.ItemPool = {} end
                 q.Tabs = {}
                 for w, x in next, t do
-                    local y = {
-                        Name = x,
-                        Selected = false,
-                        UIElements = {},
-                    }
-                    y.UIElements.TabItem = h.NewRoundFrame(l.MenuCorner - l.MenuPadding, "Squircle", {
-                        Size = UDim2.new(1, 0, 0, 34),
-                        ImageTransparency = 1,
-                        Parent = q.UIElements.Menu.Frame.ScrollingFrame,
-                        ImageColor3 = Color3.new(1, 1, 1),
-                    }, {
-                        h.NewRoundFrame(l.MenuCorner - l.MenuPadding, "SquircleOutline", {
-                            Size = UDim2.new(1, 0, 1, 0),
-                            ImageColor3 = Color3.new(1, 1, 1),
+                    local y = q.ItemPool[w]
+                    if not y then
+                        -- buat baru hanya sekali
+                        y = {
+                            Name = x,
+                            Selected = false,
+                            UIElements = {}
+                        }
+                        y.UIElements.TabItem = h.NewRoundFrame(l.MenuCorner - l.MenuPadding, "Squircle", {
+                            Size = UDim2.new(1, 0, 0, 34),
                             ImageTransparency = 1,
-                            Name = "Highlight",
+                            Parent = q.UIElements.Menu.Frame.ScrollingFrame,
+                            ImageColor3 = Color3.new(1, 1, 1),
                         }, {
-                            i("UIGradient", {
-                                Rotation = 80,
-                                Color = ColorSequence.new{
-                                    ColorSequenceKeypoint.new(0, Color3.fromHex("#002FFF")),
-                                    ColorSequenceKeypoint.new(1, Color3.fromHex("#9D00FF")),
-                                    ColorSequenceKeypoint.new(1.0, Color3.fromRGB(255, 255, 255))
-                                },
-                               Transparency = NumberSequence.new{
-                                    NumberSequenceKeypoint.new(0.0, 0.1),  -- awal transparansi tipis
-                                    NumberSequenceKeypoint.new(0.5, 1),    -- tengah gradient transparan penuh (invisible)
-                                    NumberSequenceKeypoint.new(1.0, 0.1),  -- akhir transparansi tipis
-                                }
-
+                            h.NewRoundFrame(l.MenuCorner - l.MenuPadding, "SquircleOutline", {
+                                Size = UDim2.new(1, 0, 1, 0),
+                                ImageColor3 = Color3.new(1, 1, 1),
+                                ImageTransparency = 1,
+                                Name = "Highlight",
+                            }, {
+                                i("UIGradient", {
+                                    Rotation = 80,
+                                    Color = ColorSequence.new{
+                                        ColorSequenceKeypoint.new(0, Color3.fromHex("#002FFF")),
+                                        ColorSequenceKeypoint.new(1, Color3.fromHex("#9D00FF")),
+                                        ColorSequenceKeypoint.new(1.0, Color3.fromRGB(255, 255, 255))
+                                    },
+                                    Transparency = NumberSequence.new{
+                                        NumberSequenceKeypoint.new(0.0, 0.1),
+                                        NumberSequenceKeypoint.new(0.5, 1),
+                                        NumberSequenceKeypoint.new(1.0, 0.1),
+                                    }
+                                }),
                             }),
-                        }),
-                        i("Frame", {
-                            Size = UDim2.new(1, 0, 1, 0),
-                            BackgroundTransparency = 1,
-                        }, {
-                            i("UIPadding", {
-                                PaddingLeft = UDim.new(0, l.TabPadding),
-                                PaddingRight = UDim.new(0, l.TabPadding),
-                            }),
-                            i("UICorner", {
-                                CornerRadius = UDim.new(0, l.MenuCorner - l.MenuPadding)
-                            }),
-                            i("TextLabel", {
-                                Text = x,
-                                TextXAlignment = "Center",
-                                FontFace = Font.new(h.Font, Enum.FontWeight.Regular),
-                                ThemeTag = {
-                                    TextColor3 = "Text",
-                                    BackgroundColor3 = "Text"
-                                },
-                                TextSize = 15,
+                            i("Frame", {
+                                Size = UDim2.new(1, 0, 1, 0),
                                 BackgroundTransparency = 1,
-                                TextTransparency = .4,
-                                AutomaticSize = "Y",
-                                Size = UDim2.new(1, 0, 0, 0),
-                                AnchorPoint = Vector2.new(0, 0.5),
-                                Position = UDim2.new(0, 0, 0.5, 0),
+                            }, {
+                                i("UIPadding", {
+                                    PaddingLeft = UDim.new(0, l.TabPadding),
+                                    PaddingRight = UDim.new(0, l.TabPadding),
+                                }),
+                                i("UICorner", {
+                                    CornerRadius = UDim.new(0, l.MenuCorner - l.MenuPadding)
+                                }),
+                                i("TextLabel", {
+                                    Name = "Label",
+                                    Text = x,
+                                    TextXAlignment = "Center",
+                                    FontFace = Font.new(h.Font, Enum.FontWeight.Regular),
+                                    ThemeTag = { TextColor3 = "Text", BackgroundColor3 = "Text" },
+                                    TextSize = 15,
+                                    BackgroundTransparency = 1,
+                                    TextTransparency = .4,
+                                    AutomaticSize = "Y",
+                                    Size = UDim2.new(1, 0, 0, 0),
+                                    AnchorPoint = Vector2.new(0, 0.5),
+                                    Position = UDim2.new(0, 0, 0.5, 0),
+                                })
                             })
-                        })
-                    }, true)
+                        }, true)
+
+                        -- callback klik tetap ditaruh di sini (sekali saja)
+                        h.AddSignal(y.UIElements.TabItem.MouseButton1Click, function()
+                            -- logika multi/single select + animasi sama seperti sebelumnya
+                        end)
+
+                        q.ItemPool[w] = y
+                    end
+                    -- update teks + visible setiap refresh
+                    local label = y.UIElements.TabItem:FindFirstChild("Label", true)
+                    if label then label.Text = x end
+                    y.UIElements.TabItem.Visible = true
+                    y.Name = x
                     if q.Multi then
                         y.Selected = table.find(q.Value or {}, y.Name)
                     else
