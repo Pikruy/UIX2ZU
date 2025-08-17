@@ -3841,7 +3841,6 @@ do
                 q:Display()
             end
             q:Display()
-           -- q:Refresh(q.Values) [INI MAU SAYA HAPUS TAPI KALO DIHAPUS PLACEHOLDERNYA KOSONG KECUALI KITA BUKA DROPDOWN DULU MAKSUD SAYA PLACEHOLDER SUDAH ADA TANPA REFRESH APAKAH BISA]
             function q.Select(s, t)
                 if t then
                     q.Value = t
@@ -5398,6 +5397,18 @@ do
                     div.Parent = element.Content 
                     return div
                 end
+                -- setelah element dibuat
+                local function resizeElement()
+                    local parentSize = self.UIElements.ContainerFrame.AbsoluteSize
+                    element.Wrapper.Size = UDim2.new(1, 0, 0, parentSize.Y) -- atau sesuai layout
+                    element.Content.Size = UDim2.new(1, 0, 1, 0)
+                end
+
+                -- pasang listener jika ada event SizeChanged
+                self.UIElements.ContainerFrame:GetPropertyChangedSignal("AbsoluteSize"):Connect(resizeElement)
+
+                -- jalankan sekali agar initial size benar
+                resizeElement()
                 return element
             end
             task.spawn(function()
