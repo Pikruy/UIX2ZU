@@ -3825,7 +3825,22 @@ do
                 end
                 q.UIElements.MenuCanvas.Size = UDim2.new(0, y + 6 + 6 + 5 + 5 + 18 + 6 + 6, q.UIElements.MenuCanvas.Size.Y.Scale, q.UIElements.MenuCanvas.Size.Y.Offset)
             end
-            --q:Refresh(q.Values)
+            function q.Init()
+                -- kasih default value kalau kosong
+                if not q.Value or (q.Multi and #q.Value == 0) then
+                    if q.Default then
+                        q.Value = q.Default
+                    elseif q.Exclusive then
+                        q.Value = type(q.Exclusive) == "table" and { q.Exclusive[1] } or { q.Exclusive }
+                    elseif not q.Multi then
+                        q.Value = ""
+                    else
+                        q.Value = {}
+                    end
+                end
+                q:Display()
+            end
+           -- q:Refresh(q.Values) [INI MAU SAYA HAPUS TAPI KALO DIHAPUS PLACEHOLDERNYA KOSONG KECUALI KITA BUKA DROPDOWN DULU MAKSUD SAYA PLACEHOLDER SUDAH ADA TANPA REFRESH APAKAH BISA]
             function q.Select(s, t)
                 if t then
                     q.Value = t
@@ -3841,15 +3856,8 @@ do
             RecalculateListSize()
             function q.Open(s)
                 if not q.Initialized then
-                    -- hapus placeholder
-                    for _, child in ipairs(q.UIElements.Menu.Frame.ScrollingFrame:GetChildren()) do
-                        if not child:IsA("UIListLayout") then
-                            child:Destroy()
-                        end
-                    end
-
-                    -- baru render semua option
-                    q:Refresh(q.Values)
+                    -- pertama kali dropdown dibuka, baru generate semua option
+                    q:Refresh(q.Values, q.Value or {})
                     q.Initialized = true
                 end
                 if r then
