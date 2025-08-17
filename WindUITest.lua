@@ -3895,17 +3895,22 @@ do
                 -- copy object
                 local clone = table.clone(self)
 
-                -- re-map UIElements
+                -- remap UIElements
                 clone.UIElements = table.clone(self.UIElements)
                 clone.UIElements.Dropdown = cloneUI
 
                 -- apply props baru
                 if props.Title then
                     clone.Title = props.Title
-                    cloneUI.Frame.Frame.TextLabel.Text = props.Title
+                    if cloneUI:FindFirstChild("Frame") and cloneUI.Frame:FindFirstChild("Frame") then
+                        if cloneUI.Frame.Frame:FindFirstChild("TextLabel") then
+                            cloneUI.Frame.Frame.TextLabel.Text = props.Title
+                        end
+                    end
                 end
                 if props.Values then
                     clone.Values = props.Values
+                    clone:Refresh(clone.Values) -- refresh isi
                 end
                 if props.Value then
                     clone.Value = props.Value
@@ -3916,6 +3921,7 @@ do
 
                 return clone
             end
+
             return q.__type, q
         end
         return l
