@@ -3813,7 +3813,7 @@ do
                         RecalculateCanvasSize()
                         RecalculateListSize()
                         if w % 25 == 0 then
-                            task.wait()
+                            task.wait(.1)
                         end
                     end
                     local y = 0
