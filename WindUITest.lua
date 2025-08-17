@@ -3644,7 +3644,7 @@ do
     newValues = newValues or q.Values
     q.Values = newValues
 
-    -- Lookup tab lama
+    -- Buat lookup tab lama
     local existingTabs = {}
     for _, tab in ipairs(q.Tabs or {}) do
         existingTabs[tab.Name] = tab
@@ -3656,7 +3656,7 @@ do
         local tab = existingTabs[name]
 
         if not tab then
-            -- Buat tab baru (sekali saja)
+            -- Tab baru → buat UI item sekali saja
             tab = {
                 Name = name,
                 Selected = false,
@@ -3701,31 +3701,57 @@ do
                         CornerRadius = UDim.new(0, l.MenuCorner - l.MenuPadding)
                     }),
                     i("TextLabel", {
-                        Name = "Label",
+                        Name = "TextLabel",
                         Text = name,
                         TextXAlignment = "Center",
                         FontFace = Font.new(h.Font, Enum.FontWeight.Regular),
                         ThemeTag = { TextColor3 = "Text" },
                         TextSize = 15,
                         BackgroundTransparency = 1,
-                        TextTransparency = 0.4,
-                        Size = UDim2.new(1, 0, 1, 0),
+                        TextTransparency = .4,
+                        AutomaticSize = "Y",
+                        Size = UDim2.new(1, 0, 0, 0),
                         AnchorPoint = Vector2.new(0, 0.5),
                         Position = UDim2.new(0, 0, 0.5, 0),
                     })
                 })
-            })
+            }, true)
 
-            -- klik handler
+            -- Klik handler
             h.AddSignal(tab.UIElements.TabItem.MouseButton1Click, function()
                 if q.Multi then
+                    local isExclusiveClick = q.Exclusive and table.find(q.Exclusive, tab.Name)
+                    if isExclusiveClick then
+                        for _, t in ipairs(q.Tabs) do
+                            if t.Name ~= tab.Name and t.Selected then
+                                q:Unselect(t.Name)
+                            end
+                        end
+                        q.Value = { tab.Name }
+                        tab.Selected = true
+                        j(tab.UIElements.TabItem, 0.1, { ImageTransparency = .95 }):Play()
+                        j(tab.UIElements.TabItem.Highlight, 0.1, { ImageTransparency = .75 }):Play()
+                        j(tab.UIElements.TabItem.Frame.TextLabel, 0.1, { TextTransparency = 0 }):Play()
+                        h.SafeCallback(q.Callback, q.Value)
+                        return
+                    else
+                        if q.Exclusive then
+                            for _, ex in ipairs(q.Exclusive) do
+                                if table.find(q.Value, ex) then
+                                    q:Unselect(ex)
+                                end
+                            end
+                        end
+                    end
+
                     if not tab.Selected then
                         tab.Selected = true
                         table.insert(q.Value, tab.Name)
                         j(tab.UIElements.TabItem, 0.1, { ImageTransparency = .95 }):Play()
                         j(tab.UIElements.TabItem.Highlight, 0.1, { ImageTransparency = .75 }):Play()
-                        j(tab.UIElements.TabItem.Frame.Label, 0.1, { TextTransparency = 0 }):Play()
+                        j(tab.UIElements.TabItem.Frame.TextLabel, 0.1, { TextTransparency = 0 }):Play()
                     else
+                        if not q.AllowNone and #q.Value == 1 then return end
                         tab.Selected = false
                         for i, v in ipairs(q.Value) do
                             if v == tab.Name then
@@ -3735,38 +3761,36 @@ do
                         end
                         j(tab.UIElements.TabItem, 0.1, { ImageTransparency = 1 }):Play()
                         j(tab.UIElements.TabItem.Highlight, 0.1, { ImageTransparency = 1 }):Play()
-                        j(tab.UIElements.TabItem.Frame.Label, 0.1, { TextTransparency = 0.4 }):Play()
+                        j(tab.UIElements.TabItem.Frame.TextLabel, 0.1, { TextTransparency = 0.4 }):Play()
                     end
                 else
-                    -- Single select
-                    for _, t in ipairs(newTabs) do
+                    for _, t in ipairs(q.Tabs) do
                         t.Selected = false
                         j(t.UIElements.TabItem, 0.1, { ImageTransparency = 1 }):Play()
                         j(t.UIElements.TabItem.Highlight, 0.1, { ImageTransparency = 1 }):Play()
-                        j(t.UIElements.TabItem.Frame.Label, 0.1, { TextTransparency = 0.4 }):Play()
+                        j(t.UIElements.TabItem.Frame.TextLabel, 0.1, { TextTransparency = 0.4 }):Play()
                     end
                     tab.Selected = true
                     q.Value = tab.Name
                     j(tab.UIElements.TabItem, 0.1, { ImageTransparency = .95 }):Play()
                     j(tab.UIElements.TabItem.Highlight, 0.1, { ImageTransparency = .75 }):Play()
-                    j(tab.UIElements.TabItem.Frame.Label, 0.1, { TextTransparency = 0 }):Play()
+                    j(tab.UIElements.TabItem.Frame.TextLabel, 0.1, { TextTransparency = 0 }):Play()
                 end
 
+                q:Display()
                 h.SafeCallback(q.Callback, q.Value)
             end)
         else
-            -- Update label kalau sudah ada
-            local label = tab.UIElements.TabItem:FindFirstChild("Frame") and tab.UIElements.TabItem.Frame:FindFirstChild("Label")
-            if label then
-                label.Text = name
-            end
-            existingTabs[name] = nil -- sudah dipakai
+            -- Update label teks kalau tab sudah ada
+            local label = tab.UIElements.TabItem.Frame:FindFirstChild("TextLabel")
+            if label then label.Text = name end
+            existingTabs[name] = nil
         end
 
         table.insert(newTabs, tab)
     end
 
-    -- Hapus tab yang tidak terpakai
+    -- Hapus tab yang tidak ada lagi
     for _, tab in pairs(existingTabs) do
         if tab.UIElements.TabItem then
             tab.UIElements.TabItem:Destroy()
@@ -3775,10 +3799,10 @@ do
 
     q.Tabs = newTabs
 
-    -- resize canvas sekali saja
+    -- Resize canvas sekali
     local maxX = 0
     for _, tab in ipairs(q.Tabs) do
-        local label = tab.UIElements.TabItem.Frame:FindFirstChild("Label")
+        local label = tab.UIElements.TabItem.Frame:FindFirstChild("TextLabel")
         if label then
             maxX = math.max(maxX, label.TextBounds.X)
         end
