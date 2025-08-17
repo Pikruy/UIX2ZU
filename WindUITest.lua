@@ -5344,17 +5344,30 @@ do
     element.Wrapper.Parent = self.UIElements.ContainerFrame
     element.Parent = self
 
-    -- biar wrapper dan content selalu ikut isi
-    element.Content.AutomaticSize = Enum.AutomaticSize.Y
-    element.Wrapper.AutomaticSize = Enum.AutomaticSize.Y
+    -- default state
+    element.Open = true  
 
-    -- pastikan lebar wrapper selalu penuh
-    element.Wrapper.Size = UDim2.new(1, 0, 0, 0)
-
-    -- listener: kalau parent window berubah size, update lebar wrapper
-    self.UIElements.ContainerFrame:GetPropertyChangedSignal("AbsoluteSize"):Connect(function()
-        element.Wrapper.Size = UDim2.new(1, 0, 0, element.Content.AbsoluteSize.Y)
+    -- auto resize saat content berubah size
+    element.Content:GetPropertyChangedSignal("AbsoluteSize"):Connect(function()
+        if element.Open then
+            element.Wrapper.Size = UDim2.new(1, 0, 0, element.Content.AbsoluteSize.Y)
+        end
     end)
+
+    -- fungsi toggle open/close
+    function element:SetOpen(state)
+        self.Open = state
+        if state then
+            self.Wrapper.Size = UDim2.new(1, 0, 0, self.Content.AbsoluteSize.Y)
+        else
+            self.Wrapper.Size = UDim2.new(1, 0, 0, 0)
+        end
+    end
+
+    -- toggle cepat
+    function element:Toggle()
+        self:SetOpen(not self.Open)
+    end
 
     local elementsLib = {
         Button = a.load'q',
@@ -5377,15 +5390,21 @@ do
 
             local F
             for G, H in pairs(obj) do
-                if typeof(H) == "table" and G:match("Frame$") then
+                if typeof(H) == "table" and G:match"Frame$" then
                     F = H
                     break
                 end
             end
             if F then
-                function obj.SetTitle(_, text) F:SetTitle(text) end
-                function obj.SetDesc(_, text) F:SetDesc(text) end
-                function obj.Destroy(_) F:Destroy() end
+                function obj.SetTitle(_, text)
+                    F:SetTitle(text)
+                end
+                function obj.SetDesc(_, text)
+                    F:SetDesc(text)
+                end
+                function obj.Destroy(_)
+                    F:Destroy()
+                end
             end
 
             return obj
