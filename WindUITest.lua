@@ -3812,7 +3812,7 @@ do
                     end)
                     RecalculateCanvasSize()
                     RecalculateListSize()
-                    local step = game:GetService("UserInputService").TouchEnabled and 5 or 10
+                    local step = game:GetService("UserInputService").TouchEnabled and 5 or 8
                     if w % step == 0 then
                         task.wait()
                     end
