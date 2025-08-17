@@ -5344,15 +5344,7 @@ do
     element.Wrapper.Parent = self.UIElements.ContainerFrame
     element.Parent = self
 
-    -- biar otomatis ikut tinggi konten
-    if element.Content then
-        element.Content.AutomaticSize = Enum.AutomaticSize.Y
-    end
-    if element.Wrapper then
-        element.Wrapper.AutomaticSize = Enum.AutomaticSize.Y
-    end
-
-    -- fungsi manual refresh kalau mau dipanggil
+    -- fungsi refresh ukuran
     function element:RefreshSize()
         task.defer(function()
             if self.Wrapper and self.Content then
@@ -5361,10 +5353,12 @@ do
         end)
     end
 
-    -- kalau containerframe berubah size, ikut refresh
-    if self.UIElements and self.UIElements.ContainerFrame then
-        self.UIElements.ContainerFrame:GetPropertyChangedSignal("Size"):Connect(function()
-            element:RefreshSize()
+    -- hook ke event collapsible dibuka
+    if element.OnToggle then
+        element.OnToggle:Connect(function(isOpen)
+            if isOpen then
+                element:RefreshSize()
+            end
         end)
     end
 
@@ -5395,19 +5389,10 @@ do
                 end
             end
             if F then
-                function obj.SetTitle(_, text)
-                    F:SetTitle(text)
-                end
-                function obj.SetDesc(_, text)
-                    F:SetDesc(text)
-                end
-                function obj.Destroy(_)
-                    F:Destroy()
-                end
+                function obj.SetTitle(_, text) F:SetTitle(text) end
+                function obj.SetDesc(_, text) F:SetDesc(text) end
+                function obj.Destroy(_) F:Destroy() end
             end
-
-            -- refresh size tiap nambah elemen
-            element:RefreshSize()
 
             return obj
         end
@@ -5418,18 +5403,12 @@ do
         props.Window = self.Window
         props.WindUI = self.WindUI
         local para = self.Parent:Paragraph(props)
-
-        element:RefreshSize()
-
         return para
     end
 
     function element:Divider()
         local div = self.Parent:Divider()
         div.Parent = element.Content 
-
-        element:RefreshSize()
-
         return div
     end
 
