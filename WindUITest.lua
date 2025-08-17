@@ -5342,7 +5342,7 @@ do
                     Icon = options.Icon
                 })
                 element.Wrapper.Parent = self.UIElements.ContainerFrame
-                self.UIElements.ContainerFrame:GetPropertyChangedSignal("AbsoluteSize"):Connect(function()
+                element.Content:GetPropertyChangedSignal("Size"):Connect(function()
                     element.Wrapper.Size = UDim2.new(1, 0, 0, element.Content.AbsoluteSize.Y)
                 end)
                 element.Parent = self
