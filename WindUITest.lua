@@ -3840,6 +3840,7 @@ do
                 end
                 q:Display()
             end
+            q:Display()
            -- q:Refresh(q.Values) [INI MAU SAYA HAPUS TAPI KALO DIHAPUS PLACEHOLDERNYA KOSONG KECUALI KITA BUKA DROPDOWN DULU MAKSUD SAYA PLACEHOLDER SUDAH ADA TANPA REFRESH APAKAH BISA]
             function q.Select(s, t)
                 if t then
