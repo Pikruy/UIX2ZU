@@ -3812,7 +3812,7 @@ do
                     end)
                     RecalculateCanvasSize()
                     RecalculateListSize()
-                    if w % 25 == 0 then
+                    if w % 10 == 0 then
                         task.wait()
                     end
                 end
