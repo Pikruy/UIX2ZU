@@ -5353,11 +5353,24 @@ do
         end)
     end
 
-    -- hook ke event collapsible dibuka
+    -- hook toggle (buka/tutup)
     if element.OnToggle then
         element.OnToggle:Connect(function(isOpen)
             if isOpen then
                 element:RefreshSize()
+                -- aktifkan listener resize
+                if element._resizeConn then
+                    element._resizeConn:Disconnect()
+                end
+                element._resizeConn = self.UIElements.ContainerFrame:GetPropertyChangedSignal("AbsoluteSize"):Connect(function()
+                    element:RefreshSize()
+                end)
+            else
+                -- matikan listener kalau ditutup
+                if element._resizeConn then
+                    element._resizeConn:Disconnect()
+                    element._resizeConn = nil
+                end
             end
         end)
     end
