@@ -3825,7 +3825,7 @@ do
                 end
                 q.UIElements.MenuCanvas.Size = UDim2.new(0, y + 6 + 6 + 5 + 5 + 18 + 6 + 6, q.UIElements.MenuCanvas.Size.Y.Scale, q.UIElements.MenuCanvas.Size.Y.Offset)
             end
-            --q:Refresh(q.Values)
+            q:Refresh(q.Values)
             function q.Select(s, t)
                 if t then
                     q.Value = t
