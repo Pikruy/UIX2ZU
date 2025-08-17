@@ -5344,7 +5344,7 @@ do
     element.Wrapper.Parent = self.UIElements.ContainerFrame
     element.Parent = self
 
-    -- fungsi refresh ukuran
+    -- fungsi refresh ukuran wrapper
     function element:RefreshSize()
         task.defer(function()
             if self.Wrapper and self.Content then
@@ -5353,24 +5353,29 @@ do
         end)
     end
 
-    -- hook toggle (buka/tutup)
+    -- hook toggle (open/close collapsible)
     if element.OnToggle then
         element.OnToggle:Connect(function(isOpen)
             if isOpen then
                 element:RefreshSize()
-                -- aktifkan listener resize
-                if element._resizeConn then
-                    element._resizeConn:Disconnect()
-                end
-                element._resizeConn = self.UIElements.ContainerFrame:GetPropertyChangedSignal("AbsoluteSize"):Connect(function()
+
+                -- aktifkan listener selama terbuka
+                if element._resizeConn1 then element._resizeConn1:Disconnect() end
+                if element._resizeConn2 then element._resizeConn2:Disconnect() end
+
+                -- listen perubahan parent window
+                element._resizeConn1 = self.UIElements.ContainerFrame:GetPropertyChangedSignal("AbsoluteSize"):Connect(function()
+                    element:RefreshSize()
+                end)
+
+                -- listen perubahan konten di dalam collapsible
+                element._resizeConn2 = element.Content:GetPropertyChangedSignal("AbsoluteSize"):Connect(function()
                     element:RefreshSize()
                 end)
             else
-                -- matikan listener kalau ditutup
-                if element._resizeConn then
-                    element._resizeConn:Disconnect()
-                    element._resizeConn = nil
-                end
+                -- kalau ditutup → disconnect semua
+                if element._resizeConn1 then element._resizeConn1:Disconnect() element._resizeConn1 = nil end
+                if element._resizeConn2 then element._resizeConn2:Disconnect() element._resizeConn2 = nil end
             end
         end)
     end
@@ -5407,6 +5412,11 @@ do
                 function obj.Destroy(_) F:Destroy() end
             end
 
+            -- auto refresh kalau collapsible sedang terbuka
+            if element._resizeConn1 or element._resizeConn2 then
+                element:RefreshSize()
+            end
+
             return obj
         end
     end
@@ -5416,12 +5426,22 @@ do
         props.Window = self.Window
         props.WindUI = self.WindUI
         local para = self.Parent:Paragraph(props)
+
+        if element._resizeConn1 or element._resizeConn2 then
+            element:RefreshSize()
+        end
+
         return para
     end
 
     function element:Divider()
         local div = self.Parent:Divider()
         div.Parent = element.Content 
+
+        if element._resizeConn1 or element._resizeConn2 then
+            element:RefreshSize()
+        end
+
         return div
     end
 
