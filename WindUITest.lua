@@ -3837,6 +3837,11 @@ do
             end
             RecalculateListSize()
             function q.Open(s)
+                if not q.Initialized then
+                    -- pertama kali dropdown dibuka, baru generate semua option
+                    q:Refresh(q.Values, q.Value or {})
+                    q.Initialized = true
+                end
                 if r then
                     q.UIElements.Menu.Visible = true
                     q.UIElements.MenuCanvas.Visible = true
@@ -3851,9 +3856,6 @@ do
                         q.Opened = true
                         if q.UIElements.SearchBar then
                             q.UIElements.SearchBar.Text = ""
-                            --pcall(function()
-                                --q.UIElements.SearchBar:CaptureFocus()
-                            --end)
                         end
                     end)
 
