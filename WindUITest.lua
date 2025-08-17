@@ -3654,7 +3654,7 @@ do
 
                 -- render bertahap biar nggak freeze
                 task.spawn(function()
-                    local batchSize = 50 -- jumlah opsi per frame
+                    local batchSize = 25 -- jumlah opsi per frame
                     local count = 0
 
                     for w, x in next, t do
