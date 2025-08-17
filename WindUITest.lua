@@ -3825,7 +3825,7 @@ do
                 end
                 q.UIElements.MenuCanvas.Size = UDim2.new(0, y + 6 + 6 + 5 + 5 + 18 + 6 + 6, q.UIElements.MenuCanvas.Size.Y.Scale, q.UIElements.MenuCanvas.Size.Y.Offset)
             end
-            q:Refresh(q.Values)
+            --q:Refresh(q.Values)
             function q.Select(s, t)
                 if t then
                     q.Value = t
@@ -3841,8 +3841,15 @@ do
             RecalculateListSize()
             function q.Open(s)
                 if not q.Initialized then
-                    -- pertama kali dropdown dibuka, baru generate semua option
-                    q:Refresh(q.Values, q.Value or {})
+                    -- hapus placeholder
+                    for _, child in ipairs(q.UIElements.Menu.Frame.ScrollingFrame:GetChildren()) do
+                        if not child:IsA("UIListLayout") then
+                            child:Destroy()
+                        end
+                    end
+
+                    -- baru render semua option
+                    q:Refresh(q.Values)
                     q.Initialized = true
                 end
                 if r then
