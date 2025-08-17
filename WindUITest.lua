@@ -3812,7 +3812,8 @@ do
                     end)
                     RecalculateCanvasSize()
                     RecalculateListSize()
-                    if w % 7 == 0 then
+                    local step = game:GetService("UserInputService").TouchEnabled and 5 or 10
+                    if w % step == 0 then
                         task.wait()
                     end
                 end
@@ -3856,9 +3857,13 @@ do
             RecalculateListSize()
             function q.Open(s)
                 if not q.Initialized then
-                    -- pertama kali dropdown dibuka, baru generate semua option
+                    if q.Initializing then
+                        return -- lagi proses, abaikan klik tambahan
+                    end
+                    q.Initializing = true
                     q:Refresh(q.Values, q.Value or {})
                     q.Initialized = true
+                    q.Initializing = false
                 end
                 if r then
                     q.UIElements.Menu.Visible = true
