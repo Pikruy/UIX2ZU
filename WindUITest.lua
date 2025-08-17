@@ -3837,6 +3837,10 @@ do
             end
             RecalculateListSize()
             function q.Open(s)
+                if not q.Initialized then
+                    q:Refresh(q.Values) -- baru buat item pertama kali
+                    q.Initialized = true
+                end
                 if r then
                     q.UIElements.Menu.Visible = true
                     q.UIElements.MenuCanvas.Visible = true
