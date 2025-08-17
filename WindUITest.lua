@@ -3822,7 +3822,7 @@ do
                 end
                 q.UIElements.MenuCanvas.Size = UDim2.new(0, y + 6 + 6 + 5 + 5 + 18 + 6 + 6, q.UIElements.MenuCanvas.Size.Y.Scale, q.UIElements.MenuCanvas.Size.Y.Offset)
             end
-           -- q:Refresh(q.Values)
+            q:Refresh(q.Values)
             function q.Select(s, t)
                 if t then
                     q.Value = t
@@ -3837,6 +3837,10 @@ do
             end
             RecalculateListSize()
             function q.Open(s)
+                if not q.Initialized then
+                    q:Refresh(q.Values) -- baru buat item pertama kali
+                    q.Initialized = true
+                end
                 if r then
                     q.UIElements.Menu.Visible = true
                     q.UIElements.MenuCanvas.Visible = true
