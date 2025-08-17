@@ -3888,21 +3888,21 @@ do
             end)
             h.AddSignal(q.UIElements.Dropdown:GetPropertyChangedSignal"AbsolutePosition", UpdatePosition)
             function q:Clone(newParent, props)
-                -- Clone instance UI utama
+                -- Clone UI utama
                 local cloneUI = self.UIElements.Dropdown:Clone()
                 cloneUI.Parent = newParent
 
-                -- Buat copy dari object dropdown
+                -- Buat copy object
                 local clone = table.clone(self)
 
-                -- Replace UIElements.Dropdown ke clone UI baru
+                -- Replace UIElements.Dropdown
                 clone.UIElements = table.clone(self.UIElements)
                 clone.UIElements.Dropdown = cloneUI
 
-                -- Terapkan properti baru
+                -- Apply properti baru
                 if props.Title then
                     clone.Title = props.Title
-                    clone.UIElements.Dropdown.Frame.Frame.TextLabel.Text = props.Title
+                    cloneUI.Frame.Frame.TextLabel.Text = props.Title
                 end
                 if props.Values then
                     clone.Values = props.Values
