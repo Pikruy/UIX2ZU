@@ -3640,175 +3640,200 @@ do
                     end
                 end
             end
-            function q.Refresh(_, newValues)
-                newValues = newValues or q.Values
-                q.Values = newValues
+            function q.Refresh(_, t)
+    t = t or q.Values
+    q.Values = t
 
-                -- Buat lookup tab lama
-                local existingTabs = {}
-                for _, tab in ipairs(q.Tabs or {}) do
-                    existingTabs[tab.Name] = tab
-                end
+    -- Default/fallback value
+    if not q.Multi then
+        if q.Value == nil or q.Value == "" then
+            q.Value = q.Default or (t[1] or "")
+        end
+    else
+        q.Value = typeof(q.Value) == "table" and q.Value or {}
+    end
 
-                local newTabs = {}
+    -- Lookup tab lama
+    local existingTabs = {}
+    for _, old in ipairs(q.Tabs or {}) do
+        existingTabs[old.Name] = old
+    end
 
-                for _, name in ipairs(newValues) do
-                    local tab = existingTabs[name]
+    local newTabs = {}
 
-                    if not tab then
-                        -- Tab baru → buat UI item sekali saja
-                        tab = {
-                            Name = name,
-                            Selected = false,
-                            UIElements = {},
+    for _, name in ipairs(t) do
+        local tab = existingTabs[name]
+
+        if not tab then
+            -- Buat tab baru
+            tab = {
+                Name = name,
+                Selected = false,
+                UIElements = {},
+            }
+
+            tab.UIElements.TabItem = h.NewRoundFrame(l.MenuCorner - l.MenuPadding, "Squircle", {
+                Size = UDim2.new(1, 0, 0, 34),
+                ImageTransparency = 1,
+                Parent = q.UIElements.Menu.Frame.ScrollingFrame,
+                ImageColor3 = Color3.new(1, 1, 1),
+            }, {
+                h.NewRoundFrame(l.MenuCorner - l.MenuPadding, "SquircleOutline", {
+                    Size = UDim2.new(1, 0, 1, 0),
+                    ImageColor3 = Color3.new(1, 1, 1),
+                    ImageTransparency = 1,
+                    Name = "Highlight",
+                }, {
+                    i("UIGradient", {
+                        Rotation = 80,
+                        Color = ColorSequence.new{
+                            ColorSequenceKeypoint.new(0, Color3.fromHex("#002FFF")),
+                            ColorSequenceKeypoint.new(1, Color3.fromHex("#9D00FF")),
+                        },
+                        Transparency = NumberSequence.new{
+                            NumberSequenceKeypoint.new(0.0, 0.1),
+                            NumberSequenceKeypoint.new(0.5, 1),
+                            NumberSequenceKeypoint.new(1.0, 0.1),
                         }
+                    }),
+                }),
+                i("Frame", {
+                    Size = UDim2.new(1, 0, 1, 0),
+                    BackgroundTransparency = 1,
+                }, {
+                    i("UIPadding", {
+                        PaddingLeft = UDim.new(0, l.TabPadding),
+                        PaddingRight = UDim.new(0, l.TabPadding),
+                    }),
+                    i("UICorner", {
+                        CornerRadius = UDim.new(0, l.MenuCorner - l.MenuPadding)
+                    }),
+                    i("TextLabel", {
+                        Name = "TextLabel",
+                        Text = name,
+                        TextXAlignment = "Center",
+                        FontFace = Font.new(h.Font, Enum.FontWeight.Regular),
+                        ThemeTag = { TextColor3 = "Text" },
+                        TextSize = 15,
+                        BackgroundTransparency = 1,
+                        TextTransparency = .4,
+                        AutomaticSize = "Y",
+                        Size = UDim2.new(1, 0, 0, 0),
+                        AnchorPoint = Vector2.new(0, 0.5),
+                        Position = UDim2.new(0, 0, 0.5, 0),
+                    })
+                })
+            }, true)
 
-                        tab.UIElements.TabItem = h.NewRoundFrame(l.MenuCorner - l.MenuPadding, "Squircle", {
-                            Size = UDim2.new(1, 0, 0, 34),
-                            ImageTransparency = 1,
-                            Parent = q.UIElements.Menu.Frame.ScrollingFrame,
-                            ImageColor3 = Color3.new(1, 1, 1),
-                        }, {
-                            h.NewRoundFrame(l.MenuCorner - l.MenuPadding, "SquircleOutline", {
-                                Size = UDim2.new(1, 0, 1, 0),
-                                ImageColor3 = Color3.new(1, 1, 1),
-                                ImageTransparency = 1,
-                                Name = "Highlight",
-                            }, {
-                                i("UIGradient", {
-                                    Rotation = 80,
-                                    Color = ColorSequence.new{
-                                        ColorSequenceKeypoint.new(0, Color3.fromHex("#002FFF")),
-                                        ColorSequenceKeypoint.new(1, Color3.fromHex("#9D00FF")),
-                                        ColorSequenceKeypoint.new(1.0, Color3.fromRGB(255, 255, 255))
-                                    },
-                                    Transparency = NumberSequence.new{
-                                        NumberSequenceKeypoint.new(0.0, 0.1),
-                                        NumberSequenceKeypoint.new(0.5, 1),
-                                        NumberSequenceKeypoint.new(1.0, 0.1),
-                                    }
-                                }),
-                            }),
-                            i("Frame", {
-                                Size = UDim2.new(1, 0, 1, 0),
-                                BackgroundTransparency = 1,
-                            }, {
-                                i("UIPadding", {
-                                    PaddingLeft = UDim.new(0, l.TabPadding),
-                                    PaddingRight = UDim.new(0, l.TabPadding),
-                                }),
-                                i("UICorner", {
-                                    CornerRadius = UDim.new(0, l.MenuCorner - l.MenuPadding)
-                                }),
-                                i("TextLabel", {
-                                    Name = "TextLabel",
-                                    Text = name,
-                                    TextXAlignment = "Center",
-                                    FontFace = Font.new(h.Font, Enum.FontWeight.Regular),
-                                    ThemeTag = { TextColor3 = "Text" },
-                                    TextSize = 15,
-                                    BackgroundTransparency = 1,
-                                    TextTransparency = .4,
-                                    AutomaticSize = "Y",
-                                    Size = UDim2.new(1, 0, 0, 0),
-                                    AnchorPoint = Vector2.new(0, 0.5),
-                                    Position = UDim2.new(0, 0, 0.5, 0),
-                                })
-                            })
-                        }, true)
-
-                        -- Klik handler
-                        h.AddSignal(tab.UIElements.TabItem.MouseButton1Click, function()
-                            if q.Multi then
-                                local isExclusiveClick = q.Exclusive and table.find(q.Exclusive, tab.Name)
-                                if isExclusiveClick then
-                                    for _, t in ipairs(q.Tabs) do
-                                        if t.Name ~= tab.Name and t.Selected then
-                                            q:Unselect(t.Name)
-                                        end
-                                    end
-                                    q.Value = { tab.Name }
-                                    tab.Selected = true
-                                    j(tab.UIElements.TabItem, 0.1, { ImageTransparency = .95 }):Play()
-                                    j(tab.UIElements.TabItem.Highlight, 0.1, { ImageTransparency = .75 }):Play()
-                                    j(tab.UIElements.TabItem.Frame.TextLabel, 0.1, { TextTransparency = 0 }):Play()
-                                    h.SafeCallback(q.Callback, q.Value)
-                                    return
-                                else
-                                    if q.Exclusive then
-                                        for _, ex in ipairs(q.Exclusive) do
-                                            if table.find(q.Value, ex) then
-                                                q:Unselect(ex)
-                                            end
-                                        end
-                                    end
-                                end
-
-                                if not tab.Selected then
-                                    tab.Selected = true
-                                    table.insert(q.Value, tab.Name)
-                                    j(tab.UIElements.TabItem, 0.1, { ImageTransparency = .95 }):Play()
-                                    j(tab.UIElements.TabItem.Highlight, 0.1, { ImageTransparency = .75 }):Play()
-                                    j(tab.UIElements.TabItem.Frame.TextLabel, 0.1, { TextTransparency = 0 }):Play()
-                                else
-                                    if not q.AllowNone and #q.Value == 1 then return end
-                                    tab.Selected = false
-                                    for i, v in ipairs(q.Value) do
-                                        if v == tab.Name then
-                                            table.remove(q.Value, i)
-                                            break
-                                        end
-                                    end
-                                    j(tab.UIElements.TabItem, 0.1, { ImageTransparency = 1 }):Play()
-                                    j(tab.UIElements.TabItem.Highlight, 0.1, { ImageTransparency = 1 }):Play()
-                                    j(tab.UIElements.TabItem.Frame.TextLabel, 0.1, { TextTransparency = 0.4 }):Play()
-                                end
-                            else
-                                for _, t in ipairs(q.Tabs) do
-                                    t.Selected = false
-                                    j(t.UIElements.TabItem, 0.1, { ImageTransparency = 1 }):Play()
-                                    j(t.UIElements.TabItem.Highlight, 0.1, { ImageTransparency = 1 }):Play()
-                                    j(t.UIElements.TabItem.Frame.TextLabel, 0.1, { TextTransparency = 0.4 }):Play()
-                                end
-                                tab.Selected = true
-                                q.Value = tab.Name
-                                j(tab.UIElements.TabItem, 0.1, { ImageTransparency = .95 }):Play()
-                                j(tab.UIElements.TabItem.Highlight, 0.1, { ImageTransparency = .75 }):Play()
-                                j(tab.UIElements.TabItem.Frame.TextLabel, 0.1, { TextTransparency = 0 }):Play()
+            -- Click handler
+            h.AddSignal(tab.UIElements.TabItem.MouseButton1Click, function()
+                if q.Multi then
+                    -- klik opsi exclusive?
+                    local isExclusiveClick = q.Exclusive and table.find(q.Exclusive, tab.Name)
+                    if isExclusiveClick then
+                        for _, t2 in ipairs(q.Tabs) do
+                            if t2.Name ~= tab.Name and t2.Selected then
+                                q:Unselect(t2.Name)
                             end
-
-                            q:Display()
-                            h.SafeCallback(q.Callback, q.Value)
-                        end)
+                        end
+                        q.Value = { tab.Name }
+                        tab.Selected = true
+                        j(tab.UIElements.TabItem, 0.1, { ImageTransparency = .95 }):Play()
+                        j(tab.UIElements.TabItem.Highlight, 0.1, { ImageTransparency = .75 }):Play()
+                        j(tab.UIElements.TabItem.Frame.TextLabel, 0.1, { TextTransparency = 0 }):Play()
+                        q:Display()
+                        h.SafeCallback(q.Callback, q.Value)
+                        return
                     else
-                        -- Update label teks kalau tab sudah ada
-                        local label = tab.UIElements.TabItem.Frame:FindFirstChild("TextLabel")
-                        if label then label.Text = name end
-                        existingTabs[name] = nil
+                        if q.Exclusive then
+                            for _, ex in ipairs(q.Exclusive) do
+                                if table.find(q.Value, ex) then
+                                    q:Unselect(ex)
+                                end
+                            end
+                        end
                     end
 
-                    table.insert(newTabs, tab)
-                end
-
-                -- Hapus tab yang tidak ada lagi
-                for _, tab in pairs(existingTabs) do
-                    if tab.UIElements.TabItem then
-                        tab.UIElements.TabItem:Destroy()
+                    -- toggle normal multi
+                    if not tab.Selected then
+                        tab.Selected = true
+                        table.insert(q.Value, tab.Name)
+                        j(tab.UIElements.TabItem, 0.1, { ImageTransparency = .95 }):Play()
+                        j(tab.UIElements.TabItem.Highlight, 0.1, { ImageTransparency = .75 }):Play()
+                        j(tab.UIElements.TabItem.Frame.TextLabel, 0.1, { TextTransparency = 0 }):Play()
+                    else
+                        if not q.AllowNone and #q.Value == 1 then return end
+                        tab.Selected = false
+                        for i, v in ipairs(q.Value) do
+                            if v == tab.Name then
+                                table.remove(q.Value, i)
+                                break
+                            end
+                        end
+                        j(tab.UIElements.TabItem, 0.1, { ImageTransparency = 1 }):Play()
+                        j(tab.UIElements.TabItem.Highlight, 0.1, { ImageTransparency = 1 }):Play()
+                        j(tab.UIElements.TabItem.Frame.TextLabel, 0.1, { TextTransparency = 0.4 }):Play()
                     end
-                end
-
-                q.Tabs = newTabs
-
-                -- Resize canvas sekali
-                local maxX = 0
-                for _, tab in ipairs(q.Tabs) do
-                    local label = tab.UIElements.TabItem.Frame:FindFirstChild("TextLabel")
-                    if label then
-                        maxX = math.max(maxX, label.TextBounds.X)
+                else
+                    -- single select
+                    for _, t2 in ipairs(q.Tabs) do
+                        t2.Selected = false
+                        j(t2.UIElements.TabItem, 0.1, { ImageTransparency = 1 }):Play()
+                        j(t2.UIElements.TabItem.Highlight, 0.1, { ImageTransparency = 1 }):Play()
+                        j(t2.UIElements.TabItem.Frame.TextLabel, 0.1, { TextTransparency = 0.4 }):Play()
                     end
+                    tab.Selected = true
+                    q.Value = tab.Name
+                    j(tab.UIElements.TabItem, 0.1, { ImageTransparency = .95 }):Play()
+                    j(tab.UIElements.TabItem.Highlight, 0.1, { ImageTransparency = .75 }):Play()
+                    j(tab.UIElements.TabItem.Frame.TextLabel, 0.1, { TextTransparency = 0 }):Play()
                 end
-                q.UIElements.MenuCanvas.Size = UDim2.new(0, maxX + 50, q.UIElements.MenuCanvas.Size.Y.Scale, q.UIElements.MenuCanvas.Size.Y.Offset)
-            end
+
+                q:Display()
+                h.SafeCallback(q.Callback, q.Value)
+            end)
+        else
+            -- update label teks bila ada
+            local label = tab.UIElements.TabItem.Frame:FindFirstChild("TextLabel")
+            if label then label.Text = name end
+            existingTabs[name] = nil
+        end
+
+        -- Set status selected sesuai q.Value
+        if q.Multi then
+            tab.Selected = table.find(q.Value, name) ~= nil
+        else
+            tab.Selected = tostring(q.Value) == tostring(name)
+        end
+
+        if tab.Selected then
+            j(tab.UIElements.TabItem, 0.1, { ImageTransparency = .95 }):Play()
+            j(tab.UIElements.TabItem.Highlight, 0.1, { ImageTransparency = .75 }):Play()
+            j(tab.UIElements.TabItem.Frame.TextLabel, 0.1, { TextTransparency = 0 }):Play()
+        end
+
+        table.insert(newTabs, tab)
+    end
+
+    -- hapus tab yang sudah tidak ada
+    for _, stale in pairs(existingTabs) do
+        if stale.UIElements and stale.UIElements.TabItem then
+            stale.UIElements.TabItem:Destroy()
+        end
+    end
+
+    q.Tabs = newTabs
+
+    -- Resize canvas sekali
+    local maxX = 0
+    for _, t2 in ipairs(q.Tabs) do
+        local label = t2.UIElements.TabItem.Frame:FindFirstChild("TextLabel")
+        if label then
+            maxX = math.max(maxX, label.TextBounds.X)
+        end
+    end
+    q.UIElements.MenuCanvas.Size = UDim2.new(0, maxX + 50, q.UIElements.MenuCanvas.Size.Y.Scale, q.UIElements.MenuCanvas.Size.Y.Offset)
+end
 
             q:Display()
             function q.Select(s, t)
