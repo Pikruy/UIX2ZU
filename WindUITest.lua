@@ -3812,6 +3812,9 @@ do
                         end)
                         RecalculateCanvasSize()
                         RecalculateListSize()
+                        if w % 75 == 0 then
+                            task.wait()
+                        end
                     end
                     local y = 0
                     for z, A in next, q.Tabs do
@@ -3821,9 +3824,6 @@ do
                         end
                     end
                     q.UIElements.MenuCanvas.Size = UDim2.new(0, y + 6 + 6 + 5 + 5 + 18 + 6 + 6, q.UIElements.MenuCanvas.Size.Y.Scale, q.UIElements.MenuCanvas.Size.Y.Offset)
-                    if w % 75 == 0 then
-                        task.wait()
-                    end
                 end
             q:Refresh(q.Values)
             function q.Select(s, t)
