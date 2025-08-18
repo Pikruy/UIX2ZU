@@ -3812,7 +3812,8 @@ do
                     end)
                     RecalculateCanvasSize()
                     RecalculateListSize()
-                    if w % 20 == 0 then
+                    local step = game:GetService("UserInputService").TouchEnabled and 4 or 7
+                    if w % step == 0 then
                         game:GetService("RunService").Heartbeat:Wait()
                     end
                 end
