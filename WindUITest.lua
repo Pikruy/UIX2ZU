@@ -3643,6 +3643,17 @@ do
             function q.Refresh(self, values)
     values = values or self.Values
 
+    -- ✅ Proteksi tipe Value sesuai mode Multi
+    if self.Multi then
+        if type(self.Value) ~= "table" then
+            self.Value = {} -- pastikan tabel
+        end
+    else
+        if type(self.Value) == "table" then
+            self.Value = self.Value[1] or "" -- ambil elemen pertama kalau salah format
+        end
+    end
+
     -- Bersihkan opsi lama (kecuali UIListLayout)
     for _, v in pairs(self.UIElements.Menu.Frame.ScrollingFrame:GetChildren()) do
         if not v:IsA("UIListLayout") then
@@ -3744,7 +3755,6 @@ do
             if self.Multi then
                 local isExclusiveClick = self.Exclusive and table.find(self.Exclusive, tab.Name)
                 if isExclusiveClick then
-                    -- Unselect semua selain ini
                     for _, t in ipairs(self.Tabs) do
                         if t.Name ~= tab.Name and t.Selected then
                             self:Unselect(t.Name)
@@ -3760,7 +3770,6 @@ do
                     Callback()
                     return
                 else
-                    -- Unselect semua exclusive kalau ada
                     if self.Exclusive then
                         for _, ex in ipairs(self.Exclusive) do
                             if table.find(self.Value, ex) then
@@ -3770,7 +3779,6 @@ do
                     end
                 end
 
-                -- Multi normal toggle
                 if not tab.Selected then
                     tab.Selected = true
                     j(tab.UIElements.TabItem, 0.1, { ImageTransparency = .95 }):Play()
@@ -3793,7 +3801,6 @@ do
                     end
                 end
             else
-                -- Single select
                 for _, other in next, self.Tabs do
                     j(other.UIElements.TabItem, 0.1, { ImageTransparency = 1 }):Play()
                     j(other.UIElements.TabItem.Highlight, 0.1, { ImageTransparency = 1 }):Play()
@@ -3822,9 +3829,6 @@ do
             Callback()
         end)
     end
-
-    -- Biarkan ScrollingFrame yang handle tinggi otomatis
-    -- Jadi tidak perlu RecalculateCanvasSize + task.wait
 
     -- Resize lebar menu menyesuaikan teks terpanjang
     local maxWidth = 0
