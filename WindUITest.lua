@@ -2070,147 +2070,6 @@ do
         end
         return d
     end
-    function a.n()
-        local b = {}
-        local d = a.load'a'
-        local e = d.New
-        local f = d.Tween
-        local g = game:GetService"UserInputService"
-        function b.New(h)
-            local i = {
-                Button = nil
-            }
-            local j
-            local k = e("TextLabel", {
-                Text = h.Title,
-                TextSize = 17,
-                FontFace = Font.new(d.Font, Enum.FontWeight.Medium),
-                BackgroundTransparency = 1,
-                AutomaticSize = "XY",
-            })
-            local l = e("Frame", {
-                Size = UDim2.new(0, 36, 0, 36),
-                BackgroundTransparency = 1,
-                Name = "Drag",
-            }, {
-                e("ImageLabel", {
-                    Image = d.Icon"move"[1],
-                    ImageRectOffset = d.Icon"move"[2].ImageRectPosition,
-                    ImageRectSize = d.Icon"move"[2].ImageRectSize,
-                    Size = UDim2.new(0, 18, 0, 18),
-                    BackgroundTransparency = 1,
-                    Position = UDim2.new(0.5, 0, 0.5, 0),
-                    AnchorPoint = Vector2.new(0.5, 0.5),
-                })
-            })
-            local o = e("Frame", {
-                Size = UDim2.new(0, 1, 1, 0),
-                Position = UDim2.new(0, 36, 0.5, 0),
-                AnchorPoint = Vector2.new(0, 0.5),
-                BackgroundColor3 = Color3.new(1, 1, 1),
-                BackgroundTransparency = .9,
-            })
-            local p = e("Frame", {
-                Size = UDim2.new(0, 0, 0, 0),
-                Position = UDim2.new(0.5, 0, 0, 28),
-                AnchorPoint = Vector2.new(0.5, 0.5),
-                Parent = h.Parent,
-                BackgroundTransparency = 1,
-                Active = true,
-                Visible = false,
-            })
-            local q = e("TextButton", {
-                Size = UDim2.new(0, 0, 0, 44),
-                AutomaticSize = "X",
-                Parent = p,
-                Active = false,
-                BackgroundTransparency = .25,
-                ZIndex = 99,
-                BackgroundColor3 = Color3.new(0, 0, 0),
-            }, {
-                e("UICorner", {
-                    CornerRadius = UDim.new(1, 0)
-                }),
-                e("UIStroke", {
-                    Thickness = 1,
-                    ApplyStrokeMode = "Border",
-                    Color = Color3.new(1, 1, 1),
-                    Transparency = 0,
-                }, {
-                    e("UIGradient", {
-                        Color = ColorSequence.new(Color3.fromHex"40c9ff", Color3.fromHex"e81cff")
-                    })
-                }),
-                l,
-                o,
-                e("UIListLayout", {
-                    Padding = UDim.new(0, 4),
-                    FillDirection = "Horizontal",
-                    VerticalAlignment = "Center",
-                }),
-                e("TextButton", {
-                    AutomaticSize = "XY",
-                    Active = true,
-                    BackgroundTransparency = 1,
-                    Size = UDim2.new(0, 0, 0, 36),
-                    BackgroundColor3 = Color3.new(1, 1, 1),
-                }, {
-                    e("UICorner", {
-                        CornerRadius = UDim.new(1, - 4)
-                    }),
-                    j,
-                    e("UIListLayout", {
-                        Padding = UDim.new(0, h.UIPadding),
-                        FillDirection = "Horizontal",
-                        VerticalAlignment = "Center",
-                    }),
-                    k,
-                    e("UIPadding", {
-                        PaddingLeft = UDim.new(0, 12),
-                        PaddingRight = UDim.new(0, 12),
-                    }),
-                }),
-                e("UIPadding", {
-                    PaddingLeft = UDim.new(0, 4),
-                    PaddingRight = UDim.new(0, 4),
-                })
-            })
-            i.Button = q
-            function i.SetIcon(r, s)
-                if j then
-                    j:Destroy()
-                end
-                if s then
-                    j = d.Image(s, h.Title, 0, h.Folder, "OpenButton", true, h.IconThemed)
-                    j.Size = UDim2.new(0, 22, 0, 22)
-                    j.LayoutOrder = - 1
-                    j.Parent = i.Button.TextButton
-                end
-            end
-            if h.Icon then
-                i:SetIcon(h.Icon)
-            end
-            d.AddSignal(q:GetPropertyChangedSignal"AbsoluteSize", function()
-                p.Size = UDim2.new(0, q.AbsoluteSize.X, 0, q.AbsoluteSize.Y)
-            end)
-            d.AddSignal(q.TextButton.MouseEnter, function()
-                f(q.TextButton, .1, {
-                    BackgroundTransparency = .93
-                }):Play()
-            end)
-            d.AddSignal(q.TextButton.MouseLeave, function()
-                f(q.TextButton, .1, {
-                    BackgroundTransparency = 1
-                }):Play()
-            end)
-            local r = d.Drag(p)
-            function i.Visible(s, t)
-                p.Visible = t
-            end
-            return i
-        end
-        return b
-    end
     function a.o()
         local b = {}
         local d = a.load'a'
@@ -6717,7 +6576,7 @@ do
                 o:Close()
                 task.spawn(function()
                     task.wait(.3)
-                    if not v and o.IsOpenButtonEnabled then
+                    if not v then
                         F:Visible(true)
                     end
                 end)
@@ -6863,7 +6722,7 @@ do
                     end
                 end
             end
-            if not v and o.IsOpenButtonEnabled then
+            if not v then
                 ac.AddSignal(F.Button.TextButton.MouseButton1Click, function()
                     F:Visible(false)
                     o:Open()
@@ -6884,6 +6743,9 @@ do
             task.spawn(function()
                 o:Open()
             end)
+            function o.EditOpenButton(I, J)
+                return F:Edit(J)
+            end
             local I = a.load'D'
             local J = a.load'E'
             local K = I.Init(o, l.WindUI, l.Parent.Parent.ToolTips)
