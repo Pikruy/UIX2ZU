@@ -2120,7 +2120,7 @@ do
                 Visible = false,
             })
             local q = e("TextButton", {
-                Size = UDim2.new(0, 0, 0, 44),
+                Size = UDim2.new(0, 0, 0, 32), -- lebih kecil
                 AutomaticSize = "X",
                 Parent = p,
                 Active = false,
@@ -2141,10 +2141,8 @@ do
                         Color = ColorSequence.new(Color3.fromHex"40c9ff", Color3.fromHex"e81cff")
                     })
                 }),
-                l,
-                o,
                 e("UIListLayout", {
-                    Padding = UDim.new(0, 4),
+                    Padding = UDim.new(0, 3), -- lebih rapat
                     FillDirection = "Horizontal",
                     VerticalAlignment = "Center",
                 }),
@@ -2152,28 +2150,24 @@ do
                     AutomaticSize = "XY",
                     Active = true,
                     BackgroundTransparency = 1,
-                    Size = UDim2.new(0, 0, 0, 36),
+                    Size = UDim2.new(0, 0, 0, 28), -- lebih kecil
                     BackgroundColor3 = Color3.new(1, 1, 1),
                 }, {
                     e("UICorner", {
-                        CornerRadius = UDim.new(1, - 4)
+                        CornerRadius = UDim.new(1, -4)
                     }),
                     j,
                     e("UIListLayout", {
-                        Padding = UDim.new(0, h.UIPadding),
+                        Padding = UDim.new(0, 6), -- kecilkan padding icon-text
                         FillDirection = "Horizontal",
                         VerticalAlignment = "Center",
                     }),
                     k,
                     e("UIPadding", {
-                        PaddingLeft = UDim.new(0, 12),
-                        PaddingRight = UDim.new(0, 12),
+                        PaddingLeft = UDim.new(0, 6),
+                        PaddingRight = UDim.new(0, 6),
                     }),
                 }),
-                e("UIPadding", {
-                    PaddingLeft = UDim.new(0, 4),
-                    PaddingRight = UDim.new(0, 4),
-                })
             })
             i.Button = q
             function i.SetIcon(r, s)
