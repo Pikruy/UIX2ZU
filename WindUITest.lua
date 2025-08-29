@@ -6903,7 +6903,7 @@ do
                     end
                 end
             end
-            if not v and o.IsOpenButtonEnabled then
+            if o.IsOpenButtonEnabled then
                 ac.AddSignal(F.Button.TextButton.MouseButton1Click, function()
                     F:Visible(false)
                     o:Open()
