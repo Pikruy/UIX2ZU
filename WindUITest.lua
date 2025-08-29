@@ -2211,10 +2211,10 @@ do
                 local u = {
                     Title = t.Title,
                     Icon = t.Icon,
-                    Enabled = t.Enabled or false, --ganti
+                    Enabled = t.Enabled,
                     Position = t.Position,
                     Draggable = t.Draggable,
-                    OnlyMobile = t.OnlyMobile,
+                    OnlyMobile = t.OnlyMobile or false,
                     CornerRadius = t.CornerRadius or UDim.new(1, 0),
                     StrokeThickness = t.StrokeThickness or 2,
                     Color = t.Color or ColorSequence.new(Color3.fromHex"40c9ff", Color3.fromHex"e81cff"),
