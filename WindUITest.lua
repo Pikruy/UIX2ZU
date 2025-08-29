@@ -1,4 +1,3 @@
--- ts file was generated at discord.gg/25ms
 local a
 a = {
     cache = {},
@@ -3807,9 +3806,9 @@ do
                     end)
                     RecalculateCanvasSize()
                     RecalculateListSize()
-                    local step = game:GetService("UserInputService").TouchEnabled and 2 or 7 -- masih lag
+                    local step = game:GetService("UserInputService").TouchEnabled and 4 or 7
                     if w % step == 0 then
-                        task.wait()
+                        game:GetService("RunService").Heartbeat:Wait()
                     end
                 end
                 local y = 0
@@ -3820,21 +3819,6 @@ do
                     end
                 end
                 q.UIElements.MenuCanvas.Size = UDim2.new(0, y + 6 + 6 + 5 + 5 + 18 + 6 + 6, q.UIElements.MenuCanvas.Size.Y.Scale, q.UIElements.MenuCanvas.Size.Y.Offset)
-            end
-            function q.Init()
-                -- kasih default value kalau kosong
-                if not q.Value or (q.Multi and #q.Value == 0) then
-                    if q.Default then
-                        q.Value = q.Default
-                    elseif q.Exclusive then
-                        q.Value = type(q.Exclusive) == "table" and { q.Exclusive[1] } or { q.Exclusive }
-                    elseif not q.Multi then
-                        q.Value = ""
-                    else
-                        q.Value = {}
-                    end
-                end
-                q:Display()
             end
             q:Display()
             function q.Select(s, t)
@@ -6775,7 +6759,7 @@ do
                 o:Close()
                 task.spawn(function()
                     task.wait(.3)
-                    if not v and o.IsOpenButtonEnabled then
+                    if o.IsOpenButtonEnabled then
                         F:Visible(true)
                     end
                 end)
@@ -6921,7 +6905,7 @@ do
                     end
                 end
             end
-            if not v and o.IsOpenButtonEnabled then
+            if o.IsOpenButtonEnabled then
                 ac.AddSignal(F.Button.TextButton.MouseButton1Click, function()
                     F:Visible(false)
                     o:Open()
