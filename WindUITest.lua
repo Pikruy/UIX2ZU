@@ -2203,7 +2203,7 @@ do
                     BackgroundTransparency = 1
                 }):Play()
             end)
-            local r = d.Drag(p)
+            local r = d.Drag(p, {q, l})
             function i.Visible(s, t)
                 p.Visible = t
             end
