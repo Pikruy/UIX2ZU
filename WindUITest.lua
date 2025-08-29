@@ -2231,11 +2231,7 @@ do
                 if u.Position and OpenButtonContainer then
                     OpenButtonContainer.Position = u.Position
                 end
-                local v = g.KeyboardEnabled or not g.TouchEnabled
-                b.Visible = not v
-                if not b.Visible then
-                    return
-                end
+                b.Visible = true
                 if k then
                     if u.Title then
                         k.Text = u.Title
