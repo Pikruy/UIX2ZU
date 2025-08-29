@@ -2120,7 +2120,7 @@ do
                 Visible = false,
             })
             local q = e("TextButton", {
-                Size = UDim2.new(0, 0, 0, 32), -- lebih kecil
+                Size = UDim2.new(0, 0, 0, 44),
                 AutomaticSize = "X",
                 Parent = p,
                 Active = false,
@@ -2141,8 +2141,10 @@ do
                         Color = ColorSequence.new(Color3.fromHex"40c9ff", Color3.fromHex"e81cff")
                     })
                 }),
+                l,
+                o,
                 e("UIListLayout", {
-                    Padding = UDim.new(0, 3), -- lebih rapat
+                    Padding = UDim.new(0, 4),
                     FillDirection = "Horizontal",
                     VerticalAlignment = "Center",
                 }),
@@ -2150,24 +2152,28 @@ do
                     AutomaticSize = "XY",
                     Active = true,
                     BackgroundTransparency = 1,
-                    Size = UDim2.new(0, 0, 0, 28), -- lebih kecil
+                    Size = UDim2.new(0, 0, 0, 36),
                     BackgroundColor3 = Color3.new(1, 1, 1),
                 }, {
                     e("UICorner", {
-                        CornerRadius = UDim.new(1, -4)
+                        CornerRadius = UDim.new(1, - 4)
                     }),
                     j,
                     e("UIListLayout", {
-                        Padding = UDim.new(0, 6), -- kecilkan padding icon-text
+                        Padding = UDim.new(0, h.UIPadding),
                         FillDirection = "Horizontal",
                         VerticalAlignment = "Center",
                     }),
                     k,
                     e("UIPadding", {
-                        PaddingLeft = UDim.new(0, 6),
-                        PaddingRight = UDim.new(0, 6),
+                        PaddingLeft = UDim.new(0, 12),
+                        PaddingRight = UDim.new(0, 12),
                     }),
                 }),
+                e("UIPadding", {
+                    PaddingLeft = UDim.new(0, 4),
+                    PaddingRight = UDim.new(0, 4),
+                })
             })
             i.Button = q
             function i.SetIcon(r, s)
@@ -2208,7 +2214,6 @@ do
                     Enabled = t.Enabled,
                     Position = t.Position,
                     Draggable = t.Draggable,
-                    OnlyMobile = t.OnlyMobile or false,
                     CornerRadius = t.CornerRadius or UDim.new(1, 0),
                     StrokeThickness = t.StrokeThickness or 2,
                     Color = t.Color or ColorSequence.new(Color3.fromHex"40c9ff", Color3.fromHex"e81cff"),
@@ -2227,7 +2232,7 @@ do
                     OpenButtonContainer.Position = u.Position
                 end
                 local v = g.KeyboardEnabled or not g.TouchEnabled
-                b.Visible = not u.OnlyMobile or not v
+                b.Visible = not v
                 if not b.Visible then
                     return
                 end
