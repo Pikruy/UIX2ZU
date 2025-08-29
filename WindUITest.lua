@@ -6757,7 +6757,7 @@ do
                 o:Close()
                 task.spawn(function()
                     task.wait(.3)
-                    if not v and o.IsOpenButtonEnabled then
+                    if o.IsOpenButtonEnabled then
                         F:Visible(true)
                     end
                 end)
