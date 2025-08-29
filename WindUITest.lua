@@ -2221,11 +2221,11 @@ do
                 if u.Enabled == false then
                     h.IsOpenButtonEnabled = false
                 end
-                if u.Draggable == false and l and o then
-                    l.Visible = u.Draggable
-                    o.Visible = u.Draggable
+                if l and o then
+                    l.Visible = true
+                    o.Visible = true
                     if r then
-                        r:Set(u.Draggable)
+                        r:Set(true)
                     end
                 end
                 if u.Position and OpenButtonContainer then
