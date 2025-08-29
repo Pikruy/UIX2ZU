@@ -3807,7 +3807,8 @@ do
                     end)
                     RecalculateCanvasSize()
                     RecalculateListSize()
-                    if w % 25 == 0 then
+                    local step = game:GetService("UserInputService").TouchEnabled and 2 or 7 -- masih lag
+                    if w % step == 0 then
                         task.wait()
                     end
                 end
@@ -3836,7 +3837,6 @@ do
                 q:Display()
             end
             q:Display()
-           -- q:Refresh(q.Values) [INI MAU SAYA HAPUS TAPI KALO DIHAPUS PLACEHOLDERNYA KOSONG KECUALI KITA BUKA DROPDOWN DULU MAKSUD SAYA PLACEHOLDER SUDAH ADA TANPA REFRESH APAKAH BISA]
             function q.Select(s, t)
                 if t then
                     q.Value = t
@@ -3852,9 +3852,13 @@ do
             RecalculateListSize()
             function q.Open(s)
                 if not q.Initialized then
-                    -- pertama kali dropdown dibuka, baru generate semua option
+                    if q.Initializing then
+                        return -- lagi proses, abaikan klik tambahan
+                    end
+                    q.Initializing = true
                     q:Refresh(q.Values, q.Value or {})
                     q.Initialized = true
+                    q.Initializing = false
                 end
                 if r then
                     q.UIElements.Menu.Visible = true
@@ -5339,6 +5343,18 @@ do
                 })
                 element.Wrapper.Parent = self.UIElements.ContainerFrame
                 element.Parent = self
+
+                -- 🔥 Tambahan agar wrapper & content auto-size sesuai parent
+                element.Wrapper.Size = UDim2.new(1, 0, 0, 0)
+                element.Wrapper.AutomaticSize = Enum.AutomaticSize.Y
+                element.Content.Size = UDim2.new(1, 0, 0, 0)
+                element.Content.AutomaticSize = Enum.AutomaticSize.Y
+
+                -- supaya kalau parent mengecil, tetap ngikut
+                element.Wrapper.Parent:GetPropertyChangedSignal("AbsoluteSize"):Connect(function()
+                    element.Wrapper.Size = UDim2.new(1, 0, 0, 0)
+                end)
+
                 local elementsLib = {
                     Button = a.load'q',
                     Toggle = a.load't',
@@ -5388,11 +5404,13 @@ do
                     local para = self.Parent:Paragraph(props)
                     return para
                 end
+
                 function element:Divider()
                     local div = self.Parent:Divider()
                     div.Parent = element.Content 
                     return div
                 end
+
                 return element
             end
             task.spawn(function()
@@ -6757,7 +6775,7 @@ do
                 o:Close()
                 task.spawn(function()
                     task.wait(.3)
-                    if o.IsOpenButtonEnabled then
+                    if not v and o.IsOpenButtonEnabled then
                         F:Visible(true)
                     end
                 end)
@@ -6903,7 +6921,7 @@ do
                     end
                 end
             end
-            if o.IsOpenButtonEnabled then
+            if not v and o.IsOpenButtonEnabled then
                 ac.AddSignal(F.Button.TextButton.MouseButton1Click, function()
                     F:Visible(false)
                     o:Open()
