@@ -6113,6 +6113,7 @@ do
                 UIElements = {},
                 CanDropdown = true,
                 Closed = false,
+                EarlyOpened = l.EarlyOpened or false,
                 Parent = l.Parent,
                 Destroyed = false,
                 IsFullscreen = false,
@@ -6924,7 +6925,12 @@ do
                 end
             end)
             task.spawn(function()
-                o:Open()
+                if not o.EarlyOpened then
+                    o:Open()
+                else
+                    F:Visible(true)
+                    o:Close()
+                end
             end)
             function o.EditOpenButton(I, J)
                 return F:Edit(J)
